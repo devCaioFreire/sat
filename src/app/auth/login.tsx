@@ -21,7 +21,7 @@ export default function Login() {
             className="bg-transparent border-b outline-none" />
 
           <Link
-            href={'/dashboard'}
+            href={'/dashboard/home'}
             type="submit"
             className="text-center bg-slate-800 p-4 rounded-md mt-[1.5rem] transition-all hover:bg-slate-900">
             Acessar
