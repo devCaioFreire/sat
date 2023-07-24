@@ -29,7 +29,7 @@ export default function Sales() {
           <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
 
             {/* Value */}
-            <ValueProduct title="Valor Unitário" value={formatCurrency(lastProduct?.quantity)} />
+            <ValueProduct title="Valor Unitário" value={formatCurrency(lastProduct?.unityValue)} />
             <ValueProduct title="Valor Total" value={formatCurrency(lastProduct?.total)} />
           </div>
 

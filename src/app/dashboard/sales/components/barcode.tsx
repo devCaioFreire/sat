@@ -20,6 +20,12 @@ export function Barcode() {
     setCode('');
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.ctrlKey && e.key === 'Control') {
+      console.log('Modal OK');
+    }
+  }
+
   return (
     <div
       className="flex flex-col items-center justify-center w-full rounded-xl bg-backgroundFields relative h-[18%]">
@@ -38,10 +44,11 @@ export function Barcode() {
           onSubmit={barcodeID}>
           <input
             className="w-full py-2 px-2 tracking-[1rem] bg-transparent outline-none"
-            type="number"
+            type="text"
             id="barcode"
             value={code}
-            onChange={(e) => setCode(e.target.value)} />
+            onChange={(e) => setCode(e.target.value)}
+            onKeyDown={handleKeyDown} />
         </form>
       </div>
     </div>

@@ -24,7 +24,7 @@ const ProductContext = createContext<ProductContextProps>({
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [product, setProduct] = useState<ProductProps[]>([]);
-  const [error, setError] = useState<string | null>(null); // Add error state
+  const [error, setError] = useState<string | null>(null);
 
   const getProductByID = (id: number): Promise<ProductProps> => {
     return Axios.get<ProductProps>(`/ProdutoById/${id}`)
@@ -38,13 +38,13 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
           total: qtdCom * vlrUnCom,
         };
         setProduct((Products) => [...Products, data]);
-        setError(null); // Reset error state if successful
-        return data; // Resolve with the fetched product
+        setError(null);
+        return data;
       })
       .catch((error) => {
         console.error("Error fetching product:", error);
-        setError("Product not found"); // Set error message
-        throw error; // Reject with the error
+        setError("Product not found");
+        throw error;
       });
   };
 
