@@ -28,7 +28,7 @@ export function Navbar() {
 
         <Link
           href={'/dashboard/home'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Home} className="w-6" />
           <p className="text-base font-medium">
             Home
@@ -37,7 +37,7 @@ export function Navbar() {
 
         <Link
           href={'/dashboard/sales'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Cart} className="w-6" />
           <p className="text-base font-medium">
             Nova Venda
@@ -46,7 +46,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Cancel} className="w-6" />
           <p className="text-base font-medium">
             Cancelar Cupom
@@ -55,7 +55,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Search} className="w-6" />
           <p className="text-base font-medium">
             Consultar Preços
@@ -64,7 +64,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Drawer} className="w-6" />
           <p className="text-base font-medium">
             Abrir Gaveta
@@ -73,7 +73,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Sale} className="w-6" />
           <p className="text-base font-medium">
             Capturar Pedido de Venda
@@ -82,7 +82,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Rel} className="w-6" />
           <p className="text-base font-medium">
             Relatório Gerencial de Vendas
@@ -91,7 +91,7 @@ export function Navbar() {
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={sat} className="w-6" />
           <p className="text-base font-medium">
             2ª Via Cupom SAT
@@ -100,7 +100,7 @@ export function Navbar() {
 
         <Link
           href={'/'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full">
+          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Exit} className="w-6" />
           <p className="text-base font-medium">
             Sair do Sistema

@@ -26,6 +26,9 @@ export function CurrentTimeFormatted() {
   return `${hours}:${minutes}:${seconds}`
 }
 
-export function formatCurrency(value: number) {
+export function formatCurrency(value: string | number) {
+  if (value == null) {
+    value = '';
+  }
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }

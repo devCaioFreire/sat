@@ -5,8 +5,7 @@ import { useContext } from "react";
 
 export function TotalValueSale() {
 
-  const { product } = useContext(ProductContext);
-  const lastProduct = product[product.length - 1];
+  const { product, calculateTotal } = useContext(ProductContext);
 
   return (
     <div
@@ -22,7 +21,7 @@ export function TotalValueSale() {
       {/* Product Value */}
       <div
         className="flex items-center justify-end pr-4 text-2xl font-medium default:mt-8 lg:mt-16">
-        <span className="text-2xl py-2 px-4">{formatCurrency(lastProduct?.total)}</span>
+        <span className="text-2xl py-2 px-4">{formatCurrency(calculateTotal())}</span>
       </div>
     </div>
 

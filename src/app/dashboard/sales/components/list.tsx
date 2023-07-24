@@ -21,8 +21,8 @@ export function List() {
           </tr>
         </thead>
         <tbody>
-          {product.map((item) => (
-            <tr key={item.id} className="flex text-left items-center text-sm min-h-[4rem]">
+          {product.map((item, index) => (
+            <tr key={index} className="flex text-left items-center text-sm min-h-[4rem]">
               <td className="px-4 w-[60%]">{item.description}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
               <td className="px-4 w-[15%]">{formatCurrency(item.unityValue)}</td>

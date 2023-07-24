@@ -6,12 +6,17 @@ export function Barcode() {
 
   const { getProductByID } = useContext(ProductContext);
   const [code, setCode] = useState('');
+  const [error, setError] = useState(false);
 
-  function barcodeID(e: any) {
+  async function barcodeID(e: any) {
     e.preventDefault();
     const id = Number(code);
-    getProductByID(id);
-    console.log(id);
+    try {
+      await getProductByID(id);
+      setError(false);
+    } catch (error) {
+      setError(true);
+    }
     setCode('');
   }
 
@@ -26,7 +31,8 @@ export function Barcode() {
 
       {/* Barcode */}
       <div
-        className="flex items-start w-[80%] mt-7 rounded-lg bg-backgroundSecundary">
+        className={`flex items-start w-[80%] border-2 mt-7 rounded-lg bg-backgroundSecundary ${error ? "border-red-800" : "border-transparent"
+          }`}>
         <form
           className="w-full"
           onSubmit={barcodeID}>
