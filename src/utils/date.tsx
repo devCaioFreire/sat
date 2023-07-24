@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export function CurrentDateFormatted() {
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, '0'); // Obtém o dia e adiciona o zero à esquerda se for menor que 10
@@ -8,10 +10,18 @@ export function CurrentDateFormatted() {
 }
 
 export function CurrentTimeFormatted() {
-  const currentDate = new Date();
-  const hours = currentDate.getHours().toString().padStart(2, '0'); // Obtém as horas e adiciona o zero à esquerda se for menor que 10
-  const minutes = currentDate.getMinutes().toString().padStart(2, '0'); // Obtém os minutos e adiciona o zero à esquerda se for menor que 10
-  const seconds = currentDate.getSeconds().toString().padStart(2, '0'); // Obtém os segundos e adiciona o zero à esquerda se for menor que 10
+  const [time, setTime] = useState(new Date());
 
-  return `${hours}:${minutes}:${seconds}`;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const hours = time.getHours().toString().padStart(2, '0');
+  const minutes = time.getMinutes().toString().padStart(2, '0');
+  const seconds = time.getSeconds().toString().padStart(2, '0');
+
+  return `${hours}:${minutes}:${seconds}`
 }
