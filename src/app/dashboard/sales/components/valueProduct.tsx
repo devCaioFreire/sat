@@ -1,7 +1,7 @@
 'use client'
 interface ValueProductProps {
   title: string,
-  value: number,
+  value: number | string,
 }
 
 export function ValueProduct({ title, value }: ValueProductProps) {

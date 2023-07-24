@@ -1,4 +1,5 @@
 import { ProductContext } from "@/context/salesList";
+import { formatCurrency } from "@/utils/date";
 import { useContext } from "react";
 
 export function List() {
@@ -24,8 +25,8 @@ export function List() {
             <tr key={item.id} className="flex text-left items-center text-sm min-h-[4rem]">
               <td className="px-4 w-[60%]">{item.description}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
-              <td className="px-4 w-[15%]">{item.unityValue}</td>
-              <td className="px-4 w-[15%]">{item.total}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(item.unityValue)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(item.total)}</td>
             </tr>
           ))}
         </tbody>

@@ -1,5 +1,6 @@
 'use client'
 import { ProductContext } from "@/context/salesList";
+import { formatCurrency } from "@/utils/date";
 import { useContext } from "react";
 import { Barcode } from "./components/barcode";
 import { DescriptionProduct } from "./components/descriptionProduct";
@@ -28,8 +29,8 @@ export default function Sales() {
           <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
 
             {/* Value */}
-            <ValueProduct title="Valor Unitário" value={lastProduct?.quantity} />
-            <ValueProduct title="Valor Total" value={lastProduct?.total} />
+            <ValueProduct title="Valor Unitário" value={formatCurrency(lastProduct?.quantity)} />
+            <ValueProduct title="Valor Total" value={formatCurrency(lastProduct?.total)} />
           </div>
 
           {/* Total Value */}
