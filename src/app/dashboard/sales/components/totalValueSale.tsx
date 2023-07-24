@@ -1,4 +1,12 @@
+'use client'
+import { ProductContext } from "@/context/salesList";
+import { useContext } from "react";
+
 export function TotalValueSale() {
+
+  const { product } = useContext(ProductContext);
+  const lastProduct = product[product.length - 1];
+
   return (
     <div
       className="flex flex-col w-full rounded-xl bg-backgroundFields relative h-[18%]">
@@ -13,7 +21,7 @@ export function TotalValueSale() {
       {/* Product Value */}
       <div
         className="flex items-center justify-end pr-4 text-2xl font-medium default:mt-8 lg:mt-16">
-        <span className="text-2xl py-2 px-4">R$ 200,00</span>
+        <span className="text-2xl py-2 px-4">{lastProduct?.total}</span>
       </div>
     </div>
 

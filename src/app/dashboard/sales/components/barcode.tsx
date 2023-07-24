@@ -1,12 +1,17 @@
 'use client';
-import { useState } from "react";
+import { ProductContext } from "@/context/salesList";
+import { useContext, useState } from "react";
 
 export function Barcode() {
 
+  const { getProductByID } = useContext(ProductContext);
   const [code, setCode] = useState('');
 
   function barcodeID(e: any) {
     e.preventDefault();
+    const id = Number(code);
+    getProductByID(id);
+    console.log(id);
     setCode('');
   }
 
@@ -22,15 +27,15 @@ export function Barcode() {
       {/* Barcode */}
       <div
         className="flex items-start w-[80%] mt-7 rounded-lg bg-backgroundSecundary">
-        <form 
-        className="w-full"
-        onSubmit={barcodeID}>
+        <form
+          className="w-full"
+          onSubmit={barcodeID}>
           <input
             className="w-full py-2 px-2 tracking-[1rem] bg-transparent outline-none"
             type="number"
             id="barcode"
             value={code}
-            onChange={(e) => setCode(e.target.value)}/>
+            onChange={(e) => setCode(e.target.value)} />
         </form>
       </div>
     </div>
