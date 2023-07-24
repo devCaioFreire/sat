@@ -22,7 +22,9 @@ export function Barcode() {
       {/* Barcode */}
       <div
         className="flex items-start w-[80%] mt-7 rounded-lg bg-backgroundSecundary">
-        <form onSubmit={barcodeID}>
+        <form 
+        className="w-full"
+        onSubmit={barcodeID}>
           <input
             className="w-full py-2 px-2 tracking-[1rem] bg-transparent outline-none"
             type="number"
