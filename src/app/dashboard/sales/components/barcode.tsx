@@ -43,12 +43,13 @@ export function Barcode() {
           className="w-full"
           onSubmit={barcodeID}>
           <input
-            className="w-full py-2 px-2 tracking-[1rem] bg-transparent outline-none"
+            className="w-full py-2 px-2  bg-transparent outline-none"
             type="text"
             id="barcode"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            onKeyDown={handleKeyDown} />
+            placeholder={`${error ? 'Produto não encontrado...' : 'Aperte "Ctrl" para alterar a quantidade'}`}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={handleKeyDown} />
         </form>
       </div>
     </div>
