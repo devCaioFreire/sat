@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 export function TotalValueSale() {
 
-  const { product, calculateTotal } = useContext(ProductContext);
+  const { calculateTotal } = useContext(ProductContext);
 
   return (
     <div
@@ -20,7 +20,7 @@ export function TotalValueSale() {
 
       {/* Product Value */}
       <div
-        className="flex items-center justify-end pr-4 text-2xl font-medium default:mt-8 lg:mt-16">
+        className="flex items-center justify-end pr-4 text-2xl font-medium top-[calc(50%-0.8rem)] relative">
         <span className="text-2xl py-2 px-4">{formatCurrency(calculateTotal())}</span>
       </div>
     </div>

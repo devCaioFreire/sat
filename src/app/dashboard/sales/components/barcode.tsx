@@ -4,26 +4,36 @@ import { useContext, useState } from "react";
 
 export function Barcode() {
 
-  const { getProductByID } = useContext(ProductContext);
+  const { getProductByEAN } = useContext(ProductContext);
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
 
   async function barcodeID(e: any) {
     e.preventDefault();
-    const id = Number(code);
+
+    if (code.trim() === '') {
+      setError(true);
+      return;
+    }
+
+    const parts = code.split('*');
+    if (parts.length === 1) {
+      parts.unshift('1');
+    } else if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
+      setError(true);
+      return;
+    }
+
+    const quantity = Number(parts[0]);
+    const id = Number(parts[1]);
+
     try {
-      await getProductByID(id);
+      await getProductByEAN(id, quantity);
       setError(false);
     } catch (error) {
       setError(true);
     }
     setCode('');
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.ctrlKey && e.key === 'Control') {
-      console.log('Modal OK');
-    }
   }
 
   return (
@@ -43,13 +53,18 @@ export function Barcode() {
           className="w-full"
           onSubmit={barcodeID}>
           <input
-            className="w-full py-2 px-2  bg-transparent outline-none"
+            className="w-full py-2 px-2 bg-transparent outline-none"
             type="text"
             id="barcode"
-            placeholder={`${error ? 'Produto não encontrado...' : 'Aperte "Ctrl" para alterar a quantidade'}`}
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          onKeyDown={handleKeyDown} />
+            placeholder={`${error ? 'Produto não encontrado...' : 'Quantidade * Produto'}`}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.ctrlKey && event.key === 'j') {
+                event.preventDefault();
+                return;
+              }
+            }} />
         </form>
       </div>
     </div>

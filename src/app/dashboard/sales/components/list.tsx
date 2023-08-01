@@ -26,7 +26,7 @@ export function List() {
               <td className="px-4 w-[60%]">{item.description}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
               <td className="px-4 w-[15%]">{formatCurrency(item.unityValue)}</td>
-              <td className="px-4 w-[15%]">{formatCurrency(item.total)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(item.unityValue * item.quantity)}</td>
             </tr>
           ))}
         </tbody>

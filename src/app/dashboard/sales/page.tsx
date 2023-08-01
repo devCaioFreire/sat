@@ -12,6 +12,10 @@ export default function Sales() {
 
   const { product } = useContext(ProductContext);
   const lastProduct = product[product.length - 1];
+  const totalValue = lastProduct?.unityValue && lastProduct?.quantity
+    ? lastProduct.unityValue * lastProduct.quantity
+    : 0;
+  const untValue = lastProduct?.unityValue ? lastProduct.unityValue : 0;
 
   return (
     <main className="flex w-full gap-[2%] justify-between">
@@ -23,19 +27,17 @@ export default function Sales() {
       <div className="grid w-[40%]">
         <div className="flex flex-col justify-between">
           <Barcode />
-          {/* <app-product-barcode className="h-[18%]" /> */}
 
           {/* Grid Quantity and Value */}
           <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
 
             {/* Value */}
-            <ValueProduct title="Valor Unitário" value={formatCurrency(lastProduct?.unityValue)} />
-            <ValueProduct title="Valor Total" value={formatCurrency(lastProduct?.total)} />
+            <ValueProduct title="Valor Unitário" value={formatCurrency(untValue)} />
+            <ValueProduct title="Valor Total" value={formatCurrency(totalValue)} />
           </div>
 
           {/* Total Value */}
           <TotalValueSale />
-          {/* <app-product-total-value className="h-[18%]" /> */}
 
           {/* Product Name */}
           <DescriptionProduct />

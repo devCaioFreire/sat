@@ -1,14 +1,20 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-export const Axios = axios.create({
-  baseURL: 'http://localhost:8081/datasnap/rest/TSMProdutos',
+const API_BASE = process.env.BASE_TEST_API;
+
+export const AxiosProduct = axios.create({
+  baseURL: 'http://localhost:8081/datasnap/rest/TSMProdutos/GetProdutos/',
   headers: {
     'Content-Type': 'application/json',
-  },
-  params: {
-    token: '8309eaec-d311-11ed-a238-8c89a5fa70e8'
   }
 });
 
-// http://localhost:8081/datasnap/rest/TSMProdutos/ProdutoById/${ID}?token=8309eaec-d311-11ed-a238-8c89a5fa70e8
+export const AxiosAuth = axios.create({
+  baseURL: 'http://localhost:8083/datasnap/rest/TSMIdentificacao/Login',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});

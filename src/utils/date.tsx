@@ -1,9 +1,10 @@
+'use client';
 import { useEffect, useState } from "react";
 
 export function CurrentDateFormatted() {
   const currentDate = new Date();
-  const day = currentDate.getDate().toString().padStart(2, '0'); // Obtém o dia e adiciona o zero à esquerda se for menor que 10
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Obtém o mês (0 a 11) e adiciona o zero à esquerda se for menor que 10
+  const day = currentDate.getDate().toString().padStart(2, '0'); 
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
   const year = currentDate.getFullYear();
 
   return `${day}/${month}/${year}`
