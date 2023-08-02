@@ -1,9 +1,31 @@
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/date";
-import { useContext } from "react";
+import { KeyboardEvent, useContext } from "react";
+
+interface ListProps {
+  ref: React.RefObject<HTMLDivElement>;
+  tabIndex: number;
+}
 
 export function List() {
-  const { product } = useContext(ProductContext);
+  const { product, handleRemoveProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
+
+  const handleRemove = (ean: number, quantityToRemove: number) => {
+    if (quantityToRemove > 0) {
+      handleRemoveProduct(ean, quantityToRemove);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTableRowElement>, ean: number) => {
+    if (e.key === "ArrowUp" && selectedProductIndex > 0) {
+      setSelectedProductIndex((prevIndex) => prevIndex - 1);
+    } else if (e.key === "ArrowDown" && selectedProductIndex < product.length - 1) {
+      setSelectedProductIndex((prevIndex) => prevIndex + 1);
+    } else if (e.key === "Delete" && selectedProductIndex >= 0) {
+      const selectedProduct = product[selectedProductIndex];
+      handleRemove(selectedProduct.ean, 1);
+    }
+  };
 
   return (
     <div className="flex w-full h-[88vh] flex-col bg-backgroundFields rounded-3xl border border-border overflow-x-auto">
@@ -22,7 +44,13 @@ export function List() {
         </thead>
         <tbody>
           {product.map((item, index) => (
-            <tr key={index} className="flex text-left items-center text-sm min-h-[4rem]">
+            <tr
+              key={index}
+              className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedProductIndex ? "bg-blue-700" : ""}`}
+              tabIndex={0}
+              onKeyDown={(e) => handleKeyDown(e, item.ean)}
+              onClick={() => setSelectedProductIndex(index)}
+            >
               <td className="px-4 w-[60%]">{item.description}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
               <td className="px-4 w-[15%]">{formatCurrency(item.unityValue)}</td>

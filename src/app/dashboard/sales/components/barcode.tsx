@@ -38,7 +38,7 @@ export function Barcode() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-full rounded-xl bg-backgroundFields relative h-[18%]">
+      className="flex flex-col items-center justify-center w-full rounded-xl bg-backgroundFields relative h-full">
       {/* Header */}
       <header
         className="flex items-center justify-center w-full shadow-lg rounded-t-xl bg-backgroundSecundary absolute top-0 default:h-6 lg:h-10">

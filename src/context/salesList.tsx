@@ -1,7 +1,7 @@
 import { AxiosProduct } from "@/services/axios";
 import { AxiosResponse } from "axios";
 import dotenv from 'dotenv';
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 dotenv.config();
 const PARAMS_API = process.env.PARAMS_TEST_API;
@@ -21,17 +21,24 @@ interface ProductContextProps {
   product: ProductProps[];
   getProductByEAN: (id: number, quantity: number) => void;
   calculateTotal: () => number | string
+  handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
+  selectedProductIndex: number;
+  setSelectedProductIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ProductContext = createContext<ProductContextProps>({
   product: [],
   getProductByEAN: () => { },
   calculateTotal: () => '',
+  handleRemoveProduct: () => { },
+  selectedProductIndex: -1,
+  setSelectedProductIndex: () => { },
 });
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [product, setProduct] = useState<ProductProps[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
 
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
     // const url = `${process.env.PARAMS_TEST_API}${id}${process.env.USER_TOKEN_TEST_API}${process.env.TOKEN_TEST_API}`;
@@ -72,8 +79,32 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     }, 0);
   };
 
+  const handleRemoveProduct = (ean: number, quantityToRemove: number) => {
+    setProduct((prevProducts) =>
+      prevProducts.map((product, index) =>
+        index === selectedProductIndex && product.ean === ean
+          ? {
+            ...product,
+            quantity: Math.max(product.quantity - quantityToRemove, 0),
+          }
+          : product
+      )
+    );
+  };
+
+  useEffect(() => {
+    setProduct((prevProducts) => prevProducts.filter((product) => product.quantity > 0));
+  }, [product]);
+
   return (
-    <ProductContext.Provider value={{ product, getProductByEAN, calculateTotal }}>
+    <ProductContext.Provider value={{
+      product,
+      getProductByEAN,
+      calculateTotal,
+      handleRemoveProduct,
+      selectedProductIndex,
+      setSelectedProductIndex
+    }}>
       {children}
     </ProductContext.Provider>
   );
