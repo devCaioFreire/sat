@@ -1,12 +1,7 @@
 import { AxiosProduct } from "@/services/axios";
 import { AxiosResponse } from "axios";
-import dotenv from 'dotenv';
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-dotenv.config();
-const PARAMS_API = process.env.PARAMS_TEST_API;
-const TOKEN_API = process.env.TOKEN_TEST_API;
-const USER_TOKEN_API = process.env.USERTOKEN_TEST_API;
 
 interface ProductProps {
   id: number;
@@ -41,7 +36,6 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
 
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
-    // const url = `${process.env.PARAMS_TEST_API}${id}${process.env.USER_TOKEN_TEST_API}${process.env.TOKEN_TEST_API}`;
     return AxiosProduct.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data.Produtos;
@@ -88,13 +82,13 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
             quantity: Math.max(product.quantity - quantityToRemove, 0),
           }
           : product
-      )
+      ).filter((product) => product.quantity > 0) // Filtra os produtos com quantidade maior que 0
     );
   };
 
   useEffect(() => {
     setProduct((prevProducts) => prevProducts.filter((product) => product.quantity > 0));
-  }, [product]);
+  }, []);
 
   return (
     <ProductContext.Provider value={{

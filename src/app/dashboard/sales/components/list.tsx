@@ -46,7 +46,7 @@ export function List() {
           {product.map((item, index) => (
             <tr
               key={index}
-              className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedProductIndex ? "bg-blue-700" : ""}`}
+              className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedProductIndex ? "bg-indigo-900" : ""}`}
               tabIndex={0}
               onKeyDown={(e) => handleKeyDown(e, item.ean)}
               onClick={() => setSelectedProductIndex(index)}

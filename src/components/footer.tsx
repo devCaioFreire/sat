@@ -21,7 +21,7 @@ export function Footer() {
         </li>
 
         <li className="flex items-center gap-1">
-          <span>Hora: {currentTime}</span>
+          <span>Hora: </span>
         </li >
 
         <li className="flex items-center gap-1">
