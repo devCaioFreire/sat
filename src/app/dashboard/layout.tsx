@@ -1,12 +1,8 @@
+'use client'
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { ProductProvider } from "@/context/salesList";
-import { Metadata } from "next";
 import { usePathname } from "next/navigation";
-
-export const metadata: Metadata = {
-  title: 'Soft Clever - SAT',
-};
 
 export default function DashboardLayout({
   children,
