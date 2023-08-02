@@ -1,4 +1,3 @@
-'use client'
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { ProductProvider } from "@/context/salesList";
