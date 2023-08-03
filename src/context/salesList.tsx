@@ -15,7 +15,7 @@ interface ProductProps {
 interface ProductContextProps {
   product: ProductProps[];
   getProductByEAN: (id: number, quantity: number) => void;
-  calculateTotal: () => number | string
+  calculateTotal: () => number;
   handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
   selectedProductIndex: number;
   setSelectedProductIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -24,7 +24,7 @@ interface ProductContextProps {
 const ProductContext = createContext<ProductContextProps>({
   product: [],
   getProductByEAN: () => { },
-  calculateTotal: () => '',
+  calculateTotal: () => 0,
   handleRemoveProduct: () => { },
   selectedProductIndex: -1,
   setSelectedProductIndex: () => { },

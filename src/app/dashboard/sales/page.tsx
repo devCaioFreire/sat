@@ -13,6 +13,7 @@ export default function Sales() {
 
   const { product, selectedProductIndex } = useContext(ProductContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
 
   const lastProduct = product[product.length - 1];
   const untValue = lastProduct?.unityValue ? lastProduct.unityValue : 0;
@@ -30,12 +31,6 @@ export default function Sales() {
 
   const closeModal = () => {
     setModalOpen(false);
-  };
-
-  const closeModalOnEscape = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      closeModal();
-    }
   };
 
   useEffect(() => {
@@ -62,6 +57,10 @@ export default function Sales() {
       }
     };
 
+    if (!modalOpen && activeElementBeforeModal) {
+      (activeElementBeforeModal as HTMLElement).focus();
+    }
+
     // Adicionar event listeners
     document.addEventListener("keydown", handleArrowKeys);
     window.addEventListener("keydown", handleKeyPress);
@@ -73,15 +72,19 @@ export default function Sales() {
       window.removeEventListener("keydown", handleKeyPress);
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
-  }, [selectedProductIndex, product]);
 
+  }, [selectedProductIndex, product, modalOpen, activeElementBeforeModal]);
 
   return (
     <>
-      <CheckoutModal isOpen={modalOpen} onClose={closeModal} />
+      {modalOpen && (
+        <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
+          <CheckoutModal isOpen={modalOpen} onClose={closeModal} />
+        </div>
+      )}
       <main className="flex w-full gap-[2%] justify-between">
         <div className="w-[58%]">
-          <div ref={listRef} tabIndex={0}>
+          <div ref={modalOpen ? null : listRef} tabIndex={modalOpen ? undefined : 0}>
             <List />
           </div>
         </div>
@@ -89,7 +92,7 @@ export default function Sales() {
         {/* Insert Product Fields */}
         <div className="grid w-[40%]" >
           <div className="flex flex-col justify-between">
-            <div className="h-[18%]" ref={barcodeRef} tabIndex={0}>
+            <div className="h-[18%]" ref={modalOpen ? null : barcodeRef} tabIndex={modalOpen ? undefined : 0}>
               <Barcode />
             </div>
 
