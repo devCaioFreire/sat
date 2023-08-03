@@ -1,14 +1,10 @@
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/date";
-import { KeyboardEvent, useContext } from "react";
-
-interface ListProps {
-  ref: React.RefObject<HTMLDivElement>;
-  tabIndex: number;
-}
+import { KeyboardEvent, useContext, useEffect, useState } from "react";
 
 export function List() {
   const { product, handleRemoveProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
+  const [selectedItem, setSelectedItem] = useState<number>(-1);
 
   const handleRemove = (ean: number, quantityToRemove: number) => {
     if (quantityToRemove > 0) {
@@ -17,15 +13,35 @@ export function List() {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTableRowElement>, ean: number) => {
-    if (e.key === "ArrowUp" && selectedProductIndex > 0) {
-      setSelectedProductIndex((prevIndex) => prevIndex - 1);
-    } else if (e.key === "ArrowDown" && selectedProductIndex < product.length - 1) {
-      setSelectedProductIndex((prevIndex) => prevIndex + 1);
-    } else if (e.key === "Delete" && selectedProductIndex >= 0) {
-      const selectedProduct = product[selectedProductIndex];
+    if (e.key === "ArrowUp") {
+      setSelectedItem((prevIndex) => Math.max(prevIndex - 1, -1));
+    } else if (e.key === "ArrowDown") {
+      setSelectedItem((prevIndex) => Math.min(prevIndex + 1, product.length - 1));
+    } else if (e.key === "Delete" && selectedItem >= 0) {
+      const selectedProduct = product[selectedItem];
       handleRemove(selectedProduct.ean, 1);
     }
   };
+
+  useEffect(() => {
+    // Se a lista de produtos está vazia e nenhum item está selecionado manualmente,
+    // selecionamos o último item da lista ou mantemos o item selecionado manualmente.
+    if (product.length > 0 && selectedItem < 0) {
+      setSelectedItem(product.length - 1);
+    }
+  }, [product, selectedItem]);
+
+  useEffect(() => {
+    // Se um novo item é adicionado, automaticamente selecionamos o último item da lista.
+    if (product.length > 0) {
+      setSelectedItem(product.length - 1);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    // Se o item selecionado manualmente mudar, atualizamos o selectedProductIndex.
+    setSelectedProductIndex(selectedItem);
+  }, [selectedItem]);
 
   return (
     <div className="flex w-full h-[88vh] flex-col bg-backgroundFields rounded-3xl border border-border overflow-x-auto">
@@ -46,10 +62,10 @@ export function List() {
           {product.map((item, index) => (
             <tr
               key={index}
-              className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedProductIndex ? "bg-indigo-900" : ""}`}
+              className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedItem ? "bg-indigo-900" : ""}`}
               tabIndex={0}
               onKeyDown={(e) => handleKeyDown(e, item.ean)}
-              onClick={() => setSelectedProductIndex(index)}
+              onClick={() => setSelectedItem(index)}
             >
               <td className="px-4 w-[60%]">{item.description}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>

@@ -10,16 +10,12 @@ import { TotalValueSale } from "./components/totalValueSale";
 import { ValueProduct } from "./components/valueProduct";
 
 export default function Sales() {
-
   const { product, selectedProductIndex } = useContext(ProductContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
-
-  const lastProduct = product[product.length - 1];
-  const untValue = lastProduct?.unityValue ? lastProduct.unityValue : 0;
+  const [lastProductTotalValue, setLastProductTotalValue] = useState<number>(0);
 
   const selectedProduct = product[selectedProductIndex];
-  const untValueIndex = selectedProduct?.unityValue || 0;
   const totalValueIndex = selectedProduct?.unityValue * selectedProduct?.quantity || 0;
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -34,6 +30,11 @@ export default function Sales() {
   };
 
   useEffect(() => {
+    if (product.length > 0) {
+      const lastProduct = product[product.length - 1];
+      setLastProductTotalValue(lastProduct.unityValue * (lastProduct.quantity || 0));
+    }
+
     // Função para lidar com as teclas "ArrowLeft" e "ArrowRight"
     const handleArrowKeys = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft" && listRef.current) {
@@ -90,7 +91,7 @@ export default function Sales() {
         </div>
 
         {/* Insert Product Fields */}
-        <div className="grid w-[40%]" >
+        <div className="grid w-[40%]">
           <div className="flex flex-col justify-between">
             <div className="h-[18%]" ref={modalOpen ? null : barcodeRef} tabIndex={modalOpen ? undefined : 0}>
               <Barcode />
@@ -98,10 +99,9 @@ export default function Sales() {
 
             {/* Grid Quantity and Value */}
             <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
-
               {/* Value */}
-              <ValueProduct title="Valor Unitário" value={formatCurrency(untValueIndex)} />
-              <ValueProduct title="Valor Total" value={formatCurrency(totalValueIndex)} />
+              <ValueProduct title="Valor Unitário" value={formatCurrency(selectedProduct?.unityValue || 0)} />
+              <ValueProduct title="Valor Total" value={formatCurrency(totalValueIndex || 0)} />
             </div>
 
             {/* Total Value */}
@@ -113,5 +113,5 @@ export default function Sales() {
         </div>
       </main>
     </>
-  )
+  );
 }
