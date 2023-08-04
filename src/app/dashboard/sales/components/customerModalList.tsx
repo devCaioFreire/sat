@@ -1,3 +1,5 @@
+import { useCustomerContext } from "@/context/customerData";
+import { useState } from "react";
 
 export interface CustomerModalProps {
   id?: number;
@@ -10,10 +12,23 @@ export interface CustomerModalProps {
 
 export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomerModal, onCloseCustomerModal, onFormSubmitCustomer }) => {
 
+  const { setCustomerData } = useCustomerContext();
+
+  const [cpfOrCnpj, setCpfOrCnpj] = useState<string>('');
+  const [customerData, setCustomerDataa] = useState<{ customerID?: number; customerName?: string; cpfOrCnpj?: string }>({});
+  const customerID = 0;
+  const customerName = 'Consumidor Final';
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const customerData = {
+      customerID: customerID,
+      customerName: customerName,
+      cpfOrCnpj: cpfOrCnpj,
+    };
 
+    setCustomerData(customerData);
     onFormSubmitCustomer?.();
     onCloseCustomerModal?.();
   }
@@ -27,14 +42,16 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
 
         <h1>Cliente</h1>
         <div className="flex justify-between gap-4">
-          <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">01</span>
-          <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">Cliente Fictício</span>
+          <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{customerID}</span>
+          <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{customerName}</span>
         </div>
 
-        <input 
-        placeholder="XX. XXX. XXX/0001-XX"
-        type="number"
-        className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg"
+        <input
+          placeholder="XX. XXX. XXX/0001-XX"
+          type="number"
+          value={cpfOrCnpj}
+          onChange={(e) => setCpfOrCnpj(e.target.value)}
+          className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg"
         />
 
         <h1>Vendedor</h1>
@@ -42,7 +59,6 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
           <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">01</span>
           <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">Vendedor Fictício</span>
         </div>
-
 
       </div>
       <button

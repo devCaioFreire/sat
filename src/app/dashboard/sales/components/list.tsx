@@ -1,5 +1,5 @@
 import { ProductContext } from "@/context/salesList";
-import { formatCurrency } from "@/utils/date";
+import { formatCurrency } from "@/utils/formatter";
 import { KeyboardEvent, useContext, useEffect, useState } from "react";
 
 export function List() {

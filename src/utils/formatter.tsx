@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 
 export function CurrentDateFormatted() {
   const currentDate = new Date();
-  const day = currentDate.getDate().toString().padStart(2, '0'); 
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
+  const day = currentDate.getDate().toString().padStart(2, '0');
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
   const year = currentDate.getFullYear();
 
   return `${day}/${month}/${year}`
@@ -33,3 +33,19 @@ export function formatCurrency(value: string | number) {
   }
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
+
+export const formatCpfOrCnpj = (value: string | undefined | null): string => {
+  if (!value) {
+    return '';
+  }
+
+  const digits = value.replace(/\D/g, '');
+
+  if (digits.length === 11) {
+    return `${digits.substr(0, 3)}.${digits.substr(3, 3)}.${digits.substr(6, 3)}-${digits.substr(9, 2)}`;
+  } else if (digits.length === 14) {
+    return `${digits.substr(0, 2)}.${digits.substr(2, 3)}.${digits.substr(5, 3)}/${digits.substr(8, 4)}-${digits.substr(12, 2)}`;
+  } else {
+    return value;
+  }
+};

@@ -1,6 +1,6 @@
 'use client'
 import { ProductContext } from "@/context/salesList";
-import { formatCurrency } from "@/utils/date";
+import { formatCurrency } from "@/utils/formatter";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Barcode } from "./components/barcode";
 import CheckoutModal from "./components/checkoutModal";
@@ -82,7 +82,7 @@ export default function Sales() {
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
 
-  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal]);
+  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted]);
 
   const handleClearList = () => {
     setSelectedProductIndex(-1);
@@ -98,6 +98,7 @@ export default function Sales() {
     setFormSubmitted(true);
     handleClearList();
     closeModal();
+    setCustomerModalOpen(true);
   };
 
   return (

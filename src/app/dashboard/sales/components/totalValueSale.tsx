@@ -1,6 +1,6 @@
 'use client'
 import { ProductContext } from "@/context/salesList";
-import { formatCurrency } from "@/utils/date";
+import { formatCurrency } from "@/utils/formatter";
 import { useContext } from "react";
 
 export function TotalValueSale() {

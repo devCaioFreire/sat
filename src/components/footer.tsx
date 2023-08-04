@@ -1,10 +1,9 @@
-import { CurrentDateFormatted, CurrentTimeFormatted } from "@/utils/date";
-
-interface FooterProps {
-
-}
+import { useCustomerContext } from "@/context/customerData";
+import { CurrentDateFormatted, CurrentTimeFormatted, formatCpfOrCnpj } from "@/utils/formatter";
 
 export function Footer() {
+
+  const { customerData } = useCustomerContext();
 
   const currentDate = CurrentDateFormatted();
   const currentTime = CurrentTimeFormatted();
@@ -13,31 +12,31 @@ export function Footer() {
     <footer className="flex w-full h-[0%] justify-center items-center">
       <ul className="flex gap-4">
         <li className="flex items-center gap-1">
-          <span>Num. Pedido: 12</span>
+          <span>Num. Pedido: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">12</span></span>
+        </li>
+
+        <li className="flex items-center gap-2">
+          <span>Data: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">{currentDate}</span></span>
         </li>
 
         <li className="flex items-center gap-1">
-          <span>Data: {currentDate}</span>
-        </li>
-
-        <li className="flex items-center gap-1">
-          <span>Hora: </span>
+          <span>Hora: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">{'16:30:00'}</span></span>
         </li >
 
         <li className="flex items-center gap-1">
-          <span>Caixa: 02</span>
+          <span>Caixa: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">02</span></span>
         </li >
 
         <li className="flex items-center gap-1">
-          <span>Vendedor: Nome Fictício</span>
+          <span>Vendedor: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">Nome Fictício</span></span>
         </li >
 
         <li className="flex items-center gap-1">
-          <span>Cliente: Nome Fictício</span>
+          <span>Cliente: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">{customerData.customerName}</span></span>
         </li >
 
         <li className="flex items-center gap-1">
-          <span>CPF / CNPJ: 00.000.000/0001-00</span>
+          <span>CPF / CNPJ: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">{formatCpfOrCnpj(customerData.cpfOrCnpj!)}</span></span>
         </li >
       </ul >
     </footer >
