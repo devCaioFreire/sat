@@ -2,7 +2,6 @@ import { AxiosProduct } from "@/services/axios";
 import { AxiosResponse } from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-
 interface ProductProps {
   id: number;
   ean: number;
@@ -14,6 +13,7 @@ interface ProductProps {
 
 interface ProductContextProps {
   product: ProductProps[];
+  setProduct: React.Dispatch<React.SetStateAction<ProductProps[]>>;
   getProductByEAN: (id: number, quantity: number) => void;
   calculateTotal: () => number;
   handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
@@ -23,6 +23,7 @@ interface ProductContextProps {
 
 const ProductContext = createContext<ProductContextProps>({
   product: [],
+  setProduct: () => [],
   getProductByEAN: () => { },
   calculateTotal: () => 0,
   handleRemoveProduct: () => { },
@@ -93,6 +94,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ProductContext.Provider value={{
       product,
+      setProduct,
       getProductByEAN,
       calculateTotal,
       handleRemoveProduct,

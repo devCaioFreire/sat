@@ -5,9 +5,10 @@ import { useContext, useState } from "react";
 export interface CheckoutModalProps {
   isOpen: boolean;
   onClose?: () => void;
+  onFormSubmit?: () => void;
 }
 
-export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
+export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit }) => {
 
   const { calculateTotal } = useContext(ProductContext);
 
@@ -76,8 +77,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log('SEND');
-    console.log('Valor do troco:', calculateChange());
+    onFormSubmit?.();
     onClose?.()
   }
 

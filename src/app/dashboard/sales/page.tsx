@@ -10,10 +10,15 @@ import { TotalValueSale } from "./components/totalValueSale";
 import { ValueProduct } from "./components/valueProduct";
 
 export default function Sales() {
-  const { product, selectedProductIndex } = useContext(ProductContext);
+  const { product, setProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
+
   const [modalOpen, setModalOpen] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
   const [lastProductTotalValue, setLastProductTotalValue] = useState<number>(0);
+
+  const [selectedProductDescription, setSelectedProductDescription] = useState("");
+  const [totalValue, setTotalValue] = useState(0);
 
   const selectedProduct = product[selectedProductIndex];
   const totalValueIndex = selectedProduct?.unityValue * selectedProduct?.quantity || 0;
@@ -76,11 +81,27 @@ export default function Sales() {
 
   }, [selectedProductIndex, product, modalOpen, activeElementBeforeModal]);
 
+  const handleClearList = () => {
+    setSelectedProductIndex(-1);
+    setProduct([]);
+    setTotalValue(0);
+    setSelectedProductDescription("");
+    setFormSubmitted(true);
+    closeModal();
+  };
+
+  const handleFormSubmit = () => {
+    setSelectedProductIndex(-1);
+    setFormSubmitted(true);
+    handleClearList();
+    closeModal();
+  };
+
   return (
     <>
       {modalOpen && (
         <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
-          <CheckoutModal isOpen={modalOpen} onClose={closeModal} />
+          <CheckoutModal isOpen={modalOpen} onClose={closeModal} onFormSubmit={handleFormSubmit} />
         </div>
       )}
       <main className="flex w-full gap-[2%] justify-between">
