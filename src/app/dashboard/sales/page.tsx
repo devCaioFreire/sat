@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/date";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Barcode } from "./components/barcode";
 import CheckoutModal from "./components/checkoutModal";
+import CustomerModal from "./components/customerModal";
 import { DescriptionProduct } from "./components/descriptionProduct";
 import { List } from "./components/list";
 import { TotalValueSale } from "./components/totalValueSale";
@@ -12,7 +13,8 @@ import { ValueProduct } from "./components/valueProduct";
 export default function Sales() {
   const { product, setProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [customerModalOpen, setCustomerModalOpen] = useState(true);
+  const [saleModalOpen, setSaleModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
   const [lastProductTotalValue, setLastProductTotalValue] = useState<number>(0);
@@ -27,11 +29,12 @@ export default function Sales() {
   const barcodeRef = useRef<HTMLDivElement>(null);
 
   const openModal = () => {
-    setModalOpen(true);
+    setSaleModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalOpen(false);
+    setSaleModalOpen(false);
+    setCustomerModalOpen(false);
   };
 
   useEffect(() => {
@@ -63,7 +66,7 @@ export default function Sales() {
       }
     };
 
-    if (!modalOpen && activeElementBeforeModal) {
+    if (!saleModalOpen && activeElementBeforeModal) {
       (activeElementBeforeModal as HTMLElement).focus();
     }
 
@@ -79,7 +82,7 @@ export default function Sales() {
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
 
-  }, [selectedProductIndex, product, modalOpen, activeElementBeforeModal]);
+  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal]);
 
   const handleClearList = () => {
     setSelectedProductIndex(-1);
@@ -99,14 +102,23 @@ export default function Sales() {
 
   return (
     <>
-      {modalOpen && (
+      {customerModalOpen && (
         <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
-          <CheckoutModal isOpen={modalOpen} onClose={closeModal} onFormSubmit={handleFormSubmit} />
+          <CustomerModal
+            isOpenCustomerModal={customerModalOpen}
+            onCloseCustomerModal={closeModal}
+            onFormSubmitCustomer={handleFormSubmit} />
+        </div>
+      )}
+
+      {saleModalOpen && (
+        <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
+          <CheckoutModal isOpen={saleModalOpen} onClose={closeModal} onFormSubmit={handleFormSubmit} />
         </div>
       )}
       <main className="flex w-full gap-[2%] justify-between">
         <div className="w-[58%]">
-          <div ref={modalOpen ? null : listRef} tabIndex={modalOpen ? undefined : 0}>
+          <div ref={saleModalOpen ? null : listRef} tabIndex={saleModalOpen ? undefined : 0}>
             <List />
           </div>
         </div>
@@ -114,7 +126,7 @@ export default function Sales() {
         {/* Insert Product Fields */}
         <div className="grid w-[40%]">
           <div className="flex flex-col justify-between">
-            <div className="h-[18%]" ref={modalOpen ? null : barcodeRef} tabIndex={modalOpen ? undefined : 0}>
+            <div className="h-[18%]" ref={saleModalOpen ? null : barcodeRef} tabIndex={saleModalOpen ? undefined : 0}>
               <Barcode />
             </div>
 
