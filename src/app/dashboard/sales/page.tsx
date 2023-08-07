@@ -18,6 +18,7 @@ export default function Sales() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
   const [lastProductTotalValue, setLastProductTotalValue] = useState<number>(0);
+  const [customerModalAfterSale, setCustomerModalAfterSale] = useState(false);
 
   const [selectedProductDescription, setSelectedProductDescription] = useState("");
   const [totalValue, setTotalValue] = useState(0);
@@ -82,7 +83,7 @@ export default function Sales() {
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
 
-  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted]);
+  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted, customerModalAfterSale]);
 
   const handleClearList = () => {
     setSelectedProductIndex(-1);
@@ -93,12 +94,16 @@ export default function Sales() {
     closeModal();
   };
 
+  const handleOpenCustomerModal = () => {
+    setCustomerModalOpen(true);
+  };
+
   const handleFormSubmit = () => {
     setSelectedProductIndex(-1);
     setFormSubmitted(true);
     handleClearList();
     closeModal();
-    setCustomerModalOpen(true);
+    handleOpenCustomerModal();
   };
 
   return (
@@ -114,7 +119,11 @@ export default function Sales() {
 
       {saleModalOpen && (
         <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
-          <CheckoutModal isOpen={saleModalOpen} onClose={closeModal} onFormSubmit={handleFormSubmit} />
+          <CheckoutModal
+            isOpen={saleModalOpen}
+            onClose={closeModal}
+            onFormSubmit={handleFormSubmit}
+            onOpenCustomerModal={handleOpenCustomerModal} />
         </div>
       )}
       <main className="flex w-full gap-[2%] justify-between">

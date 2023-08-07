@@ -6,11 +6,12 @@ export interface CustomerModalProps {
   name?: string;
   value?: string;
   isOpenCustomerModal?: boolean;
+  onOpenCustomerModal?: () => void;
   onCloseCustomerModal?: () => void;
   onFormSubmitCustomer?: () => void;
 }
 
-export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomerModal, onCloseCustomerModal, onFormSubmitCustomer }) => {
+export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomerModal, onCloseCustomerModal, onFormSubmitCustomer, onOpenCustomerModal }) => {
 
   const { setCustomerData } = useCustomerContext();
 
@@ -31,6 +32,7 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
     setCustomerData(customerData);
     onFormSubmitCustomer?.();
     onCloseCustomerModal?.();
+    onOpenCustomerModal?.();
   }
 
   return (

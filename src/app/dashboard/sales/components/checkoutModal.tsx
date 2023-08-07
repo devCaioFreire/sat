@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import CheckoutModalList, { CheckoutModalProps } from './checkoutModalList';
 
-const CheckoutModal = ({ isOpen, onClose, onFormSubmit }: CheckoutModalProps) => {
+const CheckoutModal = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }: CheckoutModalProps) => {
 
   useEffect(() => {
     // Função para criar o focus trap no modal
@@ -66,7 +66,7 @@ const CheckoutModal = ({ isOpen, onClose, onFormSubmit }: CheckoutModalProps) =>
         <div className='absolute flex items-center justify-center top-0 h-16 w-full rounded-t-2xl bg-backgroundSecundary'>
           <h1 className='text-xl font-medium'>Recebimento</h1>
         </div>
-        <CheckoutModalList isOpen={isOpen} onClose={onClose} onFormSubmit={onFormSubmit}/>
+        <CheckoutModalList isOpen={isOpen} onClose={onClose} onFormSubmit={onFormSubmit} onOpenCustomerModal={onOpenCustomerModal}/>
       </div>
     </div>
   );

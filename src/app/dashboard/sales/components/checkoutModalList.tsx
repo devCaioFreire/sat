@@ -6,9 +6,10 @@ export interface CheckoutModalProps {
   isOpen: boolean;
   onClose?: () => void;
   onFormSubmit?: () => void;
+  onOpenCustomerModal?: () => void;
 }
 
-export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit }) => {
+export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
 
   const { calculateTotal } = useContext(ProductContext);
 
@@ -95,6 +96,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
     onFormSubmit?.();
     onClose?.();
+    onOpenCustomerModal?.();
   }
 
   return (
