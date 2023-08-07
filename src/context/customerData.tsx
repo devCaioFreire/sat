@@ -1,14 +1,14 @@
 import { createContext, useContext, useState } from 'react';
 
 interface CustomerData {
-  customerID?: number;
-  customerName?: string;
   cpfOrCnpj?: string;
+  customerName?: string;
 }
 
 interface CustomerContextValue {
   customerData: CustomerData;
   setCustomerData: (data: CustomerData) => void;
+  resetCpfOrCnpj: () => void;
 }
 
 const CustomerContext = createContext<CustomerContextValue | undefined>(undefined);
@@ -24,8 +24,15 @@ export function useCustomerContext() {
 export function CustomerProvider({ children }: { children: React.ReactNode }) {
   const [customerData, setCustomerData] = useState<CustomerData>({});
 
+  const resetCpfOrCnpj = () => {
+    setCustomerData((prevData) => ({
+      ...prevData,
+      cpfOrCnpj: undefined,
+    }));
+  };
+
   return (
-    <CustomerContext.Provider value={{ customerData, setCustomerData }}>
+    <CustomerContext.Provider value={{ customerData, setCustomerData, resetCpfOrCnpj }}>
       {children}
     </CustomerContext.Provider>
   );

@@ -1,3 +1,4 @@
+import { useCustomerContext } from "@/context/customerData";
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/formatter";
 import { useContext, useState } from "react";
@@ -27,6 +28,8 @@ interface SalesData {
 export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
 
   const { calculateTotal, product } = useContext(ProductContext);
+  const { resetCpfOrCnpj } = useCustomerContext();
+
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [payment, setPayment] = useState(0);
@@ -118,8 +121,10 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       cashChange: selectedPaymentMethod === 'money' ? change : 0,
     };
 
+    console.log(salesData);
     onFormSubmit?.(salesData);
     onClose?.();
+    resetCpfOrCnpj();
     onOpenCustomerModal?.();
   }
 
