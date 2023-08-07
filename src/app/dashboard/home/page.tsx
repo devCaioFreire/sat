@@ -24,7 +24,7 @@ export default function Home() {
             // className="w-[90%] h-[90%]"
             title="Cancelar Cupom"
             shortcut="(Ctrl + C)"
-            link={''} />
+            link={'/dashboard/cancelTaxCoupom'} />
 
           <Card
             // className="w-[90%] h-[90%]"

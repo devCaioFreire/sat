@@ -45,7 +45,7 @@ export function Navbar() {
         </Link>
 
         <Link
-          href={''}
+          href={'/dashboard/cancelTaxCoupom'}
           className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Cancel} className="w-6" />
           <p className="text-base font-medium">

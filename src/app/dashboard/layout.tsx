@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }) {
 
   const pathname = usePathname();
-  const isHomePage = pathname === '/dashboard/home';
+  const isHomePage = pathname === '/dashboard/sales';
 
   return (
     <ProductProvider>
@@ -23,7 +23,7 @@ export default function DashboardLayout({
             <div className="w-[98%] h-[95%]">
               {children}
             </div>
-            {!isHomePage && <Footer />}
+            {isHomePage && <Footer />}
           </section>
         </div>
       </CustomerProvider>
