@@ -18,3 +18,10 @@ export const AxiosAuth = axios.create({
     'Content-Type': 'application/json',
   }
 });
+
+export const AxiosPostDataSale = axios.create({
+  baseURL: 'http://localhost:3050',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});

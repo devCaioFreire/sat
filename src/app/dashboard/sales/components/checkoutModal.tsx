@@ -66,7 +66,7 @@ const CheckoutModal = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }: C
         <div className='absolute flex items-center justify-center top-0 h-16 w-full rounded-t-2xl bg-backgroundSecundary'>
           <h1 className='text-xl font-medium'>Recebimento</h1>
         </div>
-        <CheckoutModalList isOpen={isOpen} onClose={onClose} onFormSubmit={onFormSubmit} onOpenCustomerModal={onOpenCustomerModal}/>
+        <CheckoutModalList isOpen={isOpen} onClose={onClose} onFormSubmit={onFormSubmit} onOpenCustomerModal={onOpenCustomerModal} />
       </div>
     </div>
   );

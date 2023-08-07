@@ -5,13 +5,28 @@ import { useContext, useState } from "react";
 export interface CheckoutModalProps {
   isOpen: boolean;
   onClose?: () => void;
-  onFormSubmit?: () => void;
+  onFormSubmit?: (data: SalesData) => void;
   onOpenCustomerModal?: () => void;
+}
+
+interface Item {
+  id: number;
+  ean: number;
+  description: string;
+}
+
+interface SalesData {
+  items: Item[];
+  totalValue: number;
+  sellerId: number;
+  discount: number;
+  paymentMethod: string;
+  cashChange?: number;
 }
 
 export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
 
-  const { calculateTotal } = useContext(ProductContext);
+  const { calculateTotal, product } = useContext(ProductContext);
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [payment, setPayment] = useState(0);
@@ -80,7 +95,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
     return selectedPaymentMethod === 'money' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
   };
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const isTotalInvalid = calculateTotal() <= 0;
@@ -94,7 +109,16 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       return;
     }
 
-    onFormSubmit?.();
+    const salesData: SalesData = {
+      items: product,
+      totalValue: calculateTotal(),
+      sellerId: 0,
+      discount: discountAmount,
+      paymentMethod: selectedPaymentMethod,
+      cashChange: selectedPaymentMethod === 'money' ? change : 0,
+    };
+
+    onFormSubmit?.(salesData);
     onClose?.();
     onOpenCustomerModal?.();
   }
@@ -110,7 +134,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
           className='flex justify-between items-center border-b'>
           Total Bruto
           <span
-            className={`bg-backgroundFields px-9 py-2 mb-4 rounded-lg border ${errorTotal ? "border-red-800" : "border-transparent"}`}>
+            className={`bg-backgroundFields w-48 px-4 py-2 mb-4 rounded-lg border ${errorTotal ? "border-red-800" : "border-transparent"}`}>
             {formatCurrency(totalGross)}
           </span>
         </li>
@@ -119,14 +143,14 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         <li
           className='flex justify-between items-center border-b'>
           Desconto %
-          <span className='bg-backgroundFields w- px-8 py-2 mb-4 border border-transparent rounded-lg'>
+          <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
             <input
               type="number"
               id="descount"
               value={formatValueToTwoDecimals(discountPercent)}
               onChange={handleDiscountPercentChange}
               autoFocus
-              className='w-14 outline-none bg-transparent' />%
+              className='flex w-full outline-none bg-transparent' />%
           </span>
         </li>
 
@@ -134,13 +158,13 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         <li
           className='flex justify-between items-center border-b'>
           Desconto R$
-          <span className='bg-backgroundFields px-6 py-2 mb-4 border border-transparent rounded-lg'>
+          <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
             R$ <input
               type="number"
               id="discount"
               value={formatValueToTwoDecimals(discountAmount)}
               onChange={handleDiscountAmountChange}
-              className='w-14 outline-none bg-transparent' />
+              className='w-full outline-none bg-transparent' />
           </span>
         </li>
 
@@ -148,14 +172,14 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         <li
           className='flex justify-between items-center border-b'>
           Acréscimo
-          <span className='bg-backgroundFields px-8 py-2 mb-4 border border-transparent rounded-lg'>{formatCurrency(0)}</span>
+          <span className='flex bg-backgroundFields w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>{formatCurrency(0)}</span>
         </li>
 
         {/* Total */}
         <li
           className='flex justify-between items-center border-b'>
           Total
-          <span className='bg-backgroundFields px-8 py-2 mb-4 border border-transparent rounded-lg'>{isNaN(totalValue) ? formatCurrency(calculateTotal()) : formatCurrency(totalValue)}</span>
+          <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>{isNaN(totalValue) ? formatCurrency(calculateTotal()) : formatCurrency(totalValue)}</span>
         </li>
 
         {/* Forma de Pagamento */}
@@ -163,7 +187,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
           className='flex justify-between items-center border-b'>
           Forma de Pagamento
           <span
-            className={`bg-backgroundFields px-6 py-2 mb-4 rounded-lg border ${errorPaymentMethod ? "border-red-800" : "border-transparent"}`}>
+            className={`bg-backgroundFields flex w-48 px-4 py-2 mb-4 rounded-lg border ${errorPaymentMethod ? "border-red-800" : "border-transparent"}`}>
             <select
               className="bg-transparent appearance-none border-none"
               onChange={handlePaymentMethodChange}
@@ -194,25 +218,25 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         {selectedPaymentMethod === "money" ? (
           <li className='flex justify-between items-center border-b'>
             Pagamento
-            <span className='bg-backgroundFields px-6 py-2 mb-4 border border-transparent rounded-lg'>
+            <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               R$ <input
                 type="number"
                 id="descount"
                 onChange={handlePaymentChange}
-                className='w-14 outline-none bg-transparent'
+                className='w-full outline-none bg-transparent'
               />
             </span>
           </li>
         ) : (
           <li className='flex justify-between items-center border-b'>
             Pagamento
-            <span className='bg-backgroundFields px-6 py-2 mb-4 border border-transparent rounded-lg'>
+            <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               R$ <input
                 type="number"
                 id="descount"
                 value={total.toFixed(2)}
                 readOnly
-                className='w-14 outline-none bg-transparent'
+                className='w-full outline-none bg-transparent'
               />
             </span>
           </li>
@@ -224,7 +248,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
             className='flex justify-between items-center border-b'>
             Troco
             <span
-              className='bg-backgroundFields px-8 py-2 mb-4 border border-transparent rounded-lg'>
+              className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               {formatCurrency(calculateChange())}
             </span>
           </li>
@@ -233,7 +257,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
             className='flex justify-between items-center border-b'>
             Troco
             <span
-              className='bg-backgroundFields px-8 py-2 mb-4 border border-transparent rounded-lg'>
+              className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               {formatCurrency(0)}
             </span>
           </li>

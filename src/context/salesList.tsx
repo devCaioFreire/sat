@@ -8,7 +8,7 @@ interface ProductProps {
   description: string;
   quantity: number;
   unityValue: number;
-  total: number;
+  total?: number;
 }
 
 interface ProductContextProps {
@@ -54,10 +54,10 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
           description: descricao,
           quantity: quantity,
           unityValue: vlrUnCom,
-          total: qtdCom * vlrUnCom,
+          // total: qtdCom * vlrUnCom,
         };
         setProduct((Products) => [...Products, data]);
-        console.log(data);
+        // console.log(data);
         setError(null);
         return data;
       })

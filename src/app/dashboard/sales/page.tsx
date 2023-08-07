@@ -18,7 +18,6 @@ export default function Sales() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
   const [lastProductTotalValue, setLastProductTotalValue] = useState<number>(0);
-  const [customerModalAfterSale, setCustomerModalAfterSale] = useState(false);
 
   const [selectedProductDescription, setSelectedProductDescription] = useState("");
   const [totalValue, setTotalValue] = useState(0);
@@ -83,7 +82,7 @@ export default function Sales() {
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
 
-  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted, customerModalAfterSale]);
+  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted]);
 
   const handleClearList = () => {
     setSelectedProductIndex(-1);
@@ -103,7 +102,6 @@ export default function Sales() {
     setFormSubmitted(true);
     handleClearList();
     closeModal();
-    handleOpenCustomerModal();
   };
 
   return (
