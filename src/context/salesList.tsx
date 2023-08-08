@@ -1,4 +1,4 @@
-import { AxiosProduct } from "@/services/axios";
+import { AxiosPostDataSale, AxiosProduct } from "@/services/axios";
 import { AxiosResponse } from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
@@ -19,6 +19,24 @@ interface ProductContextProps {
   handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
   selectedProductIndex: number;
   setSelectedProductIndex: React.Dispatch<React.SetStateAction<number>>;
+  sendSalesData: (salesData: SalesData) => void;
+}
+
+interface Item {
+  id: number;
+  ean: string;
+  description: string;
+  quantity: number;
+}
+
+interface SalesData {
+  items: Item[];
+  totalValue: number;
+  sellerId: number;
+  discount: number;
+  paymentMethod: string;
+  payment: number;
+  cashChange?: number;
 }
 
 const ProductContext = createContext<ProductContextProps>({
@@ -29,6 +47,7 @@ const ProductContext = createContext<ProductContextProps>({
   handleRemoveProduct: () => { },
   selectedProductIndex: -1,
   setSelectedProductIndex: () => { },
+  sendSalesData: () => { }
 });
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
@@ -68,6 +87,15 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
       });
   };
 
+  const sendSalesData = async (salesData: SalesData) => {
+    try {
+      const response = await AxiosPostDataSale.post('/dataSale', salesData);
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      console.error('Context (Error) -> :', error);
+    }
+  };
+
   const calculateTotal = () => {
     return product.reduce((total, product) => {
       return total + product.quantity * product.unityValue;
@@ -99,7 +127,8 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
       calculateTotal,
       handleRemoveProduct,
       selectedProductIndex,
-      setSelectedProductIndex
+      setSelectedProductIndex,
+      sendSalesData
     }}>
       {children}
     </ProductContext.Provider>

@@ -24,24 +24,19 @@ export function List() {
   };
 
   useEffect(() => {
-    // Se a lista de produtos está vazia e nenhum item está selecionado manualmente,
-    // selecionamos o último item da lista ou mantemos o item selecionado manualmente.
-    if (product.length > 0 && selectedItem < 0) {
-      setSelectedItem(product.length - 1);
+    if (product.length > 0) {
+      if (selectedItem < 0) {
+        setSelectedItem(product.length - 1);
+      }
+      setSelectedProductIndex(selectedItem);
     }
   }, [product, selectedItem]);
 
   useEffect(() => {
-    // Se um novo item é adicionado, automaticamente selecionamos o último item da lista.
     if (product.length > 0) {
       setSelectedItem(product.length - 1);
     }
   }, [product]);
-
-  useEffect(() => {
-    // Se o item selecionado manualmente mudar, atualizamos o selectedProductIndex.
-    setSelectedProductIndex(selectedItem);
-  }, [selectedItem]);
 
   return (
     <div className="flex w-full h-[88vh] flex-col bg-backgroundFields rounded-3xl border border-border overflow-x-auto">
