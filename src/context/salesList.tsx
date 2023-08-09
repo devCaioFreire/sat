@@ -8,6 +8,7 @@ interface ProductProps {
   description: string;
   quantity: number;
   unityValue: number;
+  totalValue?: number;
   total?: number;
 }
 
@@ -23,20 +24,22 @@ interface ProductContextProps {
 }
 
 interface Item {
-  id: number;
+  produto_id: number;
   ean: string;
-  description: string;
-  quantity: number;
+  descricao: string;
+  quantidade: number;
+  valor_total: number;
 }
 
 interface SalesData {
-  items: Item[];
-  totalValue: number;
-  sellerId: number;
-  discount: number;
-  paymentMethod: string;
-  payment: number;
-  cashChange?: number;
+  itens: Item[];
+  valor_bruto: number;
+  valor_liquido: number;
+  vendedor_id: number;
+  desconto: number;
+  forma_pagamento: string;
+  pagamento: number;
+  troco?: number;
 }
 
 const ProductContext = createContext<ProductContextProps>({
@@ -55,13 +58,15 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
 
+  // GET
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
     return AxiosProduct.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data.Produtos;
+        console.log(productsArray);
 
         const product = productsArray[0];
-        const { id, eAN, descricao, qtdCom, vlrUnCom } = product;
+        const { id, eAN, descricao, vlrUnCom } = product;
 
         if (!ean) {
           setError("Product not found");
@@ -73,10 +78,9 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
           description: descricao,
           quantity: quantity,
           unityValue: vlrUnCom,
-          // total: qtdCom * vlrUnCom,
+          totalValue: vlrUnCom * quantity
         };
         setProduct((Products) => [...Products, data]);
-        // console.log(data);
         setError(null);
         return data;
       })
@@ -87,12 +91,13 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
       });
   };
 
+  // POST
   const sendSalesData = async (salesData: SalesData) => {
     try {
       const response = await AxiosPostDataSale.post('/dataSale', salesData);
-      console.log('Response from server:', response.data);
+      console.log('Response from server: ', response.data);
     } catch (error) {
-      console.error('Context (Error) -> :', error);
+      console.error('Context (Error): ', error);
     }
   };
 
@@ -102,6 +107,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     }, 0);
   };
 
+  // DELETE (IN LIST)
   const handleRemoveProduct = (ean: number, quantityToRemove: number) => {
     setProduct((prevProducts) =>
       prevProducts.map((product, index) =>

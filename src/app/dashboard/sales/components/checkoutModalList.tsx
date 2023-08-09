@@ -47,7 +47,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
     const paymentMethod = event.target.value;
     setSelectedPaymentMethod(paymentMethod);
 
-    if (paymentMethod === "money") {
+    if (paymentMethod === "dinheiro") {
       setChange(calculateChange());
     } else {
       setChange(0);
@@ -86,12 +86,12 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
   // const calculateChange = () => {
   //   const changeValue = payment - total;
-  //   return selectedPaymentMethod === 'money' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
+  //   return selectedPaymentMethod === 'dinheiro' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
   // };
 
   const calculateChange = () => {
     const changeValue = payment - totalValue;
-    return selectedPaymentMethod === 'money' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
+    return selectedPaymentMethod === 'dinheiro' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -99,7 +99,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
     const isTotalInvalid = calculateTotal() <= 0;
     const isPaymentMethodInvalid = selectedPaymentMethod === '';
-    const isPaymentInvalid = selectedPaymentMethod === 'money' && (isNaN(payment) || payment <= 0);
+    const isPaymentInvalid = selectedPaymentMethod === 'dinheiro' && (isNaN(payment) || payment <= 0);
 
     setErrorTotal(isTotalInvalid);
     setErrorPaymentMethod(isPaymentMethodInvalid || isPaymentInvalid);
@@ -108,21 +108,23 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       return;
     }
     const salesData = {
-      items: product.map((item) => ({
-        id: item.id,
+      itens: product.map((item) => ({
+        produto_id: item.id,
         ean: item.ean.toString(),
-        description: item.description,
-        quantity: item.quantity
+        descricao: item.description,
+        quantidade: item.quantity,
+        valor_unitario: item.unityValue,
+        valor_total: item.totalValue!,
       })),
-      totalValue: calculateTotal(),
-      sellerId: 0,
-      discount: discountAmount,
-      paymentMethod: selectedPaymentMethod,
-      payment: totalValue,
-      cashChange: selectedPaymentMethod === 'money' ? change : 0,
+      valor_bruto: calculateTotal(),
+      valor_liquido: totalValue,
+      vendedor_id: 0,
+      desconto: discountAmount,
+      forma_pagamento: selectedPaymentMethod,
+      pagamento: total,
+      troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
     };
 
-    // Envia os dados da venda para o servidor
     await sendSalesData(salesData);
 
     console.log(salesData);
@@ -205,26 +207,26 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
                 value=""
                 className="bg-backgroundModal">Selecione...</option>
               <option
-                value="credit"
+                value="credito"
                 className="bg-backgroundModal">Cartão de Crédito</option>
               <option
-                value="debit"
+                value="debito"
                 className="bg-backgroundModal">Cartão de Débito</option>
               <option
-                value="money"
+                value="dinheiro"
                 className="bg-backgroundModal">Dinheiro</option>
               <option
-                value="meal_voucher"
+                value="vale_alimentacao"
                 className="bg-backgroundModal">Vale-Alimentação</option>
               <option
-                value="food_voucher"
+                value="vale_refeicao"
                 className="bg-backgroundModal">Vale-Refeição</option>
             </select>
           </span>
         </li>
 
         {/* Pagamento */}
-        {selectedPaymentMethod === "money" ? (
+        {selectedPaymentMethod === "dinheiro" ? (
           <li className='flex justify-between items-center border-b'>
             Pagamento
             <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
@@ -250,7 +252,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         )}
 
         {/* Troco */}
-        {selectedPaymentMethod === 'money' ? (
+        {selectedPaymentMethod === 'dinheiro' ? (
           <li
             className='flex justify-between items-center border-b'>
             Troco
