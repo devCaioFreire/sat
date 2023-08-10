@@ -14,7 +14,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
   const { calculateTotal, product, sendSalesData } = useContext(ProductContext);
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-  const [payment, setPayment] = useState(0);
+  const [payment, setPayment] = useState('');
   const [change, setChange] = useState(calculateTotal());
   const [discountPercent, setDiscountPercent] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -28,30 +28,37 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
   const totalGross = formatCurrency(calculateTotal());
 
   const handlePaymentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const paymentValue = parseFloat(event.target.value);
-    const changeValue = paymentValue - totalValue;
+    const inputValue = event.target.value;
+    // Remove tudo que não for número (exceto ponto para números decimais)
+    const cleanedValue = inputValue.replace(/[^0-9,.]/g, '');
+    setPayment(cleanedValue);
+    const parsedValue = parseFloat(cleanedValue);
+    const changeValue = !isNaN(parsedValue) ? parsedValue - totalValue : calculateTotal();
     setChange(changeValue);
-    console.log('payment' + changeValue)
+  };
 
-
-    if (isNaN(paymentValue) || paymentValue < 0) {
-      setPayment(0);
-      setChange(calculateTotal());
-    } else {
-      setPayment(paymentValue);
-      setChange(Math.max(changeValue, 0));
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!/[0-9,.]/.test(event.key)) {
+      event.preventDefault();
     }
-  }
+  };
 
   const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const paymentMethod = event.target.value;
     setSelectedPaymentMethod(paymentMethod);
 
     if (paymentMethod === "dinheiro") {
-      setChange(calculateChange());
+      if (discountAmount === 0) {
+        // Se nenhum desconto estiver sendo aplicado, o pagamento deve ser igual ao total
+        setPayment(total.toFixed(2));
+        setChange(total);
+      } else {
+        setPayment((totalValue || 0).toFixed(2)); // Definir o valor para total da compra com desconto
+      }
     } else {
       setChange(0);
       setTroco(0);
+      setPayment('');
     }
   };
 
@@ -62,35 +69,35 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
     const discountAmountValue = (calculateTotal() * discountPercentValue) / 100;
     setDiscountAmount(discountAmountValue);
 
-    const totalValue = calculateTotal() - discountAmountValue;
-    setTotalValue(totalValue);
-
-    setChange(calculateChange());
+    // Ajuste na atualização do valor total somente se houver um desconto aplicado
+    if (discountAmountValue > 0) {
+      const totalValue = calculateTotal() - discountAmountValue;
+      setTotalValue(totalValue);
+      setChange(calculateChange());
+    }
   };
 
   const handleDiscountAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const discountAmountValue = parseFloat(event.target.value);
-    const discountPercentValue = (discountAmountValue * 100) / calculateTotal();
     setDiscountAmount(discountAmountValue);
-    setDiscountPercent(discountPercentValue);
 
-    const totalValue = calculateTotal() - discountAmountValue;
-    setTotalValue(totalValue);
+    // Ajuste na atualização do valor total somente se houver um desconto aplicado
+    if (discountAmountValue > 0) {
+      const discountPercentValue = (discountAmountValue * 100) / calculateTotal();
+      setDiscountPercent(discountPercentValue);
 
-    setChange(calculateChange());
+      const totalValue = calculateTotal() - discountAmountValue;
+      setTotalValue(totalValue);
+      setChange(calculateChange());
+    }
   };
 
   const formatValueToTwoDecimals = (value: number) => {
     return parseFloat(value.toFixed(2));
   }
 
-  // const calculateChange = () => {
-  //   const changeValue = payment - total;
-  //   return selectedPaymentMethod === 'dinheiro' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
-  // };
-
   const calculateChange = () => {
-    const changeValue = payment - totalValue;
+    const changeValue = parseFloat(payment) - totalValue;
     return selectedPaymentMethod === 'dinheiro' ? (changeValue > 0 ? formatValueToTwoDecimals(changeValue) : formatValueToTwoDecimals(0)) : formatValueToTwoDecimals(0);
   };
 
@@ -99,7 +106,9 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
     const isTotalInvalid = calculateTotal() <= 0;
     const isPaymentMethodInvalid = selectedPaymentMethod === '';
-    const isPaymentInvalid = selectedPaymentMethod === 'dinheiro' && (isNaN(payment) || payment <= 0);
+    const isPaymentInvalid =
+      selectedPaymentMethod === 'dinheiro' &&
+      (payment.trim() === '' || parseFloat(payment) <= 0);
 
     setErrorTotal(isTotalInvalid);
     setErrorPaymentMethod(isPaymentMethodInvalid || isPaymentInvalid);
@@ -107,6 +116,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
     if (isTotalInvalid || isPaymentMethodInvalid || isPaymentInvalid) {
       return;
     }
+
     const salesData = {
       itens: product.map((item) => ({
         produto_id: item.id,
@@ -153,14 +163,15 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         <li
           className='flex justify-between items-center border-b'>
           Desconto %
-          <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
+          <span className='bg-backgroundFields flex gap-2 w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
+            %
             <input
               type="number"
               id="discountPercent"
               value={formatValueToTwoDecimals(discountPercent)}
               onChange={handleDiscountPercentChange}
               autoFocus
-              className='flex w-full outline-none bg-transparent' />%
+              className='flex w-full outline-none bg-transparent' />
           </span>
         </li>
 
@@ -190,7 +201,10 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         <li
           className='flex justify-between items-center border-b'>
           Total
-          <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>{isNaN(totalValue) ? formatCurrency(calculateTotal()) : formatCurrency(totalValue.toFixed(2))}</span>
+          <span
+            className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
+            {isNaN(totalValue) ? formatCurrency(calculateTotal()) : formatCurrency(totalValue)}
+          </span>
         </li>
 
         {/* Forma de Pagamento */}
@@ -229,10 +243,12 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         {selectedPaymentMethod === "dinheiro" ? (
           <li className='flex justify-between items-center border-b'>
             Pagamento
-            <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
+            <span className='bg-backgroundFields flex gap-1 w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               R$ <input
-                type="number"
+                type="text"
+                value={(payment)}
                 onChange={handlePaymentChange}
+                onKeyPress={handleKeyPress}
                 className='w-full outline-none bg-transparent'
               />
             </span>
@@ -240,10 +256,10 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         ) : (
           <li className='flex justify-between items-center border-b'>
             Pagamento
-            <span className='bg-backgroundFields flex w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
+            <span className='bg-backgroundFields flex gap-1 w-48 px-4 py-2 mb-4 border border-transparent rounded-lg'>
               R$ <input
-                type="number"
-                value={total.toFixed(2)}
+                type="text"
+                value={selectedPaymentMethod === "dinheiro" ? payment : (totalValue || 0).toFixed(2)}
                 readOnly
                 className='w-full outline-none bg-transparent'
               />
