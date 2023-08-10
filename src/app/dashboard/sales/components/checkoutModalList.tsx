@@ -135,7 +135,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
     };
 
-    // await sendSalesData(salesData);
+    await sendSalesData(salesData);
 
     console.log(salesData);
     onFormSubmit?.();
