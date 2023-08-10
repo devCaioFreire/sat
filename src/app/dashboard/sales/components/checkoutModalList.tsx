@@ -131,11 +131,11 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       vendedor_id: 0,
       desconto: discountAmount,
       forma_pagamento: selectedPaymentMethod,
-      pagamento: total,
+      pagamento: selectedPaymentMethod === 'dinheiro' ? parseFloat(payment) : totalValue,
       troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
     };
 
-    await sendSalesData(salesData);
+    // await sendSalesData(salesData);
 
     console.log(salesData);
     onFormSubmit?.();
