@@ -19,7 +19,7 @@ export const AxiosAuth = axios.create({
   }
 });
 
-export const AxiosPostDataSale = axios.create({
+export const AxiosNode = axios.create({
   baseURL: 'http://localhost:3333',
   headers: {
     'Content-Type': 'application/json',

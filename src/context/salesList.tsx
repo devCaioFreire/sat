@@ -1,4 +1,4 @@
-import { AxiosPostDataSale, AxiosProduct } from "@/services/axios";
+import { AxiosNode, AxiosProduct } from "@/services/axios";
 import { AxiosResponse } from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
@@ -94,7 +94,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   // POST
   const sendSalesData = async (salesData: SalesData) => {
     try {
-      const response = await AxiosPostDataSale.post('/dataSale', salesData);
+      const response = await AxiosNode.post('/dataSale', salesData);
       console.log('Response from server: ', response.data);
     } catch (error) {
       console.error('Context (Error): ', error);
