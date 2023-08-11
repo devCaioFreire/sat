@@ -136,6 +136,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       forma_pagamento: selectedPaymentMethod,
       pagamento: selectedPaymentMethod === 'dinheiro' ? parseFloat(payment) : totalValue,
       troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
+      status: 'R'
     };
 
     try {
