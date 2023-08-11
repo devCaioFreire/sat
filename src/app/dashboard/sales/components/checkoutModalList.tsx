@@ -1,3 +1,4 @@
+import { useCustomerContext } from "@/context/customerData";
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/formatter";
 import { useContext, useState } from "react";
@@ -12,6 +13,7 @@ export interface CheckoutModalProps {
 export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
 
   const { calculateTotal, product, sendSalesData } = useContext(ProductContext);
+  const { customerData } = useCustomerContext();
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [payment, setPayment] = useState('');
@@ -126,6 +128,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
         valor_unitario: item.unityValue,
         valor_total: item.totalValue!,
       })),
+      cpf_cnpj: customerData.cpfOrCnpj,
       valor_bruto: calculateTotal(),
       valor_liquido: totalValue,
       vendedor_id: 0,
@@ -135,12 +138,17 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
     };
 
-    await sendSalesData(salesData);
+    try {
+      await sendSalesData(salesData);
 
+      onFormSubmit?.();
+      onClose?.();
+      onOpenCustomerModal?.();
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
+    }
     console.log(salesData);
-    onFormSubmit?.();
-    onClose?.();
-    onOpenCustomerModal?.();
   }
 
   return (

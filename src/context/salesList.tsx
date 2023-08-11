@@ -98,6 +98,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
       console.log('Response from server: ', response.data);
     } catch (error) {
       console.error('Context (Error): ', error);
+      throw error;
     }
   };
 
