@@ -1,12 +1,17 @@
 'use client';
 import { useCoupomContext } from "@/context/cancelCoupom";
 import { formatCpfOrCnpj, formatCurrency } from "@/utils/formatter";
+import { useEffect } from "react";
 
 export const CoupomList = () => {
-  const { coupoms } = useCoupomContext();
+  const { coupoms, getLastSales, deleteLastSale } = useCoupomContext();
 
-  function handleDelete() {
-    alert("Delete");
+  useEffect(() => {
+    getLastSales();
+  }, [coupoms])
+
+  function handleDelete(cancel: { id: number, status: string }) {
+    deleteLastSale(cancel);
   }
 
   return (
@@ -21,16 +26,19 @@ export const CoupomList = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Usando map para renderizar cada cupom */}
           {coupoms.map((item, index) => (
             <tr
+              key={index}
               className={`flex text-left items-center text-sm min-h-[5rem] border-b border-border outline-none`}
             >
               <td className="px-4 w-[15%]">{item.id}</td>
               <td className="px-6 w-[35%]">{formatCpfOrCnpj(item.cpf_cnpj)}</td>
               <td className="px-10 w-[25%]">{formatCurrency(item.valor_liquido)}</td>
               <td className="px-12 w-[25%]">{new Date(item.data_criacao).toLocaleDateString()}</td>
-              <td className="flex items-center justify-center rounded-full mr-4 bg-backgroundFields px-4 w-[0%] cursor-pointer transition-all hover:bg-red-600" onClick={handleDelete}>X</td>
+              <td className="flex items-center justify-center rounded-full mr-4 bg-backgroundFields px-4 w-[0%] cursor-pointer transition-all hover:bg-red-600"
+                onClick={() => handleDelete({ id: item.id, status: 'C' })}>
+                X
+              </td>
             </tr>
           ))}
         </tbody>

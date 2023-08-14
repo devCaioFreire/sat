@@ -10,9 +10,15 @@ interface CoupomData {
   data_criacao: Date;
 }
 
+interface CancelData {
+  id: number;
+  status: string;
+}
+
 interface CoupomContextProps {
   coupoms: CoupomData[]; // Um array para armazenar os cupons
   getLastSales: () => void; // Uma função para buscar os últimos cupons
+  deleteLastSale: (cancel: CancelData) => void;
   addCoupom: (coupom: CoupomData) => void;
 }
 
@@ -29,6 +35,7 @@ export function useCoupomContext() {
 export function CoupomProvider({ children }: { children: React.ReactNode }) {
   const [coupoms, setCoupoms] = useState<CoupomData[]>([]);
 
+  // GET
   const getLastSales = () => {
     AxiosNode.get('/cancelCoupom')
       .then((response: AxiosResponse) => {
@@ -42,6 +49,16 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
       });
   };
 
+  const deleteLastSale = async (cancel: CancelData) => {
+    try {
+      const response = await AxiosNode.post('/updateCoupomStatus', cancel);
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
+    }
+  };
+
   const addCoupom = (coupom: CoupomData) => {
     setCoupoms((prevCoupoms) => [coupom, ...prevCoupoms]);
   };
@@ -51,7 +68,7 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <CoupomContext.Provider value={{ coupoms, getLastSales, addCoupom }}>
+    <CoupomContext.Provider value={{ coupoms, getLastSales, addCoupom, deleteLastSale }}>
       {children}
     </CoupomContext.Provider>
   );
