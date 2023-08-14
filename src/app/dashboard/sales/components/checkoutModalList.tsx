@@ -13,7 +13,7 @@ export interface CheckoutModalProps {
 export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
 
   const { calculateTotal, product, sendSalesData } = useContext(ProductContext);
-  const { customerData } = useCustomerContext();
+  const { customerData, resetCpfOrCnpj } = useCustomerContext();
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [payment, setPayment] = useState('');
@@ -144,12 +144,12 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
       onFormSubmit?.();
       onClose?.();
+      resetCpfOrCnpj();
       onOpenCustomerModal?.();
     } catch (error) {
       console.error('Context (Error): ', error);
       throw error;
     }
-    console.log(salesData);
   }
 
   return (
