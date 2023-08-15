@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Barcode } from "./components/barcode";
 import CheckoutModal from "./components/checkoutModal";
+import { CoupomModal } from "./components/coupomModal";
 import CustomerModal from "./components/customerModal";
 import { DescriptionProduct } from "./components/descriptionProduct";
 import { List } from "./components/list";
@@ -14,6 +15,7 @@ export default function Sales() {
   const { product, setProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
 
   const [customerModalOpen, setCustomerModalOpen] = useState(true);
+  const [coupomModalOpen, setCoupomModalOpen] = useState(false);
   const [saleModalOpen, setSaleModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeElementBeforeModal, setActiveElementBeforeModal] = useState<Element | null>(null);
@@ -30,11 +32,13 @@ export default function Sales() {
 
   const openModal = () => {
     setSaleModalOpen(true);
+    // setCoupomModalOpen(true);
   };
 
   const closeModal = () => {
     setSaleModalOpen(false);
     setCustomerModalOpen(false);
+    // setCoupomModalOpen(false);
   };
 
   useEffect(() => {
@@ -82,7 +86,7 @@ export default function Sales() {
       window.removeEventListener("keydown", handleEscapeKeyPress);
     };
 
-  }, [customerModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted]);
+  }, [customerModalOpen, coupomModalOpen, selectedProductIndex, product, saleModalOpen, activeElementBeforeModal, formSubmitted]);
 
   const handleClearList = () => {
     setSelectedProductIndex(-1);
@@ -91,6 +95,10 @@ export default function Sales() {
     setSelectedProductDescription("");
     setFormSubmitted(true);
     closeModal();
+  };
+
+  const handleOpenCoupomModal = () => {
+    setCoupomModalOpen(true);
   };
 
   const handleOpenCustomerModal = () => {
@@ -121,9 +129,19 @@ export default function Sales() {
             isOpen={saleModalOpen}
             onClose={closeModal}
             onFormSubmit={handleFormSubmit}
-            onOpenCustomerModal={handleOpenCustomerModal} />
+            onOpenCustomerModal={handleOpenCustomerModal}
+            onOpenCoupomModal={handleOpenCoupomModal} />
         </div>
       )}
+
+      {coupomModalOpen && (
+        <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
+          <CoupomModal
+            isOpen={coupomModalOpen}
+            onOpenCoupomModal={handleOpenCoupomModal} />
+        </div>
+      )}
+
       <main className="flex w-full gap-[2%] justify-between">
         <div className="w-[58%]">
           <div ref={saleModalOpen ? null : listRef} tabIndex={saleModalOpen ? undefined : 0}>

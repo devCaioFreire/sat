@@ -1,16 +1,17 @@
 import { useCustomerContext } from "@/context/customerData";
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/formatter";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 export interface CheckoutModalProps {
   isOpen: boolean;
   onClose?: () => void;
   onFormSubmit?: () => void;
   onOpenCustomerModal?: () => void;
+  onOpenCoupomModal?: () => void;
 }
 
-export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal }) => {
+export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onFormSubmit, onOpenCustomerModal, onOpenCoupomModal }) => {
 
   const { calculateTotal, product, sendSalesData } = useContext(ProductContext);
   const { customerData, resetCpfOrCnpj } = useCustomerContext();
@@ -145,7 +146,9 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       onFormSubmit?.();
       onClose?.();
       resetCpfOrCnpj();
+      onOpenCoupomModal?.();
       onOpenCustomerModal?.();
+
     } catch (error) {
       console.error('Context (Error): ', error);
       throw error;
@@ -155,8 +158,8 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
   return (
     <form
       onSubmit={handleSubmit}
-      className='h-[calc(100%-180px)]'>
-      <ul className='flex flex-col mt-[calc(2rem+4rem)] h-full justify-between text-lg px-4'>
+      className='h-[calc(100%-150px)]'>
+      <ul className='flex flex-col mt-[calc(2rem+3rem)] h-full justify-between text-lg px-4'>
 
         {/* Total Bruto */}
         <li
@@ -296,15 +299,14 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
             </span>
           </li>
         )}
-
       </ul>
 
       <button
         type="submit"
-        className='fixed bottom-0 flex w-full justify-center items-center rounded-b-2xl py-4 transition-all bg-emerald-900 hover:bg-emerald-700'
-      >Finalizar Venda
+        className='fixed bottom-0 flex w-full justify-center items-center rounded-b-2xl py-4 transition-all bg-emerald-900 hover:bg-emerald-700'>
+        Finalizar Venda
       </button>
-    </form>
+    </form >
   )
 }
 
