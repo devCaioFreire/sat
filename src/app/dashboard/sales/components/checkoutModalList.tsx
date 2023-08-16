@@ -147,7 +147,6 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       onClose?.();
       resetCpfOrCnpj();
       onOpenCoupomModal?.();
-      onOpenCustomerModal?.();
 
     } catch (error) {
       console.error('Context (Error): ', error);

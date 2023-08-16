@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
   main: {
     width: '100%',
     height: '100%',
-    position: 'relative',
-    borderRadius: 10,
   },
   container: {
     maxWidth: 200,
@@ -43,6 +41,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 6,
+    wordBreak: 'break-word',
+  },
+  textFooter: {
+    fontSize: 10,
     wordBreak: 'break-word',
   },
   section: {
@@ -87,6 +89,7 @@ const styles = StyleSheet.create({
 });
 
 const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = ({ name, itens }, ref) => {
+
   return (
     <PDFViewer style={styles.main}>
       <Document>
@@ -101,7 +104,7 @@ const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = 
               <Text>(47) 3467-7010</Text>
             </View>
 
-            <Text style={styles.boldText}>P E D I D O</Text>
+            <Text style={styles.boldText}>P E D I D O - SEM VALOR FISCAL</Text>
 
             <View style={styles.detail}>
               <Text>Data: 14/08/2023-10:38:19</Text>
@@ -150,7 +153,7 @@ const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = 
             </View>
 
             <View style={styles.separator}></View>
-            <Text style={styles.text}>
+            <Text style={styles.textFooter}>
               Dirija-se ao caixa para concluir a compra, retirar a mercadoria e o cupom <br />
               fiscal válido para Nota Fiscal Paulista
             </Text>

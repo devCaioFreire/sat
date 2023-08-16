@@ -32,13 +32,12 @@ export default function Sales() {
 
   const openModal = () => {
     setSaleModalOpen(true);
-    // setCoupomModalOpen(true);
   };
 
   const closeModal = () => {
     setSaleModalOpen(false);
     setCustomerModalOpen(false);
-    // setCoupomModalOpen(false);
+    setCoupomModalOpen(false);
   };
 
   useEffect(() => {
@@ -129,7 +128,7 @@ export default function Sales() {
             isOpen={saleModalOpen}
             onClose={closeModal}
             onFormSubmit={handleFormSubmit}
-            onOpenCustomerModal={handleOpenCustomerModal}
+            // onOpenCustomerModal={handleOpenCustomerModal}
             onOpenCoupomModal={handleOpenCoupomModal} />
         </div>
       )}
@@ -138,7 +137,9 @@ export default function Sales() {
         <div className="fixed z-40 inset-0 bg-opacity-50 bg-backgroundModal backdrop-blur-md">
           <CoupomModal
             isOpen={coupomModalOpen}
-            onOpenCoupomModal={handleOpenCoupomModal} />
+            onClose={closeModal}
+            onOpenCoupomModal={handleOpenCoupomModal}
+            onOpenCustomerModal={handleOpenCustomerModal} />
         </div>
       )}
 
