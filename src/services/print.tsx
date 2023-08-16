@@ -18,7 +18,7 @@ export interface CupomFiscalRef {
 const styles = StyleSheet.create({
   main: {
     width: '100%',
-    height: '100%',
+    height: '91.1%',
   },
   container: {
     maxWidth: 200,
