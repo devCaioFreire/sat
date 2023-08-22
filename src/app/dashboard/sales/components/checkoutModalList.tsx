@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/context/authContext";
 import { useCustomerContext } from "@/context/customerData";
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/formatter";
@@ -15,6 +16,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
   const { calculateTotal, product, sendSalesData } = useContext(ProductContext);
   const { customerData, resetCpfOrCnpj } = useCustomerContext();
+  const { user } = useAuthContext();
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [payment, setPayment] = useState('');
@@ -132,7 +134,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       cpf_cnpj: customerData.cpfOrCnpj,
       valor_bruto: calculateTotal(),
       valor_liquido: totalValue,
-      vendedor_id: 0,
+      vendedor_id: user?.id || 0,
       desconto: discountAmount,
       forma_pagamento: selectedPaymentMethod,
       pagamento: selectedPaymentMethod === 'dinheiro' ? parseFloat(payment) : totalValue,

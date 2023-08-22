@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/context/authContext";
 import { useCustomerContext } from "@/context/customerData";
 import { useState } from "react";
 
@@ -14,9 +15,10 @@ export interface CustomerModalProps {
 export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomerModal, onCloseCustomerModal, onFormSubmitCustomer, onOpenCustomerModal }) => {
 
   const { setCustomerData } = useCustomerContext();
+  const { user } = useAuthContext();
+  console.log(user);
 
   const [cpfOrCnpj, setCpfOrCnpj] = useState<string>('');
-  const [customerData, setCustomerDataa] = useState<{ customerID?: number; customerName?: string; cpfOrCnpj?: string }>({});
   const customerID = 0;
   const customerName = 'Consumidor Final';
 
@@ -58,8 +60,8 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
 
         <h1>Vendedor</h1>
         <div className="flex justify-between gap-4">
-          <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">01</span>
-          <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">Vendedor Fictício</span>
+          <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{user?.id}</span>
+          <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{user?.name} {user?.lastName}</span>
         </div>
 
       </div>

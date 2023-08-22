@@ -1,9 +1,11 @@
+import { useAuthContext } from "@/context/authContext";
 import { useCustomerContext } from "@/context/customerData";
 import { CurrentDateFormatted, CurrentTimeFormatted, formatCpfOrCnpj } from "@/utils/formatter";
 
 export function Footer() {
 
   const { customerData } = useCustomerContext();
+  const { user } = useAuthContext();
 
   const currentDate = CurrentDateFormatted();
   const currentTime = CurrentTimeFormatted();
@@ -28,7 +30,7 @@ export function Footer() {
         </li >
 
         <li className="flex items-center gap-1">
-          <span>Vendedor: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">Nome Fictício</span></span>
+          <span>Vendedor: <span className="bg-backgroundFields px-4 py-1 mb-4 rounded-lg">{user?.name} {user?.lastName}</span></span>
         </li >
 
         <li className="flex items-center gap-1">
@@ -43,3 +45,4 @@ export function Footer() {
 
   )
 }
+

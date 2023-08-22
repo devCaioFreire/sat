@@ -3,8 +3,15 @@ import { AxiosNode } from '@/services/axios';
 import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+interface UserData {
+  id: number;
+  name: string;
+  lastName: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
+  user: UserData | null;
   login: (email: string, password: string) => void;
   logout: () => void;
 }
@@ -21,8 +28,33 @@ export const useAuthContext = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<UserData | null>(null);
   const [error, setError] = useState(false);
   const router = useRouter();
+
+  function parseJwt(token: string | null) {
+    if (!token) {
+      return {};
+    }
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+  }
+
+  useEffect(() => {
+    const jwt = sessionStorage.getItem('token');
+    const jwtData = parseJwt(jwt);
+
+    const userId = jwtData.id;
+    const userName = jwtData.name;
+    const lastName = jwtData.lastName;
+
+    setUser({
+      id: userId,
+      name: userName,
+      lastName: lastName,
+    });
+  }, []);
 
   const jwtToken = sessionStorage.getItem('token');
 
@@ -68,7 +100,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
