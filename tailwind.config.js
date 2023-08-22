@@ -14,6 +14,13 @@ module.exports = {
         backgroundFields: "#323238",
         block: "#32323850",
         text: "#ffffff",
+        loginBtn: "#5A5C6A"
+      },
+      backgroundImage: {
+        'gradient-login': 'radial-gradient(circle at 10% 20%, rgb(90, 92, 106) 0%, rgb(32, 45, 58) 81.3%)',
+      },
+      boxShadow: {
+        'custom': '0px 0px 30px 5px rgba(0,0,0,0.75)'
       },
       borderColor: {
         border: "#8d8d99",
