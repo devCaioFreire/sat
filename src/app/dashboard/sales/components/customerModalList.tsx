@@ -16,7 +16,6 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
 
   const { setCustomerData } = useCustomerContext();
   const { user } = useAuthContext();
-  console.log(user);
 
   const [cpfOrCnpj, setCpfOrCnpj] = useState<string>('');
   const customerID = 0;

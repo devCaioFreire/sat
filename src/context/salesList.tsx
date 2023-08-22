@@ -40,6 +40,7 @@ interface SalesData {
   forma_pagamento: string;
   pagamento: number;
   troco?: number;
+  order?: number;
 }
 
 const ProductContext = createContext<ProductContextProps>({
@@ -63,7 +64,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     return AxiosProduct.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data.Produtos;
-        console.log(productsArray);
+        // console.log(productsArray);
 
         const product = productsArray[0];
         const { id, eAN, descricao, vlrUnCom } = product;
