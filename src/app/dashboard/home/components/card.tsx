@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MouseEventHandler } from "react";
 import Cart from '../../../../../assets/shopping-cart.svg';
 
 interface CardProps {
@@ -8,12 +9,14 @@ interface CardProps {
   link: string;
   isDisabled?: boolean;
   withColor?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-export function Card({ title, shortcut, link, isDisabled, withColor }: CardProps) {
+export function Card({ title, shortcut, link, isDisabled, withColor, onClick }: CardProps) {
 
   return (
     <Link
+      onClick={onClick}
       href={link}
       type="submit"
       className={`flex flex-col items-center justify-around w-[90%] h-[90%] border border-border rounded-lg

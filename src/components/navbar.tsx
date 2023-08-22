@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/context/authContext";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from '../../assets/IconOriginal.svg';
@@ -12,6 +13,7 @@ import sat from "../../assets/ticket.svg";
 import Cancel from "../../assets/x-circle.svg";
 
 export function Navbar() {
+  const { logout } = useAuthContext();
   return (
     <nav
       className="w-[15%] bg-backgroundSecundary border-r-[1px] border-border transition-all duration-[250ms]">
@@ -98,14 +100,14 @@ export function Navbar() {
           </p>
         </Link>
 
-        <Link
-          href={'/'}
+        <button
+          onClick={logout}
           className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           <Image alt="" src={Exit} className="w-6" />
           <p className="text-base font-medium">
             Sair do Sistema
           </p>
-        </Link>
+        </button>
 
       </div >
     </nav >

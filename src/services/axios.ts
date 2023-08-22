@@ -12,13 +12,6 @@ export const AxiosProduct = axios.create({
   }
 });
 
-export const AxiosAuth = axios.create({
-  baseURL: 'http://localhost:8083/datasnap/rest/TSMIdentificacao/Login',
-  headers: {
-    'Content-Type': 'application/json',
-  }
-});
-
 export const AxiosNode = axios.create({
   baseURL: 'http://localhost:3333',
   headers: {

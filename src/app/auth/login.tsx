@@ -1,12 +1,32 @@
 'use client'
-import Link from "next/link";
+import { useAuthContext } from "@/context/authContext";
 import { useState } from "react";
 
 export default function Login() {
+  const { login } = useAuthContext();
   const [isLoginPage] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
-  function handleLogin() {
-    alert('OK')
+  async function handleLogin(e: any) {
+    e.preventDefault();
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (trimmedEmail === '' || trimmedPassword === '') {
+      setError(true);
+      return;
+    }
+
+    try {
+      await login(trimmedEmail, trimmedPassword);
+      setError(false);
+    } catch (err) {
+      console.error(err);
+    }
+    setError(true);
   }
 
   return (
@@ -22,20 +42,25 @@ export default function Login() {
               <input
                 type="email"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="bg-transparent border-b outline-none" />
 
               <label htmlFor="password">Senha</label>
               <input
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="bg-transparent border-b outline-none" />
 
-              <Link
-                href={'/dashboard/home'}
+              <button
                 type="submit"
-                className="text-center bg-transparent p-4 rounded-md mt-[1.5rem] border border-border transition-all hover:bg-loginBtn">
-                Acessar
-              </Link>
+                className={`text-center bg-transparent p-4 rounded-md mt-[1.5rem] 
+                border  transition-all hover:bg-loginBtn ${error ? 'border-red-700' : 'border-border'}`}
+              >
+                {error ? 'Credenciais inválidas' : 'Acessar'}
+              </button>
             </div>
           </form>
         </div>
