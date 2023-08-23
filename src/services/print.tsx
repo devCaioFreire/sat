@@ -96,6 +96,7 @@ const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = 
         <Page size="A6">
           <View style={styles.container}>
             <View style={styles.header}>
+              {/* Dados da empresa que comprou o software */}
               <Text>BNB IMPORT E EXPORT DE MAT P TAPECARIA L</Text>
               <Text>RUA DOUTOR EDMUNDO DOBRAWA, 1320</Text>
               <Text>ZONA INDUSTRIAL NORTE</Text>
@@ -114,42 +115,34 @@ const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = 
             <View style={styles.separator}></View>
 
             <View style={styles.section}>
-              <Text style={styles.title}>CLIENTE.: 2M INDUSTRIA DE MOVEIS LTDA ME</Text>
-              <Text>CNPJ....: 14.946.947/0001-02</Text>
-              <Text>LOGRAD..: JOSINO CANDIAN</Text>
-              <Text>NUMERO..: 09</Text>
-              <Text>CEP.....: 36500-000 - PONTE PRETA UBA - MG</Text>
-              <Text>TELEFONE: (32) 3532-4621</Text>
-              <Text>DOCUM...: 0019056360060</Text>
+              <Text style={styles.title}>
+                CLIENTE.: CONSUMIDOR FINAL</Text>
+              <Text>CPF.....: CPF</Text>
             </View>
 
             <View style={styles.separator}></View>
 
             {/* LISTA PRODUTOS */}
             <View style={styles.products}>
-              <Text style={styles.title}>AMETISTA COR 180</Text>
+              <Text style={styles.title}>DESC PRODUTO</Text>
               <View style={styles.listProducts}>
-                <Text>718</Text>
-                <Text>MT</Text>
-                <Text>1,00x</Text>
-                <Text>10,00</Text>
-                <Text>10,00</Text>
+                <Text>ID</Text>
+                <Text>UN COMERCIAL</Text>
+                <Text>QNT</Text>
+                <Text>VLR UNITARIO</Text>
+                <Text>VLR TOTAL</Text>
               </View>
 
               <View style={styles.separator}></View>
 
               <View>
                 <Text>TOTAL LIQUIDO:</Text>
-                <Text>10,00</Text>
+                <Text>VALOR TOTAL LIQUIDO</Text>
               </View>
             </View>
 
             <View>
-              <Text>VENDEDOR............: VALTER SERGIO</Text>
-              <Text>BALCONISTA..........: SUPERVISOR</Text>
-              <Text>SALDO DO CLIENTE....: 0,00</Text>
-              <Text>PRÉ-VENDA P/........: </Text>
-              <Text>VECTOS..............: </Text>
+              <Text>USUARIO............: NOME USUARIO</Text>
             </View>
 
             <View style={styles.separator}></View>

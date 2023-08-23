@@ -57,7 +57,7 @@ export const CustomerModalList: React.FC<CustomerModalProps> = ({ isOpenCustomer
           className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg"
         />
 
-        <h1>Vendedor</h1>
+        <h1>Usuário</h1>
         <div className="flex justify-between gap-4">
           <span className="bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{user?.id}</span>
           <span className="flex w-full bg-backgroundFields px-9 py-2 mb-4 rounded-lg">{user?.name} {user?.lastName}</span>

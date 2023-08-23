@@ -64,7 +64,7 @@ const CustomerModal = ({ isOpenCustomerModal, onCloseCustomerModal, onFormSubmit
       <div className="modal-content absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-2xl flex flex-col w-[45rem] h-[30rem] gap-4 border border-border rounded-2xl bg-background">
         {/* Header */}
         <div className='absolute flex items-center justify-center top-0 h-16 w-full rounded-t-2xl bg-backgroundSecundary'>
-          <h1 className='text-xl font-medium'>Cliente (Opcional)</h1>
+          <h1 className='flex gap-4 text-xl font-medium'>Nova Venda</h1>
         </div>
         <CustomerModalList
           isOpenCustomerModal={isOpenCustomerModal}
