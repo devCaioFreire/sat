@@ -14,7 +14,7 @@ export default function DashboardLayout({
 }) {
 
   const pathname = usePathname();
-  const isHomePage = pathname === '/dashboard/sales';
+  const isSalesPage = pathname === '/dashboard/sales';
 
   return (
     <AuthProvider>
@@ -23,11 +23,11 @@ export default function DashboardLayout({
           <CoupomProvider>
             <div className="flex h-[100vh] gap-8">
               <Navbar />
-              <section className="flex-col justify-center items-center pt-8 w-[85%] h-full">
+              <section className={`${isSalesPage ? 'flex-col justify-center items-center pt-8 w-[98%] h-full' : 'flex-col justify-center items-center pt-8 w-[85%] h-full'}`}>
                 <div className="w-[98%] h-[95%]">
                   {children}
                 </div>
-                {isHomePage && <Footer />}
+                {isSalesPage && <Footer />}
               </section>
             </div>
           </CoupomProvider>

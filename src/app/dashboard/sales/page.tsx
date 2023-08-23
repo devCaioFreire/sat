@@ -1,6 +1,7 @@
 'use client'
 import { ProductContext } from "@/context/salesList";
 import { formatCurrency } from "@/utils/formatter";
+import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Barcode } from "./components/barcode";
 import CheckoutModal from "./components/checkoutModal";
@@ -12,6 +13,9 @@ import { TotalValueSale } from "./components/totalValueSale";
 import { ValueProduct } from "./components/valueProduct";
 
 export default function Sales() {
+  const pathname = usePathname();
+  const isSalesPage = pathname === '/dashboard/sales';
+
   const { product, setProduct, selectedProductIndex, setSelectedProductIndex } = useContext(ProductContext);
 
   const [customerModalOpen, setCustomerModalOpen] = useState(true);
@@ -144,14 +148,14 @@ export default function Sales() {
       )}
 
       <main className="flex w-full gap-[2%] justify-between">
-        <div className="w-[58%]">
+        <div className={`${isSalesPage ? 'w-[65%]' : 'w-[58%]'}`}>
           <div ref={saleModalOpen ? null : listRef} tabIndex={saleModalOpen ? undefined : 0}>
             <List />
           </div>
         </div>
 
         {/* Insert Product Fields */}
-        <div className="grid w-[40%]">
+        <div className={`${isSalesPage ? 'grid w-[40%]' : 'grid w-[40%]'}`}>
           <div className="flex flex-col justify-between">
             <div className="h-[18%]" ref={saleModalOpen ? null : barcodeRef} tabIndex={saleModalOpen ? undefined : 0}>
               <Barcode />
@@ -171,7 +175,7 @@ export default function Sales() {
             <DescriptionProduct />
           </div>
         </div>
-      </main>
+      </main >
     </>
   );
 }

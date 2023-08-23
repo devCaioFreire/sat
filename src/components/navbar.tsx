@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/context/authContext";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from '../../assets/IconOriginal.svg';
 import Sale from "../../assets/arrow-right-left.svg";
 import Rel from "../../assets/folder-kanban.svg";
@@ -14,98 +15,112 @@ import Cancel from "../../assets/x-circle.svg";
 
 export function Navbar() {
   const { logout } = useAuthContext();
+  const pathname = usePathname();
+  const isSalesPage = pathname === '/dashboard/sales';
+
   return (
     <nav
-      className="w-[15%] bg-backgroundSecundary border-r-[1px] border-border transition-all duration-[250ms]">
+      className={` ${isSalesPage ? 'w-[3%] bg-backgroundSecundary border-r-[1px] border-border transition-all duration-[250ms]' : 'w-[15%] bg-backgroundSecundary border-r-[1px] border-border transition-all duration-[250ms]' // Adicione a classe para largura menor aqui
+        }`}>
 
-      <div className="flex flex-col h-full items-start justify-start">
+      <div className={`${isSalesPage ? 'flex flex-col h-full items-center justify-between py-6' : 'flex flex-col h-full items-start justify-start'}`}>
         <Link
           href={'/dashboard/home'}
-          className="flex items-center pr-2 justify-center flex-1 gap-4 w-full">
-          <Image src={Logo} alt="" className="w-11" />
+          className={`${isSalesPage ? 'flex items-center pr-2 justify-center  w-full' : 'flex items-center pr-2 justify-center flex-1 gap-4 w-full'}`}>
+          <Image src={Logo} alt="" className={`${isSalesPage} ? 'flex items-center justify-center': 'w-11'`} />
           <p className="text-base font-bold">
-            Soft Clever
+            {isSalesPage ? '' : 'Soft Clever'}
           </p>
         </Link>
 
         <Link
           href={'/dashboard/home'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
+          {/* // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields"> */}
           <Image alt="" src={Home} className="w-6" />
           <p className="text-base font-medium">
-            Home
+            {isSalesPage ? '' : 'Home'}
           </p>
         </Link>
 
         <Link
           href={'/dashboard/sales'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Cart} className="w-6" />
           <p className="text-base font-medium">
-            Nova Venda
+            {isSalesPage ? '' : 'Nova Venda'}
           </p>
         </Link>
 
         <Link
           href={'/dashboard/cancelTaxCoupom'}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Cancel} className="w-6" />
           <p className="text-base font-medium">
-            Cancelar Cupom
+            {isSalesPage ? '' : 'Cancelar Cupom'}
           </p>
         </Link>
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Search} className="w-6" />
           <p className="text-base font-medium">
-            Consultar Preços
+            {isSalesPage ? '' : 'Consultar Preços'}
           </p>
         </Link>
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Drawer} className="w-6" />
           <p className="text-base font-medium">
-            Abrir Gaveta
+            {isSalesPage ? '' : 'Abrir Gaveta'}
           </p>
         </Link>
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Sale} className="w-6" />
           <p className="text-base font-medium">
-            Capturar Pedido de Venda
+            {isSalesPage ? '' : 'Capturar Pedido de Venda'}
           </p>
         </Link>
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Rel} className="w-6" />
           <p className="text-base font-medium">
-            Relatório Gerencial de Vendas
+            {isSalesPage ? '' : 'Relatório Gerencial de Vendas'}
           </p>
         </Link>
 
         <Link
           href={''}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={sat} className="w-6" />
           <p className="text-base font-medium">
-            2ª Via Cupom SAT
+            {isSalesPage ? '' : '2ª Via Cupom SAT'}
           </p>
         </Link>
 
         <button
           onClick={logout}
-          className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Exit} className="w-6" />
           <p className="text-base font-medium">
-            Sair do Sistema
+            {isSalesPage ? '' : 'Sair do Sistema'}
+
           </p>
         </button>
 
