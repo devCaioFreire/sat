@@ -8,7 +8,7 @@ import Rel from "../../assets/folder-kanban.svg";
 import Home from "../../assets/layout-dashboard.svg";
 import Exit from "../../assets/log-out.svg";
 import Drawer from "../../assets/panel-left-open.svg";
-import Search from '../../assets/search.svg';
+import AddProduct from '../../assets/register-product.svg';
 import Cart from '../../assets/shopping-cart.svg';
 import sat from "../../assets/ticket.svg";
 import Cancel from "../../assets/x-circle.svg";
@@ -64,6 +64,16 @@ export function Navbar() {
         </Link>
 
         <Link
+          href={'/dashboard/product'}
+          // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
+          <Image alt="" src={AddProduct} className="w-6 " />
+          <p className="text-base font-medium">
+            {isSalesPage ? '' : 'Produtos'}
+          </p>
+        </Link>
+
+        {/* <Link
           href={''}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
@@ -71,7 +81,7 @@ export function Navbar() {
           <p className="text-base font-medium">
             {isSalesPage ? '' : 'Consultar Preços'}
           </p>
-        </Link>
+        </Link> */}
 
         <Link
           href={''}

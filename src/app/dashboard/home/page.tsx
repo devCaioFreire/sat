@@ -28,10 +28,9 @@ export default function Home() {
             link={'/dashboard/cancelTaxCoupom'} />
 
           <Card
-            title="Consultar Preço"
+            title="Cadastrar Produto"
             shortcut="(Ctrl + P)"
-            link={''}
-            isDisabled={true} />
+            link={'/dashboard/registerProduct'} />
 
           <Card
             title="Abrir Gaveta"
