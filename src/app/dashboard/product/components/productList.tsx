@@ -1,13 +1,13 @@
 'use client'
-
 import { useProductContext } from "@/context/productContext";
+import { formatCurrency } from "@/utils/formatter";
 
 export const ProductList = () => {
 
   const { products } = useProductContext();
 
   return (
-    <table className="flex relative flex-col border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
+    <table id="table" className="flex relative flex-col h-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
       <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
         <tr className="flex text-left">
           <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
@@ -27,10 +27,10 @@ export const ProductList = () => {
             tabIndex={0}
           >
             <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.code}</td>
-            <td className="px-4 w-[50%] overflow-hidden">{item.description}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.value}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.unity}</td>
+            <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
+            <td className="px-4 w-[50%] overflow-hidden">{item.descricao}</td>
+            <td className="px-4 w-[10%] overflow-hidden">{formatCurrency(item.vlrUnCom)}</td>
+            <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
             <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>
           </tr>
