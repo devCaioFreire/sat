@@ -54,8 +54,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     console.log('clientHeight:', clientHeight);
     console.log('scrollHeight:', scrollHeight);
 
-    // Verifique se o usuário está próximo do final da lista (por exemplo, nos últimos 20%)
-    if (scrollTop + clientHeight >= scrollHeight * 0.8) {
+    // Verifique se o usuário está próximo do final da lista (por exemplo, nos últimos 10%)
+    if (scrollTop + clientHeight >= scrollHeight * 0.9) {
       fetchMoreProducts();
     }
   };
@@ -64,10 +64,22 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   useEffect(() => {
     fetchMoreProducts();
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const table = document.getElementById('table');
+    if (table) {
+      const handleScroll = () => {
+        const { scrollTop, clientHeight, scrollHeight } = table;
+
+        if (scrollTop + clientHeight >= scrollHeight * 0.99) {
+          fetchMoreProducts();
+        }
+      };
+
+      table.addEventListener('scroll', handleScroll);
+
+      return () => {
+        table.removeEventListener('scroll', handleScroll);
+      };
+    }
   }, []);
 
   return (
