@@ -1,11 +1,11 @@
-import { Input } from "./components/inputs";
+import { Input } from "../components/inputs";
 
-export const RegisterProduct = () => {
+export const EditProduct = () => {
   return (
     <main className="flex flex-col border border-border rounded-lg h-1/2">
       <header
         className="flex items-center justify-center w-full shadow-lg rounded-t-xl bg-backgroundSecundary default:h-6 lg:h-10">
-        <h1 className="font-medium">Cadastrar Produto</h1>
+        <h1 className="font-medium">Editar Produto</h1>
       </header>
 
       <form className="flex flex-col h-full justify-between p-4">
@@ -67,11 +67,11 @@ export const RegisterProduct = () => {
         <button
           type="submit"
           className="flex p-4 rounded justify-center w-full transition-all bg-indigo-700 hover:bg-indigo-600">
-          Cadastrar
+          Salvar
         </button>
       </form>
     </main>
   )
 }
 
-export default RegisterProduct;
+export default EditProduct;

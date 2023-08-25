@@ -3,21 +3,22 @@ import { FiEdit2 } from 'react-icons/fi';
 import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
 
-import { IconButton } from './components/iconButton';
-import { ProductList } from './components/productList';
+import { useRouter } from 'next/navigation';
+import { IconButton } from './components/inputButton';
+import { ProductList } from './components/productsList';
 
 export const Product = () => {
+  const router = useRouter();
 
   const handleAdd = () => {
-    console.log('ADD')
+    router.push('/dashboard/product/register');
   }
 
   const handleEdit = () => {
-    console.log('ADD')
+    router.push('/dashboard/product/edit');
   }
 
   const handleRemove = () => {
-    console.log('ADD')
   }
   return (
     <main className="flex flex-col border border-border rounded-lg h-full">
