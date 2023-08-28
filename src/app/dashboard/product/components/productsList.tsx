@@ -29,7 +29,7 @@ export const ProductList = () => {
             <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
             <td className="px-4 w-[50%] overflow-hidden">{item.descricao}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{formatCurrency(item.vlrUnCom)}</td>
+            <td className="px-4 w-[10%] overflow-hidden">R$ {formatCurrency(item.vlrUnCom)}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
             <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>

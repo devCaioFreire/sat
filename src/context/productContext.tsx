@@ -35,9 +35,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const response = await AxiosNode.get(`/getAllProducts?offset=${products.length}&limit=${PRODUCTS_PER_PAGE}`);
       const newProducts = response.data;
-
-      console.log('New Products:', newProducts); // Verifique os novos produtos na resposta
-
+      // const newProducts: ProductProps[] = response.data;
       setProducts(prevProducts => [...prevProducts, ...newProducts]);
     } catch (err) {
       console.error(err);
@@ -46,30 +44,18 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  // Função para lidar com o evento de rolagem
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-
-    console.log('scrollTop:', scrollTop);
-    console.log('clientHeight:', clientHeight);
-    console.log('scrollHeight:', scrollHeight);
-
-    // Verifique se o usuário está próximo do final da lista (por exemplo, nos últimos 10%)
-    if (scrollTop + clientHeight >= scrollHeight * 0.9) {
-      fetchMoreProducts();
-    }
-  };
+  useEffect(() => {
+    fetchMoreProducts()
+  }, [])
 
   // Use useEffect para buscar os produtos quando o componente for montado e adicionar o ouvinte de evento de rolagem
   useEffect(() => {
-    fetchMoreProducts();
-
     const table = document.getElementById('table');
     if (table) {
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
 
-        if (scrollTop + clientHeight >= scrollHeight * 0.99) {
+        if (scrollTop + clientHeight >= scrollHeight * 1) {
           fetchMoreProducts();
         }
       };
@@ -81,6 +67,11 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, []);
+
+  useEffect(() => {
+    // Após cada atualização do estado de produtos, exiba o comprimento da lista
+    console.log('Length:', products.length);
+  }, [products]);
 
   return (
     <ProductContext.Provider value={{ products }}>
