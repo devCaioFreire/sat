@@ -1,4 +1,4 @@
-import { Input } from "../components/inputs";
+import { InputText } from "../components/inputs";
 
 export const EditProduct = () => {
   return (
@@ -10,49 +10,49 @@ export const EditProduct = () => {
 
       <form className="flex flex-col h-full justify-between p-4">
         <div className="grid grid-cols-3 gap-8 h-full w-full">
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="ID"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Cód. Produto"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Descrição"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Valor"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Unidade"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Saldo"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Cód. NCM"
           />
 
-          <Input
+          <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             isAllowed={false}
             placeholder="Cód. EAN"

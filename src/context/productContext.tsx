@@ -3,18 +3,21 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 // Defina a estrutura de dados para os produtos
 interface ProductProps {
-  id: string;
-  codProduto: number;
+  id?: string;
+  codProduto: string;
   descricao: string;
-  vlrUnCom: number;
+  vlrUnCom: string;
   unCom: string;
-  saldo: number;
+  saldo: string;
   status: string;
 }
 
 // Defina a estrutura do contexto
 interface ProductContextType {
   products: ProductProps[];
+  getNextProductId: () => void;
+  nextProductId: number | undefined;
+  sendNewProduct: (addProduct: ProductProps) => void;
 }
 
 const PRODUCTS_PER_PAGE = 20; // Alterado para 20 produtos por página
@@ -26,8 +29,9 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<ProductProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [nextProductId, setNextProductId] = useState<number | undefined>(undefined);
 
-  // Função para buscar mais produtos
+  // GET
   const fetchMoreProducts = async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -41,6 +45,17 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       console.error(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // POST
+  const sendNewProduct = async (addProduct: ProductProps) => {
+    try {
+      const response = await AxiosNode.post('/addProduct', addProduct);
+      console.log('Response from server: ', response.data);
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
     }
   };
 
@@ -73,8 +88,18 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     console.log('Length:', products.length);
   }, [products]);
 
+  const getNextProductId = async () => {
+    try {
+      const response = await AxiosNode.get('/getLastProduct');
+      const lastProduct = response.data.nextProduct;
+      setNextProductId(lastProduct + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ products }}>
+    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct }}>
       {children}
     </ProductContext.Provider>
   );
