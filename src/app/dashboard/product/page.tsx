@@ -3,19 +3,24 @@ import { FiEdit2 } from 'react-icons/fi';
 import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
 
-import { useRouter } from 'next/navigation';
+import { useProductContext } from '@/context/productContext';
+import { useParams, useRouter } from 'next/navigation';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 
 export const Product = () => {
   const router = useRouter();
+  const params = useParams();
+  const { selectedProduct } = useProductContext();
 
   const handleAdd = () => {
     router.push('/dashboard/product/register');
   }
 
   const handleEdit = () => {
-    router.push('/dashboard/product/edit');
+    if (selectedProduct) {
+      router.push(`/dashboard/product/edit/${selectedProduct.id}`);
+    }
   }
 
   const handleRemove = () => {

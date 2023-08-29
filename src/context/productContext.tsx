@@ -1,8 +1,7 @@
 import { AxiosNode } from '@/services/axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-// Defina a estrutura de dados para os produtos
-interface ProductProps {
+export interface ProductProps {
   id?: string;
   codProduto: string;
   descricao: string;
@@ -10,6 +9,8 @@ interface ProductProps {
   unCom: string;
   saldo: string;
   status: string;
+  ncm?: string;
+  codEAN?: string;
 }
 
 // Defina a estrutura do contexto
@@ -18,6 +19,8 @@ interface ProductContextType {
   getNextProductId: () => void;
   nextProductId: number | undefined;
   sendNewProduct: (addProduct: ProductProps) => void;
+  selectedProduct: ProductProps | null;
+  setSelectedProduct: (product: ProductProps | null) => void;
 }
 
 const PRODUCTS_PER_PAGE = 20; // Alterado para 20 produtos por página
@@ -30,6 +33,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [products, setProducts] = useState<ProductProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [nextProductId, setNextProductId] = useState<number | undefined>(undefined);
+  const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
 
   // GET
   const fetchMoreProducts = async () => {
@@ -39,7 +43,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const response = await AxiosNode.get(`/getAllProducts?offset=${products.length}&limit=${PRODUCTS_PER_PAGE}`);
       const newProducts = response.data;
-      // const newProducts: ProductProps[] = response.data;
       setProducts(prevProducts => [...prevProducts, ...newProducts]);
     } catch (err) {
       console.error(err);
@@ -99,7 +102,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   return (
-    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct }}>
+    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, selectedProduct, setSelectedProduct }}>
       {children}
     </ProductContext.Provider>
   );

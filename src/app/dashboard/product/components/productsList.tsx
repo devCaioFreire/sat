@@ -4,7 +4,7 @@ import { formatCurrency } from "@/utils/formatter";
 
 export const ProductList = () => {
 
-  const { products } = useProductContext();
+  const { products, selectedProduct, setSelectedProduct } = useProductContext();
 
   return (
     <table id="table" className="flex relative flex-col h-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
@@ -23,8 +23,9 @@ export const ProductList = () => {
         {products.map((item, index) => (
           <tr
             key={index}
-            className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none`}
+            className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}
             tabIndex={0}
+            onClick={() => setSelectedProduct(item)}
           >
             <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
