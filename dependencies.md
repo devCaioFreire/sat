@@ -5,10 +5,12 @@
 [] -> Desenvolver nova busca por descrição (barcode);
 ------------------------------------------------------------------------------------------------------------------------
 [X] -> Criar tela de Produtos;
+   [X] -> Rolagem infinita;
+
 [X] -> Criar cadastro de produtos;
    [X] -> Rotina para adicionar produto;
-   [] -> Rotina para editar produto;
-   [] -> Rotina para remover produto;
+   [X] -> Rotina para editar produto;
+   [X] -> Rotina para remover produto;
 
 [] -> Criar filtro de Produtos;
    [] ->  Descrição;
@@ -25,8 +27,8 @@
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Criar relatório completo;
 [] -> Criar relatório completo de vendas;
-
 ------------------------------------------------------------------------------------------------------------------------
+
 ## SAT V2
 
 [] -> adicionar foto junto com descrição produto
