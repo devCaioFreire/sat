@@ -10,7 +10,7 @@ import { ProductList } from './components/productsList';
 
 export const Product = () => {
   const router = useRouter();
-  const { selectedProduct, setSelectedProduct, sendDeleteProduct } = useProductContext();
+  const { selectedProduct, sendDeleteProduct } = useProductContext();
 
   const handleAdd = () => {
     router.push('/dashboard/product/register');
