@@ -19,6 +19,7 @@ interface ProductContextType {
   getNextProductId: () => void;
   nextProductId: number | undefined;
   sendNewProduct: (addProduct: ProductProps) => void;
+  sendUpdateProduct: (addProduct: ProductProps) => void;
   selectedProduct: ProductProps | null;
   setSelectedProduct: (product: ProductProps | null) => void;
 }
@@ -55,6 +56,17 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const sendNewProduct = async (addProduct: ProductProps) => {
     try {
       const response = await AxiosNode.post('/addProduct', addProduct);
+      console.log('Response from server: ', response.data);
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
+    }
+  };
+
+  // UPDATE
+  const sendUpdateProduct = async (updateProduct: ProductProps) => {
+    try {
+      const response = await AxiosNode.post('/updateProduct', updateProduct);
       console.log('Response from server: ', response.data);
     } catch (error) {
       console.error('Context (Error): ', error);
@@ -102,7 +114,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   return (
-    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, selectedProduct, setSelectedProduct }}>
+    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, sendUpdateProduct, selectedProduct, setSelectedProduct }}>
       {children}
     </ProductContext.Provider>
   );

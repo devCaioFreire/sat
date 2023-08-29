@@ -40,6 +40,10 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
     }
   }, [products, id, setSelectedProduct]);
 
+  function handleSubmit() {
+    
+  }
+
   return (
     <main className="flex flex-col border border-border rounded-lg h-1/2">
       <header

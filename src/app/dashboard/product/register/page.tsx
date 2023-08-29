@@ -83,7 +83,7 @@ export const RegisterProduct = () => {
           {/* ID */}
           <InputText
             className={`px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed`}
-            isAllowed
+            isNotAllowed
             placeholder={'ID'}
             value={nextProductId || ''}
           />
@@ -91,7 +91,6 @@ export const RegisterProduct = () => {
           {/* Product Code */}
           <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={productCode}
             onChange={(e: any) => setProductCode(e.target.value)}
             placeholder="Cód. Produto"
@@ -100,7 +99,6 @@ export const RegisterProduct = () => {
           {/* Description */}
           <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={description}
             onChange={(e: any) => setDescription(e.target.value)}
             placeholder="Descrição"
@@ -109,7 +107,6 @@ export const RegisterProduct = () => {
           {/* Value */}
           <InputNumber
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={value}
             onChange={(e: any) => setValue(e.target.value)}
             placeholder="Valor"
@@ -118,7 +115,6 @@ export const RegisterProduct = () => {
           {/* Unity */}
           <InputText
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={unity}
             onChange={(e: any) => setUnity(e.target.value)}
             placeholder="Unidade"
@@ -127,7 +123,7 @@ export const RegisterProduct = () => {
           {/* Balance */}
           <InputNumber
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed
+            isNotAllowed
             value={balance}
             onChange={(e: any) => setBalance(e.target.value)}
             placeholder="Saldo"
@@ -136,7 +132,6 @@ export const RegisterProduct = () => {
           {/* NCM Code */}
           <InputNumber
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={ncmCode}
             onChange={(e: any) => setNcmCode(e.target.value)}
             placeholder="Cód. NCM"
@@ -146,7 +141,6 @@ export const RegisterProduct = () => {
           {/* EAN Code */}
           <InputNumber
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
-            isAllowed={false}
             value={eanCode}
             onChange={(e: any) => setEanCode(e.target.value)}
             placeholder="Cód. EAN"
