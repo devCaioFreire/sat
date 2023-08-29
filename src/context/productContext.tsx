@@ -19,7 +19,8 @@ interface ProductContextType {
   getNextProductId: () => void;
   nextProductId: number | undefined;
   sendNewProduct: (addProduct: ProductProps) => void;
-  sendUpdateProduct: (addProduct: ProductProps) => void;
+  sendUpdateProduct: (updateroduct: ProductProps) => void;
+  sendDeleteProduct: (productID: number) => void;
   selectedProduct: ProductProps | null;
   setSelectedProduct: (product: ProductProps | null) => void;
 }
@@ -52,6 +53,17 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  // GET
+  const getNextProductId = async () => {
+    try {
+      const response = await AxiosNode.get('/getLastProduct');
+      const lastProduct = response.data.nextProduct;
+      setNextProductId(lastProduct + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // POST
   const sendNewProduct = async (addProduct: ProductProps) => {
     try {
@@ -67,6 +79,17 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const sendUpdateProduct = async (updateProduct: ProductProps) => {
     try {
       const response = await AxiosNode.post('/updateProduct', updateProduct);
+      console.log('Response from server: ', response.data);
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
+    }
+  };
+
+  // DELETE
+  const sendDeleteProduct = async (productId: number) => {
+    try {
+      const response = await AxiosNode.delete(`/deleteProduct/${productId}`);
       console.log('Response from server: ', response.data);
     } catch (error) {
       console.error('Context (Error): ', error);
@@ -103,18 +126,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     console.log('Length:', products.length);
   }, [products]);
 
-  const getNextProductId = async () => {
-    try {
-      const response = await AxiosNode.get('/getLastProduct');
-      const lastProduct = response.data.nextProduct;
-      setNextProductId(lastProduct + 1);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, sendUpdateProduct, selectedProduct, setSelectedProduct }}>
+    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, sendUpdateProduct, sendDeleteProduct, selectedProduct, setSelectedProduct }}>
       {children}
     </ProductContext.Provider>
   );

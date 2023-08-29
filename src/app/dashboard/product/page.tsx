@@ -4,14 +4,13 @@ import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
 
 import { useProductContext } from '@/context/productContext';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 
 export const Product = () => {
   const router = useRouter();
-  const params = useParams();
-  const { selectedProduct } = useProductContext();
+  const { selectedProduct, setSelectedProduct, sendDeleteProduct } = useProductContext();
 
   const handleAdd = () => {
     router.push('/dashboard/product/register');
@@ -23,8 +22,18 @@ export const Product = () => {
     }
   }
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
+    if (selectedProduct && selectedProduct.id) {
+      const productId = parseInt(selectedProduct.id);
+      console.log(productId)
+      try {
+        await sendDeleteProduct(productId);
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
+    }
   }
+
   return (
     <main className="flex flex-col border border-border rounded-lg h-full">
       <header
