@@ -6,7 +6,7 @@ import { InputNumber, InputText } from "../../components/inputs";
 export const EditProduct = ({ params }: { params: { id: string } }) => {
 
   const { id } = params;
-  const { products, setSelectedProduct } = useProductContext();
+  const { products, setSelectedProduct, sendUpdateProduct } = useProductContext();
   const [product, setProduct] = useState<ProductProps | null>(null);
 
   const [error, setError] = useState(false);
@@ -27,7 +27,6 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
       setProduct(selected);
       setSelectedProduct(selected);
 
-      // Atualize os estados iniciais quando um produto for selecionado
       setID(selected.id || '');
       setProductCode(selected.codProduto || '');
       setDescription(selected.descricao || '');
@@ -40,8 +39,43 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
     }
   }, [products, id, setSelectedProduct]);
 
-  function handleSubmit() {
-    
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (
+      productCode === '' ||
+      description === '' ||
+      value === '' ||
+      unity === '' ||
+      ncmCode === '' ||
+      eanCode === '' ||
+      status === ''
+    ) {
+      console.log('ERROR')
+      setError(true);
+      return;
+    }
+
+    const updateProduct = {
+      id: ID,
+      codProduto: productCode,
+      descricao: description,
+      codEAN: eanCode,
+      ncm: ncmCode,
+      cfop: '',
+      unCom: unity,
+      vlrUnCom: value,
+      saldo: balance,
+      status: status
+    };
+
+    try {
+      await sendUpdateProduct(updateProduct)
+      console.log(updateProduct)
+    } catch (error) {
+      console.error('Context (Error): ', error);
+      throw error;
+    }
   }
 
   return (
@@ -51,7 +85,7 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
         <h1 className="font-medium">Editar Produto</h1>
       </header>
 
-      <form className="flex flex-col h-full justify-between p-4">
+      <form onSubmit={handleSubmit} className="flex flex-col h-full justify-between p-4">
         <div className="grid grid-cols-3 gap-8 h-full w-full">
           <InputText
             className={`px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed`}

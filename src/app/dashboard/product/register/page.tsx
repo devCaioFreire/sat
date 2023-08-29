@@ -34,7 +34,6 @@ export const RegisterProduct = () => {
       eanCode === '' ||
       status === ''
     ) {
-      console.log('ta com erro')
       setError(true);
       return;
     }
