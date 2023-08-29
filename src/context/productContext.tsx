@@ -108,10 +108,19 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
 
-        if (scrollTop + clientHeight >= scrollHeight * 1) {
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
+        if (isAtBottom) {
           fetchMoreProducts();
+          console.log('chamou');
         }
       };
+
+      //   if (scrollTop + clientHeight >= scrollHeight * 1) {
+      //     fetchMoreProducts();
+      //     console.log('chamou')
+      //   }
+      // };
 
       table.addEventListener('scroll', handleScroll);
 
@@ -119,12 +128,12 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         table.removeEventListener('scroll', handleScroll);
       };
     }
-  }, []);
+  }, [fetchMoreProducts]);
 
-  useEffect(() => {
-    // Após cada atualização do estado de produtos, exiba o comprimento da lista
-    console.log('Length:', products.length);
-  }, [products]);
+  // useEffect(() => {
+  //   // Após cada atualização do estado de produtos, exiba o comprimento da lista
+  //   console.log('Length:', products.length);
+  // }, [products]);
 
   return (
     <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, sendUpdateProduct, sendDeleteProduct, selectedProduct, setSelectedProduct }}>

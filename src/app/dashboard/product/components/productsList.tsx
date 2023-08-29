@@ -7,7 +7,7 @@ export const ProductList = () => {
   const { products, selectedProduct, setSelectedProduct } = useProductContext();
 
   return (
-    <table id="table" className="flex relative flex-col h-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
+    <table id="table" className="flex relative flex-col h-full w-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
       <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
         <tr className="flex text-left">
           <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
