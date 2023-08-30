@@ -3,6 +3,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
 
+import { Filter } from '@/components/ui/filter';
 import { useProductContext } from '@/context/productContext';
 import { useRouter } from 'next/navigation';
 import { IconButton } from './components/inputButton';
@@ -11,6 +12,10 @@ import { ProductList } from './components/productsList';
 export const Product = () => {
   const router = useRouter();
   const { selectedProduct, sendDeleteProduct } = useProductContext();
+
+  const handleFilter = () => {
+
+  }
 
   const handleAdd = () => {
     router.push('/dashboard/product/register');
@@ -41,6 +46,9 @@ export const Product = () => {
         <h1 className="font-medium">Produtos</h1>
 
         <div className='flex gap-4'>
+          <IconButton onClick={handleFilter} title="Adicionar Produto">
+            <Filter />
+          </IconButton>
           <IconButton onClick={handleAdd} title="Adicionar Produto">
             <IoAdd className="w-8 h-8  text-green-500" />
           </IconButton>
