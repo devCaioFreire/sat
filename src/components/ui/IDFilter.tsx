@@ -17,12 +17,12 @@ interface FilterModalProps {
   children?: ReactNode;
 }
 
-export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClick, children }) => {
+export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClick, onClose, children }) => {
   const [modalOpen, setModalOpen] = useState(isOpen || false);
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={open => setModalOpen(open)}>
+      <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
@@ -36,7 +36,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClick, child
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={() => setModalOpen(false)}>Buscar</Button>
+            <Button type="submit" onClick={onClose}>Buscar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

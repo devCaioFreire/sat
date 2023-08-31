@@ -9,33 +9,25 @@ import {
 import React, { useState } from "react";
 import { BsFilterCircleFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
-import { FilterModal } from './filterModal';
+import { IDFilter } from "./IDFilter";
 
 export const Filter: React.FC = () => {
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
 
   const openIdFilterModal = () => {
-    console.log("Abrindo o modal");
     setIsIdFilterOpen(true);
   };
 
-  const closeFilterModal = () => {
+  const closeIdFilterModal = () => {
     setIsIdFilterOpen(false);
   };
-
-  const handleIconClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    openIdFilterModal();
-  };
-
-  console.log("isIdFilterOpen:", isIdFilterOpen);
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="outline-none">
           <BsFilterCircleFill
-            className="mt-1 w-6 h-6  text-zinc-100"
+            className="mt-1 w-6 h-6 text-zinc-100"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -44,18 +36,14 @@ export const Filter: React.FC = () => {
             Filtros
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <FilterModal
-            isOpen={isIdFilterOpen}
-            onClose={closeFilterModal}
-          >
-            <DropdownMenuItem onClick={openIdFilterModal}>ID</DropdownMenuItem>
-          </FilterModal>
+          <DropdownMenuItem onClick={openIdFilterModal}>ID</DropdownMenuItem>
           <DropdownMenuItem>EAN</DropdownMenuItem>
           <DropdownMenuItem>Com Saldo</DropdownMenuItem>
           <DropdownMenuItem>Sem Saldo</DropdownMenuItem>
           <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <IDFilter isOpen={isIdFilterOpen} onClose={closeIdFilterModal} />
     </>
   );
 };
