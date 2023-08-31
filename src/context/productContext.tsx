@@ -13,29 +13,35 @@ export interface ProductProps {
   codEAN?: string;
 }
 
+export type FilterType = '' | 'id' | 'codEAN';
+
 // Defina a estrutura do contexto
 interface ProductContextType {
   products: ProductProps[];
   getNextProductId: () => void;
+  getProductByID: (id: string) => void;
+  getProductByEAN: (codEAN: string) => void;
   nextProductId: number | undefined;
   sendNewProduct: (addProduct: ProductProps) => void;
   sendUpdateProduct: (updateroduct: ProductProps) => void;
   sendDeleteProduct: (productID: number) => void;
   selectedProduct: ProductProps | null;
   setSelectedProduct: (product: ProductProps | null) => void;
+  filter: string | null;
+  setFilter: (filter: string | null) => void;
+  getProductByFilter: (filterValue: string, filterType: FilterType) => void;
 }
 
 const PRODUCTS_PER_PAGE = 20; // Alterado para 20 produtos por página
 
-// Crie o contexto
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-// Componente do provedor de contexto
 export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<ProductProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [nextProductId, setNextProductId] = useState<number | undefined>(undefined);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
+  const [filter, setFilter] = useState<string | null>(null);
 
   // GET
   const fetchMoreProducts = async () => {
@@ -61,6 +67,53 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setNextProductId(lastProduct + 1);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  // GET
+  const getProductByID = async (id: string) => {
+    try {
+      const response = await AxiosNode.get(`/getIDProductFilter/${id}`);
+      const product = response.data;
+      setSelectedProduct(product);
+      setFilter(id); // Defina o filtro como o ID solicitado
+    } catch (err) {
+      console.error('Error fetching product by ID:', err);
+    }
+  };
+
+  // GET
+  const getProductByEAN = async (codEAN: string) => {
+    try {
+      const response = await AxiosNode.get(`/getEANProductFilter/${codEAN}`);
+      const product = response.data;
+      setSelectedProduct(product);
+      setFilter(codEAN);
+    } catch (err) {
+      console.error('Error fetching product by ID:', err);
+    }
+  };
+
+  //GET
+  const getProductByFilter = async (filterValue: string, filterType: FilterType) => {
+    try {
+      let response;
+  
+      if (filterType === 'id') {
+        response = await AxiosNode.get(`/getIDProductFilter/${filterValue}`);
+      } else if (filterType === 'codEAN') {
+        response = await AxiosNode.get(`/getEANProductFilter/${filterValue}`);
+      } else if (filterType === '') {
+        // Lide com o caso em que nenhum filtro é aplicado
+        response = await AxiosNode.get(`/getAllProducts`);
+      }
+  
+      const product = response!.data;
+      console.log(`Product by ${filterType}:`, product);
+      setSelectedProduct(product);
+      setFilter(filterValue);
+    } catch (err) {
+      console.error(`Error fetching product by ${filterType}:`, err);
     }
   };
 
@@ -97,6 +150,11 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const applyFilter = (filterValue: string | null) => {
+    setFilter(filterValue);
+    fetchMoreProducts(); // Recarregue os produtos após aplicar o filtro
+  };
+
   useEffect(() => {
     fetchMoreProducts()
   }, [])
@@ -112,15 +170,9 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
         if (isAtBottom) {
           fetchMoreProducts();
-          console.log('chamou');
         }
       };
 
-      //   if (scrollTop + clientHeight >= scrollHeight * 1) {
-      //     fetchMoreProducts();
-      //     console.log('chamou')
-      //   }
-      // };
 
       table.addEventListener('scroll', handleScroll);
 
@@ -130,13 +182,23 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [fetchMoreProducts]);
 
-  // useEffect(() => {
-  //   // Após cada atualização do estado de produtos, exiba o comprimento da lista
-  //   console.log('Length:', products.length);
-  // }, [products]);
-
   return (
-    <ProductContext.Provider value={{ products, getNextProductId, nextProductId, sendNewProduct, sendUpdateProduct, sendDeleteProduct, selectedProduct, setSelectedProduct }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        getNextProductId,
+        nextProductId,
+        getProductByID,
+        getProductByEAN,
+        sendNewProduct,
+        sendUpdateProduct,
+        sendDeleteProduct,
+        selectedProduct,
+        setSelectedProduct,
+        filter,
+        setFilter,
+        getProductByFilter
+      }}>
       {children}
     </ProductContext.Provider>
   );

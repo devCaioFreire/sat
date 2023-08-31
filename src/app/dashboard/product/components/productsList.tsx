@@ -1,13 +1,32 @@
 'use client'
-import { useProductContext } from "@/context/productContext";
+import { FilterType, useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
+import { useState } from "react";
 
 export const ProductList = () => {
+  const { products, selectedProduct, setSelectedProduct, filter, setFilter } = useProductContext();
 
-  const { products, selectedProduct, setSelectedProduct } = useProductContext();
+  const [filterType, setFilterType] = useState<FilterType>('');
+
+  // const filteredProducts = filter ? products.filter(product => product.codEAN === filter) : products;
+
+  let filteredProducts = products;
+
+  if (filter && filterType === 'id') {
+    filteredProducts = products.filter((product) => {
+      return product.id === filter;
+    });
+  } else if (filter && filterType === 'codEAN') {
+    filteredProducts = products.filter((product) => {
+      return product.codEAN === filter;
+    });
+  }
 
   return (
-    <table id="table" className="flex relative flex-col h-full w-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent">
+    <table
+      id="table"
+      className="flex relative flex-col h-full w-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent"
+    >
       <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
         <tr className="flex text-left">
           <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
@@ -20,7 +39,7 @@ export const ProductList = () => {
         </tr>
       </thead>
       <tbody>
-        {products.map((item, index) => (
+        {filteredProducts.map((item, index) => (
           <tr
             key={index}
             className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}
@@ -30,13 +49,16 @@ export const ProductList = () => {
             <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
             <td className="px-4 w-[50%] overflow-hidden">{item.descricao}</td>
-            <td className="px-4 w-[10%] overflow-hidden">R$ {formatCurrency(item.vlrUnCom)}</td>
+            <td className="px-4 w-[10%] overflow-hidden">
+              R$ {formatCurrency(item.vlrUnCom)}
+            </td>
             <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
+            <td className="px-4 w-[10%] overflow-hidden">{item.codEAN}</td> {/* Adicione esta coluna */}
             <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>
           </tr>
         ))}
       </tbody>
     </table>
-  )
-}
+  );
+};

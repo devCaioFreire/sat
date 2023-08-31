@@ -7,6 +7,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useProductContext } from "@/context/productContext";
 import React, { ReactNode, useState } from "react";
 import { Button } from "../button";
 
@@ -17,7 +18,15 @@ interface FilterModalProps {
 }
 
 export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
+  const { getProductByFilter } = useProductContext();
   const [ID, setID] = useState("");
+
+  async function handleSearchID(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    await getProductByFilter(ID, 'id');
+    setID("");
+    onClose?.();
+  }
 
   return (
     <>
@@ -29,21 +38,23 @@ export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children
           <DialogHeader>
             <DialogTitle># ID</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input
-                id="id"
-                value={ID}
-                onChange={(e) => setID(e.target.value)}
-                placeholder="Digite o ID"
-                className="col-span-full"
-                autoComplete="off" 
+          <form onSubmit={handleSearchID}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 mb-12 gap-4">
+                <Input
+                  id="id"
+                  value={ID}
+                  onChange={(e) => setID(e.target.value)}
+                  placeholder="Digite o ID"
+                  className="col-span-full"
+                  autoComplete="off"
                 />
+              </div>
+              <DialogFooter className="absolute right-5 bottom-5">
+                <Button type="submit">Buscar</Button>
+              </DialogFooter>
             </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit" onClick={onClose}>Buscar</Button>
-          </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </>

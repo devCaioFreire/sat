@@ -6,6 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { FilterType, useProductContext } from "@/context/productContext";
 import React, { useState } from "react";
 import { BsFilterCircleFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
@@ -13,22 +14,28 @@ import { EANFilter } from "./filterTypes/EANFilter";
 import { IDFilter } from "./filterTypes/IDFilter";
 
 export const Filter: React.FC = () => {
+  const { setFilter } = useProductContext();
+
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
   const [isEANFilterOpen, setIsEANFilterOpen] = useState(false);
+  const [filterType, setFilterType] = useState<FilterType>('id');
 
 
   const openIDFilterModal = () => {
     setIsIdFilterOpen(true);
+    setFilterType('id');
   };
 
   const openEANFilterModal = () => {
     setIsEANFilterOpen(true);
+    setFilterType('codEAN');
   };
 
   const closeFilterModal = () => {
     setIsIdFilterOpen(false);
     setIsEANFilterOpen(false);
   };
+
 
   return (
     <>
@@ -49,6 +56,7 @@ export const Filter: React.FC = () => {
           <DropdownMenuItem>Com Saldo</DropdownMenuItem>
           <DropdownMenuItem>Sem Saldo</DropdownMenuItem>
           <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setFilter(null)}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <IDFilter isOpen={isIdFilterOpen} onClose={closeFilterModal} />
