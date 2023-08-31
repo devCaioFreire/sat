@@ -8,17 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import React, { ReactNode, useState } from "react";
-import { Button } from "./button";
+import { Button } from "../button";
 
 interface FilterModalProps {
   isOpen?: boolean;
   onClose?: () => void;
-  onClick?: () => void;
   children?: ReactNode;
 }
 
-export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClick, onClose, children }) => {
-  const [modalOpen, setModalOpen] = useState(isOpen || false);
+export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
+  const [ID, setID] = useState("");
 
   return (
     <>
@@ -32,7 +31,14 @@ export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClick, onClose,
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Input id="id" value="" readOnly placeholder="Digite o ID" className="col-span-full" />
+              <Input
+                id="id"
+                value={ID}
+                onChange={(e) => setID(e.target.value)}
+                placeholder="Digite o ID"
+                className="col-span-full"
+                autoComplete="off" 
+                />
             </div>
           </div>
           <DialogFooter>
