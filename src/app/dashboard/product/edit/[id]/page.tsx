@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { InputNumber, InputText } from "../../components/inputs";
 
 export const EditProduct = ({ params }: { params: { id: string } }) => {
-
   const { id } = params;
-  const { products, setSelectedProduct, sendUpdateProduct } = useProductContext();
+  console.log("ID do Produto:", id);
+
+  const { products, selectedProduct, setSelectedProduct, sendUpdateProduct, filteredProducts, getProductByFilter } = useProductContext();
+  console.log("Products:", products);
   const [product, setProduct] = useState<ProductProps | null>(null);
 
   const [error, setError] = useState(false);
@@ -21,23 +23,24 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    const selected = products.find((product) => product.id === id);
+    getProductByFilter(id, "id");
+  }, [id, getProductByFilter]);
 
-    if (selected) {
-      setProduct(selected);
-      setSelectedProduct(selected);
-
-      setID(selected.id || '');
-      setProductCode(selected.codProduto || '');
-      setDescription(selected.descricao || '');
-      setValue(selected.vlrUnCom || '');
-      setUnity(selected.unCom || '');
-      setBalance(selected.saldo || '');
-      setNcmCode(selected.ncm || '');
-      setEanCode(selected.codEAN || '');
-      setStatus(selected.status || '');
+  useEffect(() => {
+    // Quando selectedProduct for atualizado com o produto encontrado, faça o restante da lógica
+    if (selectedProduct) {
+      console.log("Produto Selecionado:", selectedProduct);
+      setID(selectedProduct.id || "");
+      setProductCode(selectedProduct.codProduto || "");
+      setDescription(selectedProduct.descricao || "");
+      setValue(selectedProduct.vlrUnCom || "");
+      setUnity(selectedProduct.unCom || "");
+      setBalance(selectedProduct.saldo || "");
+      setNcmCode(selectedProduct.ncm || "");
+      setEanCode(selectedProduct.codEAN || "");
+      setStatus(selectedProduct.status || "");
     }
-  }, [products, id, setSelectedProduct]);
+  }, [selectedProduct]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

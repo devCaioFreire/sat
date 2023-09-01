@@ -14,11 +14,12 @@
 
 [] -> Criar filtro de Produtos;
    [] ->  Descrição;
-   [] ->  ID;
-   [] ->  EAN;
+   [X] ->  ID;
+   [X] ->  EAN;
    [] ->  Tem saldo;
    [] ->  Não tem saldo;
    [] ->  Ulitmos Lançamentos;
+   [X] ->  Limpar Filtro;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Desenvolver rotina de adição e subtração de saldo;
 [] -> Movimentação de estoque

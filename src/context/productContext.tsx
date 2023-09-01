@@ -1,5 +1,5 @@
 import { AxiosNode } from '@/services/axios';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 
 export interface ProductProps {
   id?: string;
@@ -13,7 +13,7 @@ export interface ProductProps {
   codEAN?: string;
 }
 
-export type FilterType = '' | 'id' | 'codEAN';
+export type FilterType = 'id' | 'codEAN';
 
 // Defina a estrutura do contexto
 interface ProductContextType {
@@ -29,7 +29,13 @@ interface ProductContextType {
   setSelectedProduct: (product: ProductProps | null) => void;
   filter: string | null;
   setFilter: (filter: string | null) => void;
+  filterType: FilterType;
+  setFilterType: (filterType: FilterType) => void;
   getProductByFilter: (filterValue: string, filterType: FilterType) => void;
+  filteredProducts: ProductProps[];
+  loadedProducts: ProductProps[];
+  setLoadedProducts: Dispatch<SetStateAction<ProductProps[]>>;
+  setFilteredProducts: Dispatch<SetStateAction<ProductProps[]>>;
 }
 
 const PRODUCTS_PER_PAGE = 20; // Alterado para 20 produtos por página
@@ -42,6 +48,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [nextProductId, setNextProductId] = useState<number | undefined>(undefined);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
+  const [filterType, setFilterType] = useState<FilterType>('id');
+  const [rawProducts, setRawProducts] = useState<ProductProps[]>([])
+  const [loadedProducts, setLoadedProducts] = useState<ProductProps[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
 
   // GET
   const fetchMoreProducts = async () => {
@@ -49,9 +59,16 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setIsLoading(true);
 
     try {
-      const response = await AxiosNode.get(`/getAllProducts?offset=${products.length}&limit=${PRODUCTS_PER_PAGE}`);
+      const response = await AxiosNode.get(
+        `/getAllProducts?offset=${loadedProducts.length}&limit=${PRODUCTS_PER_PAGE}`
+      );
       const newProducts = response.data;
+
+      setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
+
       setProducts(prevProducts => [...prevProducts, ...newProducts]);
+
+      setRawProducts(prevRawProducts => [...prevRawProducts, ...newProducts]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -76,7 +93,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const response = await AxiosNode.get(`/getIDProductFilter/${id}`);
       const product = response.data;
       setSelectedProduct(product);
-      setFilter(id); // Defina o filtro como o ID solicitado
+      setFilter(id);
     } catch (err) {
       console.error('Error fetching product by ID:', err);
     }
@@ -90,28 +107,61 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setSelectedProduct(product);
       setFilter(codEAN);
     } catch (err) {
-      console.error('Error fetching product by ID:', err);
+      console.error('Error fetching product by EAN:', err);
     }
   };
 
-  //GET
+  // GET
   const getProductByFilter = async (filterValue: string, filterType: FilterType) => {
     try {
-      let response;
-  
-      if (filterType === 'id') {
-        response = await AxiosNode.get(`/getIDProductFilter/${filterValue}`);
-      } else if (filterType === 'codEAN') {
-        response = await AxiosNode.get(`/getEANProductFilter/${filterValue}`);
-      } else if (filterType === '') {
-        // Lide com o caso em que nenhum filtro é aplicado
-        response = await AxiosNode.get(`/getAllProducts`);
+      const existingProduct = rawProducts.find((product) => {
+        if (filterType === 'id') {
+          return product.id === filterValue;
+        } else if (filterType === 'codEAN') {
+          return product.codEAN === filterValue;
+        }
+        return false;
+      });
+
+      if (existingProduct) {
+        setSelectedProduct(existingProduct);
+        setFilter(filterValue);
+      } else {
+        // Verifique se o produto já está na lista de rawProducts
+        const isProductAlreadyLoaded = rawProducts.some((product) => {
+          if (filterType === 'id') {
+            return product.id === filterValue;
+          } else if (filterType === 'codEAN') {
+            return product.codEAN === filterValue;
+          }
+          return false;
+        });
+
+        if (isProductAlreadyLoaded) {
+          const productToAdd = rawProducts.find((product) => {
+            if (filterType === 'id') {
+              return product.id === filterValue;
+            } else if (filterType === 'codEAN') {
+              return product.codEAN === filterValue;
+            }
+            return false;
+          });
+
+          if (productToAdd) {
+            setLoadedProducts((prevLoadedProducts) => [...prevLoadedProducts, productToAdd]);
+            setFilteredProducts((prevFilteredProducts) => [...prevFilteredProducts, productToAdd]);
+            setSelectedProduct(productToAdd);
+            setFilter(filterValue);
+          }
+        } else {
+          const response = await AxiosNode.get(`/get${filterType === 'id' ? 'ID' : 'EAN'}ProductFilter/${filterValue}`);
+          const product = response.data;
+          setLoadedProducts((prevLoadedProducts) => [...prevLoadedProducts, product]);
+          setFilteredProducts((prevFilteredProducts) => [...prevFilteredProducts, product]);
+          setSelectedProduct(product);
+          setFilter(filterValue);
+        }
       }
-  
-      const product = response!.data;
-      console.log(`Product by ${filterType}:`, product);
-      setSelectedProduct(product);
-      setFilter(filterValue);
     } catch (err) {
       console.error(`Error fetching product by ${filterType}:`, err);
     }
@@ -150,11 +200,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  const applyFilter = (filterValue: string | null) => {
-    setFilter(filterValue);
-    fetchMoreProducts(); // Recarregue os produtos após aplicar o filtro
-  };
-
   useEffect(() => {
     fetchMoreProducts()
   }, [])
@@ -182,6 +227,28 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [fetchMoreProducts]);
 
+  const loadInitialData = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await AxiosNode.get(`/getAllProducts`);
+      const allProducts = response.data;
+
+      // Atualize a lista atual
+      setProducts(allProducts.slice(0, PRODUCTS_PER_PAGE));
+
+      setRawProducts(allProducts);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadInitialData();
+  }, []);
+
   return (
     <ProductContext.Provider
       value={{
@@ -197,7 +264,13 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setSelectedProduct,
         filter,
         setFilter,
-        getProductByFilter
+        filterType,
+        setFilterType,
+        getProductByFilter,
+        filteredProducts,
+        loadedProducts,
+        setLoadedProducts,
+        setFilteredProducts
       }}>
       {children}
     </ProductContext.Provider>

@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FilterType, useProductContext } from "@/context/productContext";
+import { useProductContext } from "@/context/productContext";
 import React, { useState } from "react";
 import { BsFilterCircleFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
@@ -14,12 +14,10 @@ import { EANFilter } from "./filterTypes/EANFilter";
 import { IDFilter } from "./filterTypes/IDFilter";
 
 export const Filter: React.FC = () => {
-  const { setFilter } = useProductContext();
+  const { setFilter, setFilterType } = useProductContext();
 
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
   const [isEANFilterOpen, setIsEANFilterOpen] = useState(false);
-  const [filterType, setFilterType] = useState<FilterType>('id');
-
 
   const openIDFilterModal = () => {
     setIsIdFilterOpen(true);
@@ -35,7 +33,6 @@ export const Filter: React.FC = () => {
     setIsIdFilterOpen(false);
     setIsEANFilterOpen(false);
   };
-
 
   return (
     <>

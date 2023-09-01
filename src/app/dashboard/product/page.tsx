@@ -5,13 +5,14 @@ import { IoAdd } from 'react-icons/io5';
 
 import { Filter } from '@/components/ui/filter';
 import { useProductContext } from '@/context/productContext';
+import { AxiosNode } from '@/services/axios';
 import { useRouter } from 'next/navigation';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 
 export const Product = () => {
   const router = useRouter();
-  const { selectedProduct, sendDeleteProduct } = useProductContext();
+  const { selectedProduct, sendDeleteProduct, loadedProducts, setLoadedProducts, setFilteredProducts } = useProductContext();
 
   const handleFilter = () => {
 
@@ -21,9 +22,24 @@ export const Product = () => {
     router.push('/dashboard/product/register');
   }
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (selectedProduct) {
-      router.push(`/dashboard/product/edit/${selectedProduct.id}`);
+      if (!loadedProducts.some((product) => product.id === selectedProduct.id)) {
+        // O produto não está em loadedProducts, faça uma chamada à API para buscá-lo
+        try {
+          const response = await AxiosNode.get(`/getIDProductFilter/${selectedProduct.id}`);
+          const productData = response.data;
+
+          setLoadedProducts((prevLoadedProducts) => [...prevLoadedProducts, productData]);
+          setFilteredProducts((prevFilteredProducts) => [...prevFilteredProducts, productData]);
+
+          router.push(`/dashboard/product/edit/${selectedProduct.id}`);
+        } catch (error) {
+          console.error('Error fetching product for editing:', error);
+        }
+      } else {
+        router.push(`/dashboard/product/edit/${selectedProduct.id}`);
+      }
     }
   }
 

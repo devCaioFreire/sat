@@ -1,25 +1,26 @@
 'use client'
-import { FilterType, useProductContext } from "@/context/productContext";
+import { useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
-import { useState } from "react";
 
 export const ProductList = () => {
-  const { products, selectedProduct, setSelectedProduct, filter, setFilter } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, getProductByFilter } = useProductContext();
 
-  const [filterType, setFilterType] = useState<FilterType>('');
+  const filteredProducts = loadedProducts.filter((product) => {
+    if (!filter || !filterType) {
+      return true;
+    }
 
-  // const filteredProducts = filter ? products.filter(product => product.codEAN === filter) : products;
-
-  let filteredProducts = products;
-
-  if (filter && filterType === 'id') {
-    filteredProducts = products.filter((product) => {
+    if (filterType === "id") {
       return product.id === filter;
-    });
-  } else if (filter && filterType === 'codEAN') {
-    filteredProducts = products.filter((product) => {
+    } else if (filterType === "codEAN") {
       return product.codEAN === filter;
-    });
+    }
+
+    return true;
+  });
+
+  if (filter && filterType && selectedProduct && selectedProduct[filterType] !== filter) {
+    getProductByFilter(filter, filterType);
   }
 
   return (

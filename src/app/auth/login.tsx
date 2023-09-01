@@ -61,6 +61,7 @@ export default function Login() {
               >
                 {error ? 'Credenciais inválidas' : 'Acessar'}
               </button>
+              <a href="/crianca">as</a>
             </div>
           </form>
         </div>
