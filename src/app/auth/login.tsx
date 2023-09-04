@@ -21,8 +21,8 @@ export default function Login() {
     }
 
     try {
-      await login(trimmedEmail, trimmedPassword);
       setError(false);
+      await login(trimmedEmail, trimmedPassword);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +61,6 @@ export default function Login() {
               >
                 {error ? 'Credenciais inválidas' : 'Acessar'}
               </button>
-              <a href="/crianca">as</a>
             </div>
           </form>
         </div>
