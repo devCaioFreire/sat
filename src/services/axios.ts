@@ -14,6 +14,7 @@ export const AxiosProduct = axios.create({
 
 export const AxiosNode = axios.create({
   baseURL: 'http://localhost:3333',
+  // baseURL: 'http://192.168.0.183:3333',
   headers: {
     'Content-Type': 'application/json',
   }

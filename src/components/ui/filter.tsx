@@ -10,29 +10,41 @@ import { useProductContext } from "@/context/productContext";
 import React, { useState } from "react";
 import { BsFilterCircleFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
+import { DescriptionFilter } from "./filterTypes/DescriptionFilter";
 import { EANFilter } from "./filterTypes/EANFilter";
 import { IDFilter } from "./filterTypes/IDFilter";
 
 export const Filter: React.FC = () => {
-  const { setFilter, setFilterType } = useProductContext();
+  const { setFilter, setFilterType, clearFilter, getProductByFilter } = useProductContext();
 
+  const [isDescriptionFilterOpen, setIsDescriptionFilterOpen] = useState(false);
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
   const [isEANFilterOpen, setIsEANFilterOpen] = useState(false);
 
+  const openDescriptionFilterModal = () => {
+    setIsDescriptionFilterOpen(true);
+    // setFilterType('id');
+  };
+
   const openIDFilterModal = () => {
     setIsIdFilterOpen(true);
-    setFilterType('id');
+    // setFilterType('id');
   };
 
   const openEANFilterModal = () => {
     setIsEANFilterOpen(true);
-    setFilterType('codEAN');
+    // setFilterType('codEAN');
   };
 
   const closeFilterModal = () => {
+    setIsDescriptionFilterOpen(false);
     setIsIdFilterOpen(false);
     setIsEANFilterOpen(false);
   };
+
+  const balance = () => {
+    getProductByFilter('1', 'saldo') // 1 ou qualquer número maior que 0
+  }
 
   return (
     <>
@@ -48,14 +60,16 @@ export const Filter: React.FC = () => {
             Filtros
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={openDescriptionFilterModal}>Descrição</DropdownMenuItem>
           <DropdownMenuItem onClick={openIDFilterModal}>ID</DropdownMenuItem>
           <DropdownMenuItem onClick={openEANFilterModal}>EAN</DropdownMenuItem>
-          <DropdownMenuItem>Com Saldo</DropdownMenuItem>
-          <DropdownMenuItem>Sem Saldo</DropdownMenuItem>
+          <DropdownMenuItem onClick={balance}>Com Saldo</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => getProductByFilter('0', 'saldo')}>Sem Saldo</DropdownMenuItem>
           <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setFilter(null)}>Limpar Filtro</DropdownMenuItem>
+          <DropdownMenuItem onClick={clearFilter}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <DescriptionFilter isOpen={isDescriptionFilterOpen} onClose={closeFilterModal} />
       <IDFilter isOpen={isIdFilterOpen} onClose={closeFilterModal} />
       <EANFilter isOpen={isEANFilterOpen} onClose={closeFilterModal} />
     </>

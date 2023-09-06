@@ -10,18 +10,21 @@ export const ProductList = () => {
       return true;
     }
 
-    if (filterType === "id") {
-      return product.id === filter;
-    } else if (filterType === "codEAN") {
-      return product.codEAN === filter;
+    switch (filterType) {
+      case "id":
+        return product.id === filter;
+      case "codEAN":
+        return product.codEAN === filter;
+      case "descricao":
+        return product.descricao.includes(filter);
+      case "saldo":
+        return product.saldo !== "0";
+      case "withoutSaldo":
+        return product.saldo === "0";
+      default:
+        return true;
     }
-
-    return true;
   });
-
-  if (filter && filterType && selectedProduct && selectedProduct[filterType] !== filter) {
-    getProductByFilter(filter, filterType);
-  }
 
   return (
     <table
@@ -55,7 +58,6 @@ export const ProductList = () => {
             </td>
             <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
             <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.codEAN}</td> {/* Adicione esta coluna */}
             <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>
           </tr>
         ))}
