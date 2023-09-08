@@ -176,33 +176,27 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   useEffect(() => {
-    fetchMoreProducts()
-  }, [])
+    fetchMoreProducts();
+  }, [currentPage, filterArray]);
 
   // Use useEffect para buscar os produtos quando o componente for montado e adicionar o ouvinte de evento de rolagem
   useEffect(() => {
     const table = document.getElementById('table');
     if (table) {
-
-      console.log(currentPage);
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
-
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-        if (isAtBottom) {
+        if (isAtBottom && !isLoading) {
           setCurrentPage(prevPage => prevPage + 1);
-          fetchMoreProducts()
         }
       };
-
       table.addEventListener('scroll', handleScroll);
-
       return () => {
         table.removeEventListener('scroll', handleScroll);
       };
     }
-  }, [fetchMoreProducts]);
+  }, [isLoading]);
+
 
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
@@ -232,8 +226,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   useEffect(() => {
     const newFilterArray: FilterType[] = [];
 
-
-    for (const filter of newFilterArray) {
+    for (const filter of filterType) {
       if (filter.field === 'withSaldo') {
         newFilterArray.push({ field: filter.field, value: "1" });
       } else if (filter.field === 'withoutSaldo') {
@@ -242,6 +235,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         newFilterArray.push({ field: filter.field, value: filter.value });
       }
     }
+
     setFilterArray(newFilterArray);
   }, [filterType]);
 
