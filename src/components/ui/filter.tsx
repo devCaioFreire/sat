@@ -43,7 +43,7 @@ export const Filter: React.FC = () => {
   };
 
   const balance = () => {
-    getProductByFilter('1', 'saldo') // 1 ou qualquer número maior que 0
+    getProductByFilter({field:'saldo', value:1})
   }
 
   return (
@@ -64,7 +64,7 @@ export const Filter: React.FC = () => {
           <DropdownMenuItem onClick={openIDFilterModal}>ID</DropdownMenuItem>
           <DropdownMenuItem onClick={openEANFilterModal}>EAN</DropdownMenuItem>
           <DropdownMenuItem onClick={balance}>Com Saldo</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => getProductByFilter('0', 'saldo')}>Sem Saldo</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => getProductByFilter({field:'saldo', value:0})}>Sem Saldo</DropdownMenuItem>
           <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
           <DropdownMenuItem onClick={clearFilter}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>

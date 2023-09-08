@@ -16,8 +16,12 @@ export interface ProductProps {
   codEAN?: string;
 }
 
-export type FilterType = 'id' | 'codEAN' | 'descricao' | 'saldo' | 'withSaldo' | 'withoutSaldo';
+// export type FilterType = 'id' | 'codEAN' | 'descricao' | 'saldo' | 'withSaldo' | 'withoutSaldo';
 
+interface FilterType {
+  field: string;
+  value: string | number | boolean;
+}
 interface ProductContextType {
   products: ProductProps[];
   getNextProductId: () => void;
@@ -31,9 +35,9 @@ interface ProductContextType {
   setSelectedProduct: (product: ProductProps | null) => void;
   filter: string | null;
   setFilter: (filter: string | null) => void;
-  filterType: FilterType;
-  setFilterType: (filterType: FilterType) => void;
-  getProductByFilter: (filterValue: string, filterType: FilterType) => void;
+  filterType: FilterType[];
+  setFilterType: (filterType: FilterType[]) => void;
+  getProductByFilter: (filterType: FilterType) => void;
   filteredProducts: ProductProps[];
   loadedProducts: ProductProps[];
   setLoadedProducts: Dispatch<SetStateAction<ProductProps[]>>;
@@ -41,8 +45,7 @@ interface ProductContextType {
   clearFilter: () => void;
 }
 
-const PAGE = 0;
-const PRODUCTS_PER_PAGE = 20;  // Alterado para 20 produtos por página
+const PRODUCTS_PER_PAGE = 20;
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -52,30 +55,23 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [nextProductId, setNextProductId] = useState<number | undefined>(undefined);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
-  const [filterType, setFilterType] = useState<FilterType>('id');
+  const [filterType, setFilterType] = useState<FilterType[]>([]);
   const [rawProducts, setRawProducts] = useState<ProductProps[]>([])
   const [loadedProducts, setLoadedProducts] = useState<ProductProps[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [filterArray, setFilterArray] = useState<any[]>([]);
 
   // GET
   const fetchMoreProducts = async () => {
     if (isLoading) return;
     setIsLoading(true);
-
     try {
       const response = await AxiosNode.get(
-        // `/getAllProducts?offset=${loadedProducts.length}&limit=${PRODUCTS_PER_PAGE}`
-        `/getProducts/?page=${currentPage}`
-
+        `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
-
       setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
-
-      // setProducts(prevProducts => [...prevProducts, ...newProducts]);
-
-      // setRawProducts(prevRawProducts => [...prevRawProducts, ...newProducts]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -118,85 +114,29 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  // GET
-  // const getProductByFilter = async (filterValue: string, filterType: FilterType) => {
-  //   try {
-  //     let filterArray = [];
+  const getProductByFilter = async (filterType: FilterType) => {
+    setCurrentPage(0);
 
-  //     const filterMap: Record<FilterType, string | undefined> = {
-  //       id: 'id',
-  //       codEAN: 'codEAN',
-  //       descricao: 'descricao',
-  //       saldo: 'saldo',
-  //       // ordemDecrescente: undefined
-  //     };
-
-  //     if (filterType in filterMap) {
-  //       filterArray.push({ field: filterMap[filterType], value: filterType === 'saldo' ? "0" : filterValue });
-  //     }
-
-  //     const orderBy = filterType  && 'id';
-
-  //     // Função para verificar e encontrar produto na lista rawProducts
-  //     const findProduct = (type: FilterType, value: string) => {
-  //       return rawProducts.find((product) => product[filterMap[type] as keyof typeof product] === value);
-  //     };
-
-  //     const existingProduct = findProduct(filterType, filterValue);
-
-  //     if (existingProduct) {
-  //       setSelectedProduct(existingProduct);
-  //       setFilter(filterValue);
-  //       } else {
-  //         if (existingProduct) {
-  //           setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, existingProduct]);
-  //           setFilteredProducts(prevFilteredProducts => [...prevFilteredProducts, existingProduct]);
-  //           setSelectedProduct(existingProduct);
-  //           setFilter(filterValue);
-  //         } else {
-
-  //         }
-  //     }
-  //     const apiUrl = `/getProducts/?page=0&filter=${JSON.stringify(filterArray)}&orderBy=${orderBy}`;
-  //     const response = await AxiosNode.get(apiUrl);
-  //     const product = response.data;
-  //     console.log(product);
-  //     setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, product]);
-  //     setFilteredProducts(prevFilteredProducts => [...prevFilteredProducts, product]);
-  //     setSelectedProduct(product);
-  //     setFilter(filterValue);
-  //   } catch (err) {
-  //     console.error(`Error fetching product by ${filterType}:`, err);
-  //   }
-  // };
-
-  const getProductByFilter = async (filterValue: string, filterType: FilterType) => {
-    let filterArray = [];
-    const filterMap: Record<FilterType, string | undefined> = {
-      id: 'id',
-      codEAN: 'codEAN',
-      descricao: 'descricao',
-      withSaldo: 'saldo',
-      withoutSaldo: 'saldo',
-      saldo: 'saldo',
-      // ordemDecrescente: undefined
-    };
-
-    // if (filterType in filterMap) {
-    //   filterArray.push({ field: filterMap[filterType], value: filterType === 'saldo' ? 1 : 'withoutSaldo' });
-    // }
-
-    if (filterType in filterMap) {
-      if (filterType === 'withSaldo') {
-          filterArray.push({ field: filterMap[filterType], value: "1" });
-      } else if (filterType === 'withoutSaldo') {
-          filterArray.push({ field: filterMap[filterType], value: "0" });
-      } else {
-          filterArray.push({ field: filterMap[filterType], value: filterValue });
+    try {
+      const filterMap: FilterType[] = [];
+      if (filterType) {
+        filterMap.push(filterType);
       }
-  }
+      for (const filter of filterMap) {
+        if (filter.field === 'withSaldo') {
+          filterArray.push({ field: filter.field, value: "1" });
+        } else if (filter.field === 'withoutSaldo') {
+          filterArray.push({ field: filter.field, value: "0" });
+        } else {
+          filterArray.push({ field: filter.field, value: filter.value });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-    const apiUrl = `/getProducts/?page=0&filter=${JSON.stringify(filterArray)}&orderBy=id}`;
+    console.log('filter', currentPage);
+    const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id}`;
     const response = await AxiosNode.get(apiUrl);
     const product = response.data;
     setLoadedProducts(product);
@@ -243,6 +183,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   useEffect(() => {
     const table = document.getElementById('table');
     if (table) {
+
+      console.log(currentPage);
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
 
@@ -262,15 +204,15 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [fetchMoreProducts]);
 
-  const loadInitialData = async () => {
+  const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
 
+    // setCurrentPage(prevPage => prevPage + 1);
+
     try {
-      setCurrentPage(prevPage => prevPage + 1);
-      const response = await AxiosNode.get(`/getProducts/?page=${currentPage}`);
+      const response = await AxiosNode.get(`/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
       const allProducts = response.data;
 
-      // Atualize a lista atual
       setProducts(allProducts.slice(0, PRODUCTS_PER_PAGE));
 
       setRawProducts(allProducts);
@@ -287,9 +229,25 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setLoadedProducts(rawProducts);
   };
 
+  useEffect(() => {
+    const newFilterArray: FilterType[] = [];
+
+
+    for (const filter of newFilterArray) {
+      if (filter.field === 'withSaldo') {
+        newFilterArray.push({ field: filter.field, value: "1" });
+      } else if (filter.field === 'withoutSaldo') {
+        newFilterArray.push({ field: filter.field, value: "0" });
+      } else {
+        newFilterArray.push({ field: filter.field, value: filter.value });
+      }
+    }
+    setFilterArray(newFilterArray);
+  }, [filterType]);
+
 
   useEffect(() => {
-    loadInitialData();
+    loadInitialData(filterType);
   }, []);
 
   return (

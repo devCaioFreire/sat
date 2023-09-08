@@ -9,21 +9,23 @@ export const ProductList = () => {
     if (!filter || !filterType) {
       return true;
     }
-
-    switch (filterType) {
-      case "id":
-        return product.id === filter;
-      case "codEAN":
-        return product.codEAN === filter;
-      case "descricao":
-        return product.descricao.includes(filter);
-      case "saldo":
-        return product.saldo !== "0";
-      case "withoutSaldo":
-        return product.saldo === "0";
-      default:
-        return true;
-    }
+for(const filter of filterType){
+  switch (filter.field) {
+    case "id":
+      return product.id === filter.field;
+    case "codEAN":
+      return product.codEAN === filter.field;
+    case "descricao":
+      return product.descricao.includes(filter.field);
+    case "saldo":
+      return product.saldo !== "0";
+    case "withoutSaldo":
+      return product.saldo === "0";
+    default:
+      return true;
+  }
+}
+    
   });
 
   return (
