@@ -15,11 +15,11 @@
    [X] -> Rotina para remover produto;
 
 [] -> Criar filtro de Produtos;
-   [] ->  Descrição;
+   [X] ->  Descrição;
    [X] ->  ID;
    [X] ->  EAN;
-   [] ->  Tem saldo;
-   [] ->  Não tem saldo;
+   [X] ->  Tem saldo;
+   [X] ->  Não tem saldo;
    [] ->  Ulitmos Lançamentos;
    [X] ->  Limpar Filtro;
 ------------------------------------------------------------------------------------------------------------------------
