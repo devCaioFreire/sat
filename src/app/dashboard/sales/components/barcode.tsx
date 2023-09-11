@@ -1,40 +1,51 @@
 'use client';
 import { ProductContext } from "@/context/salesList";
 import { useContext, useState } from "react";
+import { BarcodeModal } from "./barcodeModal";
 
 export function Barcode() {
 
   const { getProductByEAN } = useContext(ProductContext);
+  const [isOpen, setIsOpen] = useState(true);
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
 
   async function barcodeID(e: any) {
     e.preventDefault();
 
-    if (code.trim() === '') {
-      setError(true);
-      return;
-    }
+    // EAN BARCODE
+    // if (code.trim() === '') {
+    //   setError(true);
+    //   return;
+    // }
 
-    const parts = code.split('*');
-    if (parts.length === 1) {
-      parts.unshift('1');
-    } else if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
-      setError(true);
-      return;
-    }
+    // const parts = code.split('*');
+    // if (parts.length === 1) {
+    //   parts.unshift('1');
+    // } else if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
+    //   setError(true);
+    //   return;
+    // }
 
-    const quantity = Number(parts[0]);
-    const id = Number(parts[1]);
+    // const quantity = Number(parts[0]);
+    // const id = Number(parts[1]);
 
-    try {
-      await getProductByEAN(id, quantity);
-      setError(false);
-    } catch (error) {
-      setError(true);
-    }
-    setCode('');
+    // try {
+    //   await getProductByEAN(id, quantity);
+    //   setError(false);
+    // } catch (error) {
+    //   setError(true);
+    // }
+    // setCode('');
+
+    openModal()
+
   }
+
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
   return (
     <div
@@ -56,6 +67,14 @@ export function Barcode() {
             className="w-full py-2 px-2 bg-transparent outline-none"
             type="text"
             id="barcode"
+            placeholder={'Digite a descrição do produto'}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+          />
+          {/* <input
+            className="w-full py-2 px-2 bg-transparent outline-none"
+            type="text"
+            id="barcode"
             placeholder={`${error ? 'Produto não encontrado...' : 'Quantidade * Produto'}`}
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -64,9 +83,10 @@ export function Barcode() {
                 event.preventDefault();
                 return;
               }
-            }} />
+            }} /> */}
         </form>
       </div>
+      <BarcodeModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   )
 }

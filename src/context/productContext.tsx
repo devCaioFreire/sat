@@ -89,6 +89,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const getProductByFilter = async (filterType: FilterType) => {
     setCurrentPage(0);
+    setFilterArray([])
 
     try {
       const filterMap: FilterType[] = [];
@@ -193,6 +194,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setFilteredProducts(rawProducts);
     setLoadedProducts(rawProducts);
     setFilterArray([])
+    // setCurrentPage(0)
   };
 
   useEffect(() => {
