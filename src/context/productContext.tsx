@@ -168,7 +168,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, [isLoading]);
-  
+
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
 
