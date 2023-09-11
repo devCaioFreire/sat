@@ -16,17 +16,14 @@ export interface ProductProps {
   codEAN?: string;
 }
 
-// export type FilterType = 'id' | 'codEAN' | 'descricao' | 'saldo' | 'withSaldo' | 'withoutSaldo';
-
 interface FilterType {
   field: string;
   value: string | number | boolean;
 }
+
 interface ProductContextType {
   products: ProductProps[];
   getNextProductId: () => void;
-  getProductByID: (id: string) => void;
-  getProductByEAN: (codEAN: string) => void;
   nextProductId: number | undefined;
   sendNewProduct: (addProduct: ProductProps) => void;
   sendUpdateProduct: (updateroduct: ProductProps) => void;
@@ -87,30 +84,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setNextProductId(lastProduct + 1);
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  // GET
-  const getProductByID = async (id: string) => {
-    try {
-      const response = await AxiosNode.get(`/getIDProductFilter/${id}`);
-      const product = response.data;
-      setSelectedProduct(product);
-      setFilter(id);
-    } catch (err) {
-      console.error('Error fetching product by ID:', err);
-    }
-  };
-
-  // GET
-  const getProductByEAN = async (codEAN: string) => {
-    try {
-      const response = await AxiosNode.get(`/getEANProductFilter/${codEAN}`);
-      const product = response.data;
-      setSelectedProduct(product);
-      setFilter(codEAN);
-    } catch (err) {
-      console.error('Error fetching product by EAN:', err);
     }
   };
 
@@ -179,7 +152,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     fetchMoreProducts();
   }, [currentPage, filterArray]);
 
-  // Use useEffect para buscar os produtos quando o componente for montado e adicionar o ouvinte de evento de rolagem
   useEffect(() => {
     const table = document.getElementById('table');
     if (table) {
@@ -224,23 +196,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   useEffect(() => {
-    const newFilterArray: FilterType[] = [];
-
-    for (const filter of filterType) {
-      if (filter.field === 'withSaldo') {
-        newFilterArray.push({ field: filter.field, value: "1" });
-      } else if (filter.field === 'withoutSaldo') {
-        newFilterArray.push({ field: filter.field, value: "0" });
-      } else {
-        newFilterArray.push({ field: filter.field, value: filter.value });
-      }
-    }
-
-    setFilterArray(newFilterArray);
-  }, [filterType]);
-
-
-  useEffect(() => {
     loadInitialData(filterType);
   }, []);
 
@@ -250,8 +205,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         products,
         getNextProductId,
         nextProductId,
-        getProductByID,
-        getProductByEAN,
         sendNewProduct,
         sendUpdateProduct,
         sendDeleteProduct,
