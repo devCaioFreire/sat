@@ -59,12 +59,44 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
 
+  //GET
+  const getProductByDescription = (description: string, quantity: number) => {
+    return AxiosNode.get<ProductProps>(`/`)
+      .then((response: AxiosResponse) => {
+        const productsArray = response.data.Produtos;
+
+        const product = productsArray[0];
+        const { id, eAN, descricao, vlrUnCom } = product;
+
+        if (!description) {
+          setError("Product not found");
+          throw new Error("Product not found");
+        }
+        
+        const data = {
+          id: id,
+          ean: eAN,
+          description: descricao,
+          quantity: quantity,
+          unityValue: vlrUnCom,
+          totalValue: vlrUnCom * quantity
+        };
+        setProduct((Products) => [...Products, data]);
+        setError(null);
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error fetching product:", error);
+        setError("Product not found");
+        throw error;
+      });
+  }
+
   // GET
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
     return AxiosProduct.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data.Produtos;
-        // console.log(productsArray);
 
         const product = productsArray[0];
         const { id, eAN, descricao, vlrUnCom } = product;
