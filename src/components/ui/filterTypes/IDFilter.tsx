@@ -23,7 +23,7 @@ export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children
 
   async function handleSearchID(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await getProductByFilter(ID, 'id');
+    await getProductByFilter({ field: 'id', value: ID })
     setID("");
     onClose?.();
   }

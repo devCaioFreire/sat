@@ -23,7 +23,7 @@ export const DescriptionFilter: React.FC<FilterModalProps> = ({ isOpen, onClose,
 
   async function handleSearchDescription(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await getProductByFilter(description, 'descricao');
+    await getProductByFilter({ field: 'descricao', value: description })
     setDescription("");
     onClose?.();
   }

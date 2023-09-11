@@ -23,17 +23,14 @@ export const Filter: React.FC = () => {
 
   const openDescriptionFilterModal = () => {
     setIsDescriptionFilterOpen(true);
-    // setFilterType('id');
   };
 
   const openIDFilterModal = () => {
     setIsIdFilterOpen(true);
-    // setFilterType('id');
   };
 
   const openEANFilterModal = () => {
     setIsEANFilterOpen(true);
-    // setFilterType('codEAN');
   };
 
   const closeFilterModal = () => {
@@ -43,7 +40,7 @@ export const Filter: React.FC = () => {
   };
 
   const balance = () => {
-    getProductByFilter({field:'saldo', value:1})
+    getProductByFilter({ field: 'saldo', value: 1 })
   }
 
   return (
@@ -64,7 +61,7 @@ export const Filter: React.FC = () => {
           <DropdownMenuItem onClick={openIDFilterModal}>ID</DropdownMenuItem>
           <DropdownMenuItem onClick={openEANFilterModal}>EAN</DropdownMenuItem>
           <DropdownMenuItem onClick={balance}>Com Saldo</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => getProductByFilter({field:'saldo', value:0})}>Sem Saldo</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => getProductByFilter({ field: 'saldo', value: 0 })}>Sem Saldo</DropdownMenuItem>
           <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
           <DropdownMenuItem onClick={clearFilter}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>

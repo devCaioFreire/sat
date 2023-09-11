@@ -136,7 +136,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
 
     console.log('filter', currentPage);
-    const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id}`;
+    const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`;
     const response = await AxiosNode.get(apiUrl);
     const product = response.data;
     setLoadedProducts(product);
@@ -196,8 +196,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, [isLoading]);
-
-
+  
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
 
@@ -221,6 +220,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setFilter(null);
     setFilteredProducts(rawProducts);
     setLoadedProducts(rawProducts);
+    setFilterArray([])
   };
 
   useEffect(() => {

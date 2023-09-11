@@ -24,7 +24,7 @@ export const EANFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, childre
 
   async function handleSearchEAN(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await getProductByFilter(ean, 'codEAN');
+    await getProductByFilter({ field: 'codEAN', value: ean })
     setEAN("");
     onClose?.();
   }
