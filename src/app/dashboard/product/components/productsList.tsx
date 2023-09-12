@@ -3,29 +3,28 @@ import { useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
 
 export const ProductList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, getProductByFilter } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts } = useProductContext();
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
       return true;
     }
-for(const filter of filterType){
-  switch (filter.field) {
-    case "id":
-      return product.id === filter.field;
-    case "codEAN":
-      return product.codEAN === filter.field;
-    case "descricao":
-      return product.descricao.includes(filter.field);
-    case "saldo":
-      return product.saldo !== "0";
-    case "withoutSaldo":
-      return product.saldo === "0";
-    default:
-      return true;
-  }
-}
-    
+    for (const filter of filterType) {
+      switch (filter.field) {
+        case "id":
+          return product.id === filter.field;
+        case "codEAN":
+          return product.codEAN === filter.field;
+        case "descricao":
+          return product.descricao.includes(filter.field);
+        case "saldo":
+          return product.saldo !== "0";
+        case "withoutSaldo":
+          return product.saldo === "0";
+        default:
+          return true;
+      }
+    }
   });
 
   return (

@@ -33,7 +33,7 @@ export function Footer() {
 
     getOrderID();
 
-    const interval = setInterval(getOrderID, 3000); // Verificar a cada 3 segundos, por exemplo
+    const interval = setInterval(getOrderID, 60000); // Verificar a cada 3 segundos, por exemplo
 
     return () => clearInterval(interval); // Limpar o intervalo quando o componente for desmontado
   }, [orderID]);

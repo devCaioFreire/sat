@@ -6,40 +6,36 @@ import { BarcodeModal } from "./barcodeModal";
 export function Barcode() {
 
   const { getProductByEAN } = useContext(ProductContext);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
 
   async function barcodeID(e: any) {
     e.preventDefault();
 
-    // EAN BARCODE
-    // if (code.trim() === '') {
-    //   setError(true);
-    //   return;
-    // }
+    if (code.trim() === '') {
+      openModal()
+      return;
+    }
 
-    // const parts = code.split('*');
-    // if (parts.length === 1) {
-    //   parts.unshift('1');
-    // } else if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
-    //   setError(true);
-    //   return;
-    // }
+    const parts = code.split('*');
+    if (parts.length === 1) {
+      parts.unshift('1');
+    } else if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
+      setError(true);
+      return;
+    }
 
-    // const quantity = Number(parts[0]);
-    // const id = Number(parts[1]);
+    const quantity = Number(parts[0]);
+    const id = Number(parts[1]);
 
-    // try {
-    //   await getProductByEAN(id, quantity);
-    //   setError(false);
-    // } catch (error) {
-    //   setError(true);
-    // }
-    // setCode('');
-
-    openModal()
-
+    try {
+      await getProductByEAN(id, quantity);
+      setError(false);
+    } catch (error) {
+      setError(true);
+    }
+    setCode('');
   }
 
 

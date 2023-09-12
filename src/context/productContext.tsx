@@ -89,31 +89,30 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const getProductByFilter = async (filterType: FilterType) => {
     setCurrentPage(0);
-    setFilterArray([])
+    const newFilterArray = [];
 
     try {
-      const filterMap: FilterType[] = [];
-      if (filterType) {
-        filterMap.push(filterType);
-      }
+      const filterMap: FilterType[] = [filterType];
+
       for (const filter of filterMap) {
         if (filter.field === 'withSaldo') {
-          filterArray.push({ field: filter.field, value: "1" });
+          newFilterArray.push({ field: filter.field, value: "1" });
         } else if (filter.field === 'withoutSaldo') {
-          filterArray.push({ field: filter.field, value: "0" });
+          newFilterArray.push({ field: filter.field, value: "0" });
         } else {
-          filterArray.push({ field: filter.field, value: filter.value });
+          newFilterArray.push(filter);
         }
       }
+
+      setFilterArray(newFilterArray); // Atualize o estado com a nova matriz de filtros
+      console.log('filter', currentPage);
+      const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id`;
+      const response = await AxiosNode.get(apiUrl);
+      const product = response.data;
+      setLoadedProducts(product);
     } catch (error) {
       console.log(error);
     }
-
-    console.log('filter', currentPage);
-    const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`;
-    const response = await AxiosNode.get(apiUrl);
-    const product = response.data;
-    setLoadedProducts(product);
   }
 
   // POST
