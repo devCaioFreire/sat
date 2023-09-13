@@ -126,9 +126,9 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       itens: product.map((item) => ({
         produto_id: item.id,
         ean: item.ean.toString(),
-        descricao: item.description,
+        descricao: item.descricao,
         quantidade: item.quantity,
-        valor_unitario: item.unityValue,
+        valor_unitario: item.vlrUnCom,
         valor_total: item.totalValue!,
       })),
       cpf_cnpj: customerData.cpfOrCnpj,

@@ -6,10 +6,11 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useProductContext } from "@/context/productContext";
+import { ProductContext } from "@/context/salesList";
 import { AxiosNode } from "@/services/axios";
 import { Label, Separator } from "@radix-ui/react-dropdown-menu";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { QuantityBarcodeModal } from "./quantityBarcodeModal";
 
 interface ModalProps {
   isOpen?: boolean;
@@ -18,15 +19,15 @@ interface ModalProps {
 }
 
 export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  const { getProductByFilter, loadedProducts } = useProductContext();
+  const { addProduct } = useContext(ProductContext);
   const [description, setDescription] = useState("");
   const [searchedProducts, setSearchedProducts] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(0);
   const inputRef = React.useRef<HTMLInputElement>(null);
-
-
+  const [isQuantityModalOpen, setIsQuantityModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   async function handleSearchDescription(e?: React.FormEvent<HTMLFormElement>) {
     e?.preventDefault();
@@ -123,39 +124,65 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
     };
   }, []);
 
+  const handleProductSelect = (product: any) => {
+    setSelectedProduct(product);
+    setIsQuantityModalOpen(true);
+  };
+
+  const handleProductQuantityConfirm = (product: any, quantity: number) => {
+    // Primeiro, adicione o produto à sua lista
+    addProduct(product, quantity);
+
+    // Depois, feche os modais
+    setIsQuantityModalOpen(false);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="flex flex-col min-w-[720px] h-[90%]">
-        <DialogHeader>
-          <DialogTitle>Produtos</DialogTitle>
-        </DialogHeader>
-        <Separator className="border border-stone-700" />
-        <form onSubmit={handleSearchDescription} className="h-[90%]" >
-          <div className="flex flex-col gap-4 my-4">
-            <Label>Descrição</Label>
-            <Input ref={inputRef} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição do produto..." />
-          </div>
-          <ul
-            id="table"
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-            className="overflow-auto flex flex-col max-h-[90%] scrollbar scrollbar-thumb-[#232324] scrollbar-track-transparent"
-          >
-            {searchedProducts.map((item, index) => (
-              <li
-                key={index}
-                tabIndex={0}
-                className={`flex items-center justify-between p-3 w-full outline-none transition-all rounded-lg ${index === selectedItemIndex ? 'bg-stone-800' : ''}`}>
-                <h1>{item.descricao}</h1>
-                <h1>{item.saldo}</h1>
-              </li>
-            ))}
-          </ul>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+        <DialogContent className="flex flex-col min-w-[720px] h-[90%]">
+          <DialogHeader>
+            <DialogTitle>Produtos</DialogTitle>
+          </DialogHeader>
+          <Separator className="border border-stone-700" />
+          <form onSubmit={handleSearchDescription} className="h-[90%]" >
+            <div className="flex flex-col gap-4 my-4">
+              <Label>Descrição</Label>
+              <Input ref={inputRef} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição do produto..." />
+            </div>
+            <ul
+              id="table"
+              tabIndex={0}
+              onKeyDown={handleKeyDown}
+              className="overflow-auto flex flex-col max-h-[90%] scrollbar scrollbar-thumb-[#232324] scrollbar-track-transparent"
+            >
+              {searchedProducts.map((item, index) => (
+                <li
+                  key={index}
+                  tabIndex={0}
+                  onClick={() => handleProductSelect(item)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleProductSelect(item)}
+                  className={`flex items-center justify-between p-3 w-full outline-none transition-all rounded-lg ${index === selectedItemIndex ? 'bg-stone-800' : ''}`}>
+                  <h1>{item.descricao}</h1>
+                  <h1>{item.saldo}</h1>
+                </li>
+              ))}
+            </ul>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <QuantityBarcodeModal
+        product={selectedProduct}
+        isOpen={isQuantityModalOpen}
+        onClose={() => {
+          setIsQuantityModalOpen(false);
+          onClose?.();
+        }}
+        onConfirm={handleProductQuantityConfirm}
+      />
+    </>
   );
 };

@@ -29,7 +29,7 @@ export default function Sales() {
   const [totalValue, setTotalValue] = useState(0);
 
   const selectedProduct = product[selectedProductIndex];
-  const totalValueIndex = selectedProduct?.unityValue * selectedProduct?.quantity || 0;
+  const totalValueIndex = selectedProduct?.vlrUnCom * selectedProduct?.quantity || 0;
 
   const listRef = useRef<HTMLDivElement>(null);
   const barcodeRef = useRef<HTMLDivElement>(null);
@@ -47,7 +47,7 @@ export default function Sales() {
   useEffect(() => {
     if (product.length > 0) {
       const lastProduct = product[product.length - 1];
-      setLastProductTotalValue(lastProduct.unityValue * (lastProduct.quantity || 0));
+      setLastProductTotalValue(lastProduct.vlrUnCom * (lastProduct.quantity || 0));
     }
 
     // Função para lidar com as teclas "ArrowLeft" e "ArrowRight"
@@ -132,7 +132,6 @@ export default function Sales() {
             isOpen={saleModalOpen}
             onClose={closeModal}
             onFormSubmit={handleFormSubmit}
-            // onOpenCustomerModal={handleOpenCustomerModal}
             onOpenCoupomModal={handleOpenCoupomModal} />
         </div>
       )}
@@ -164,7 +163,7 @@ export default function Sales() {
             {/* Grid Quantity and Value */}
             <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
               {/* Value */}
-              <ValueProduct title="Valor Unitário" value={formatCurrency(selectedProduct?.unityValue || 0)} />
+              <ValueProduct title="Valor Unitário" value={formatCurrency(selectedProduct?.vlrUnCom || 0)} />
               <ValueProduct title="Valor Total" value={formatCurrency(totalValueIndex || 0)} />
             </div>
 
@@ -172,7 +171,7 @@ export default function Sales() {
             <TotalValueSale />
 
             {/* Product Name */}
-            <DescriptionProduct />
+            <DescriptionProduct selectedProduct={selectedProduct} />
           </div>
         </div>
       </main >

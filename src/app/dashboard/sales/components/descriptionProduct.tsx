@@ -2,7 +2,7 @@
 import { ProductContext } from "@/context/salesList";
 import { useContext } from "react";
 
-export function DescriptionProduct() {
+export function DescriptionProduct({ selectedProduct }: any) {
 
   const { product } = useContext(ProductContext);
   const lastProduct = product[product.length - 1];
@@ -18,7 +18,7 @@ export function DescriptionProduct() {
       {/* Description */}
       <div className="flex items-center justify-center rounded-lg default:mt-6 lg:mt-8">
         <span className="text-2xl py-2 px-4 overflow-hidden text-ellipsis">
-        {lastProduct?.description}
+          {selectedProduct?.descricao}
         </span>
       </div>
     </div>

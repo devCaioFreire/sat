@@ -5,9 +5,9 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 interface ProductProps {
   id: number;
   ean: number;
-  description: string;
+  descricao: string;
   quantity: number;
-  unityValue: number;
+  vlrUnCom: number;
   totalValue?: number;
   total?: number;
 }
@@ -15,6 +15,7 @@ interface ProductProps {
 interface ProductContextProps {
   product: ProductProps[];
   setProduct: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  addProduct: (product: ProductProps, quantidade: number) => void;
   getProductByEAN: (id: number, quantity: number) => void;
   calculateTotal: () => number;
   handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
@@ -46,6 +47,7 @@ interface SalesData {
 const ProductContext = createContext<ProductContextProps>({
   product: [],
   setProduct: () => [],
+  addProduct: () => { },
   getProductByEAN: () => { },
   calculateTotal: () => 0,
   handleRemoveProduct: () => { },
@@ -58,39 +60,12 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [product, setProduct] = useState<ProductProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
+  const [productList, setProductList] = useState<ProductProps[]>([]);
 
-  //GET
-  const getProductByDescription = (description: string, quantity: number) => {
-    return AxiosNode.get<ProductProps>(`/`)
-      .then((response: AxiosResponse) => {
-        const productsArray = response.data.Produtos;
-
-        const product = productsArray[0];
-        const { id, eAN, descricao, vlrUnCom } = product;
-
-        if (!description) {
-          setError("Product not found");
-          throw new Error("Product not found");
-        }
-        
-        const data = {
-          id: id,
-          ean: eAN,
-          description: descricao,
-          quantity: quantity,
-          unityValue: vlrUnCom,
-          totalValue: vlrUnCom * quantity
-        };
-        setProduct((Products) => [...Products, data]);
-        setError(null);
-        return data;
-      })
-      .catch((error) => {
-        console.error("Error fetching product:", error);
-        setError("Product not found");
-        throw error;
-      });
+  function addProduct(productToAdd: ProductProps, quantity: number) {
+    setProduct(prevProducts => [...prevProducts, { ...productToAdd, quantity }]);
   }
+
 
   // GET
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
@@ -108,9 +83,9 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
         const data = {
           id: id,
           ean: eAN,
-          description: descricao,
+          descricao,
           quantity: quantity,
-          unityValue: vlrUnCom,
+          vlrUnCom,
           totalValue: vlrUnCom * quantity
         };
         setProduct((Products) => [...Products, data]);
@@ -137,7 +112,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   const calculateTotal = () => {
     return product.reduce((total, product) => {
-      return total + product.quantity * product.unityValue;
+      return total + product.quantity * product.vlrUnCom;
     }, 0);
   };
 
@@ -163,6 +138,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     <ProductContext.Provider value={{
       product,
       setProduct,
+      addProduct,
       getProductByEAN,
       calculateTotal,
       handleRemoveProduct,

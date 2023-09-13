@@ -63,14 +63,6 @@ export function Barcode() {
             className="w-full py-2 px-2 bg-transparent outline-none"
             type="text"
             id="barcode"
-            placeholder={'Digite a descrição do produto'}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
-          {/* <input
-            className="w-full py-2 px-2 bg-transparent outline-none"
-            type="text"
-            id="barcode"
             placeholder={`${error ? 'Produto não encontrado...' : 'Quantidade * Produto'}`}
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -79,7 +71,7 @@ export function Barcode() {
                 event.preventDefault();
                 return;
               }
-            }} /> */}
+            }} />
         </form>
       </div>
       <BarcodeModal isOpen={isOpen} onClose={() => setIsOpen(false)} />

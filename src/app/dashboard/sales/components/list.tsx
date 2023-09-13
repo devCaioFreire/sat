@@ -12,6 +12,11 @@ export function List() {
     }
   };
 
+  useEffect(() => {
+    console.log(product);
+    // ... restante do código
+  }, [product]);
+
   const handleKeyDown = (e: KeyboardEvent<HTMLTableRowElement>, ean: number) => {
     if (e.key === "ArrowUp") {
       setSelectedItem((prevIndex) => Math.max(prevIndex - 1, -1));
@@ -62,10 +67,10 @@ export function List() {
               onKeyDown={(e) => handleKeyDown(e, item.ean)}
               onClick={() => setSelectedItem(index)}
             >
-              <td className="px-4 w-[60%]">{item.description}</td>
+              <td className="px-4 w-[60%]">{item.descricao}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
-              <td className="px-4 w-[15%]">{formatCurrency(item.unityValue)}</td>
-              <td className="px-4 w-[15%]">{formatCurrency(item.unityValue * item.quantity)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(item.vlrUnCom)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(item.vlrUnCom * item.quantity)}</td>
             </tr>
           ))}
         </tbody>
