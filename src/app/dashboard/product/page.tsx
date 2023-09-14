@@ -1,21 +1,26 @@
 'use client'
+import { BsPrinterFill } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
+
 
 import { Filter } from '@/components/ui/filter';
 import { useProductContext } from '@/context/productContext';
 import { AxiosNode } from '@/services/axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { PrintModal } from './components/PrintModal';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 
 export const Product = () => {
   const router = useRouter();
   const { selectedProduct, sendDeleteProduct, loadedProducts, setLoadedProducts, setFilteredProducts } = useProductContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleFilter = () => {
-
+  const handlePrint = async () => {
+    setIsModalOpen(true);
   }
 
   const handleAdd = () => {
@@ -62,7 +67,10 @@ export const Product = () => {
         <h1 className="font-medium">Produtos</h1>
 
         <div className='flex gap-4'>
-          <IconButton onClick={handleFilter} title="Adicionar Produto">
+          <IconButton onClick={handlePrint} title="Imprimir Produtos">
+            <BsPrinterFill className="w-6 h-6 text-[#6d6d70]" />
+          </IconButton>
+          <IconButton title="Adicionar Produto">
             <Filter />
           </IconButton>
           <IconButton onClick={handleAdd} title="Adicionar Produto">
@@ -76,6 +84,7 @@ export const Product = () => {
           </IconButton>
         </div>
       </header>
+      <PrintModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <ProductList />
     </main>

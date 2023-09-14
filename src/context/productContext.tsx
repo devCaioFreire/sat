@@ -34,12 +34,15 @@ interface ProductContextType {
   setFilter: (filter: string | null) => void;
   filterType: FilterType[];
   setFilterType: (filterType: FilterType[]) => void;
+  filterArray: any[];
+  setFilterArray: Dispatch<SetStateAction<any[]>>;
   getProductByFilter: (filterType: FilterType) => void;
   filteredProducts: ProductProps[];
   loadedProducts: ProductProps[];
   setLoadedProducts: Dispatch<SetStateAction<ProductProps[]>>;
   setFilteredProducts: Dispatch<SetStateAction<ProductProps[]>>;
   clearFilter: () => void;
+  fetchAllProductsForPrint: (filterArray: any[]) => Promise<ProductProps[]>;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -58,6 +61,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
+  const [productsToPrint, setProductsToPrint] = useState<ProductProps[]>([]);
 
   // GET
   const fetchMoreProducts = async () => {
@@ -87,6 +91,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  // GET
   const getProductByFilter = async (filterType: FilterType) => {
     setCurrentPage(0);
     const newFilterArray = [];
@@ -114,6 +119,19 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       console.log(error);
     }
   }
+
+  // GET
+  const fetchAllProductsForPrint = async (filterArray: any[]) => {
+    try {
+      const response = await AxiosNode.get(
+        `/getProducts/?take=1000000000000&page=0&filter=${JSON.stringify(filterArray)}&orderBy=id`
+      );
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  };
 
   // POST
   const sendNewProduct = async (addProduct: ProductProps) => {
@@ -215,12 +233,15 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setFilter,
         filterType,
         setFilterType,
+        filterArray,
+        setFilterArray,
         getProductByFilter,
         filteredProducts,
         loadedProducts,
         setLoadedProducts,
         setFilteredProducts,
-        clearFilter
+        clearFilter,
+        fetchAllProductsForPrint
       }}>
       {children}
     </ProductContext.Provider>

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface IconButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   children: ReactNode;
   title: string;
 }
