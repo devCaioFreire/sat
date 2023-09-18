@@ -5,8 +5,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { useProductContext } from "@/context/productContext";
-import { formatCurrency } from "@/utils/formatter";
 import React, { ReactNode } from "react";
 
 interface DetailModalProps {
@@ -16,30 +14,6 @@ interface DetailModalProps {
 }
 
 export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children }) => {
-
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts } = useProductContext();
-
-  const filteredProducts = loadedProducts.filter((product) => {
-    if (!filter || !filterType) {
-      return true;
-    }
-    for (const filter of filterType) {
-      switch (filter.field) {
-        case "id":
-          return product.id === filter.field;
-        case "codEAN":
-          return product.codEAN === filter.field;
-        case "descricao":
-          return product.descricao.includes(filter.field);
-        case "saldo":
-          return product.saldo !== "0";
-        case "withoutSaldo":
-          return product.saldo === "0";
-        default:
-          return true;
-      }
-    }
-  });
 
   return (
     <>
@@ -67,7 +41,7 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children }
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((item, index) => (
+              {/* {filteredProducts.map((item, index) => (
                 <tr
                   key={index}
                   className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}
@@ -84,7 +58,7 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children }
                   <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
                   <td className="px-8 w-[5%] overflow-hidden">{item.status}</td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </table>
         </DialogContent >
