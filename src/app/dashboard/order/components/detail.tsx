@@ -32,12 +32,11 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children }
             <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
               <tr className="flex text-left">
                 <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
-                <th className="pt-3 px-4 w-[10%] text-base font-medium">Cód. Interno</th>
                 <th className="pt-3 px-4 w-[50%] text-base font-medium">Descrição</th>
                 <th className="pt-3 px-4 w-[10%] text-base font-medium">Valor</th>
                 <th className="pt-3 px-4 w-[10%] text-base font-medium">Unidade</th>
-                <th className="pt-3 px-4 w-[10%] text-base font-medium">Saldo</th>
-                <th className="pt-3 px-4 w-[5%] text-base font-medium">Status</th>
+                <th className="pt-3 px-4 w-[10%] text-base font-medium">Qnt</th>
+                <th className="pt-3 px-4 w-[10%] text-base font-medium">Vlr Total</th>
               </tr>
             </thead>
             <tbody>
