@@ -84,12 +84,12 @@ export function Navbar() {
         </Link> */}
 
         <Link
-          href={''}
+          href={'/dashboard/order'}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
-          <Image alt="" src={Drawer} className="w-6" />
+          <Image alt="" src={Sale} className="w-6" />
           <p className="text-base font-medium">
-            {isSalesPage ? '' : 'Abrir Gaveta'}
+            {isSalesPage ? '' : 'Capturar Pedido de Venda'}
           </p>
         </Link>
 
@@ -97,9 +97,9 @@ export function Navbar() {
           href={''}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
-          <Image alt="" src={Sale} className="w-6" />
+          <Image alt="" src={Drawer} className="w-6" />
           <p className="text-base font-medium">
-            {isSalesPage ? '' : 'Capturar Pedido de Venda'}
+            {isSalesPage ? '' : 'Abrir Gaveta'}
           </p>
         </Link>
 

@@ -10,7 +10,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 [X] -> Criar tela de Produtos;
    [X] -> Rolagem infinita;
-
+------------------------------------------------------------------------------------------------------------------------
 [X] -> Criar cadastro de produtos;
    [X] -> Rotina para adicionar produto;
    [X] -> Rotina para editar produto;
@@ -25,15 +25,16 @@
    [] ->  Ulitmos Lançamentos;
    [X] ->  Limpar Filtro;
 ------------------------------------------------------------------------------------------------------------------------
-[] -> Desenvolver rotina de adição e subtração de saldo;
-------------------------------------------------------------------------------------------------------------------------
 [] -> Movimentação de estoque;
    [X] -> Retirar saldo quando fizer a venda;
    [] -> Devolver quando cancelar o cupom;
 ------------------------------------------------------------------------------------------------------------------------
-[] -> Criar relatório completo de produtos;
-   [] -> Exportar todos os dados do produto;
+[X] -> Criar relatório completo de produtos;
+   [X] -> Exportar todos os dados do produto;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Criar relatório completo de vendas;
+   [] -> Criar tela Relatório de vendas;
    [] -> Exportar todos os dados da venda permitindo filtrar por periodo e agrupado por forma de pagamento;
+------------------------------------------------------------------------------------------------------------------------
+[] -> Desenvolver rotina de adição e subtração de saldo; (backend SQL)
 ------------------------------------------------------------------------------------------------------------------------

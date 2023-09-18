@@ -1,9 +1,15 @@
 'use client'
+import { IDFilter } from "@/components/ui/filterTypes/IDFilter";
 import { useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
+import { useState } from "react";
+import { TfiMoreAlt } from 'react-icons/tfi';
+import { IconButton } from "../../product/components/inputButton";
+import { Detail } from "./detail";
 
-export const ProductList = () => {
+export const OrderList = () => {
   const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts } = useProductContext();
+  const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
@@ -27,6 +33,15 @@ export const ProductList = () => {
     }
   });
 
+  const openIDFilterModal = () => {
+    setIsIdFilterOpen(true);
+  };
+
+
+  const closeFilterModal = () => {
+    setIsIdFilterOpen(false);
+  };
+
   return (
     <table
       id="table"
@@ -34,13 +49,10 @@ export const ProductList = () => {
     >
       <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
         <tr className="flex text-left">
-          <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
-          <th className="pt-3 px-4 w-[10%] text-base font-medium">Cód. Interno</th>
-          <th className="pt-3 px-4 w-[50%] text-base font-medium">Descrição</th>
-          <th className="pt-3 px-4 w-[10%] text-base font-medium">Valor</th>
-          <th className="pt-3 px-4 w-[10%] text-base font-medium">Unidade</th>
-          <th className="pt-3 px-4 w-[10%] text-base font-medium">Saldo</th>
-          <th className="pt-3 px-4 w-[5%] text-base font-medium">Status</th>
+          <th className="pt-3 px-4 w-[20%] text-base font-medium">ID</th>
+          <th className="pt-3 px-4 w-[20%] text-base font-medium">Valor</th>
+          <th className="pt-3 px-4 w-[20%] text-base font-medium">Pagamento</th>
+          <th className="pt-3 px-8 w-[20%] text-base text-right font-medium">Data</th>
         </tr>
       </thead>
       <tbody>
@@ -51,18 +63,22 @@ export const ProductList = () => {
             tabIndex={0}
             onClick={() => setSelectedProduct(item)}
           >
-            <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
-            <td className="px-4 w-[50%] overflow-hidden">{item.descricao}</td>
-            <td className="px-4 w-[10%] overflow-hidden">
+            <td className="px-4 w-[20%] overflow-hidden">{item.id}</td>
+            <td className="px-4 w-[20%] overflow-hidden">
               {formatCurrency(parseFloat(item.vlrUnCom))}
             </td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
-            <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
-            <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>
+            <td className="px-4 w-[20%] overflow-hidden">Crédito</td>
+            <td className="px-0 w-[20%] text-right overflow-hidden">Sep 18, 2023</td>
+            <td className="px-12 w-[20%] flex justify-end text-right overflow-hidden">
+              <IconButton title="Adicionar Produto">
+                <IDFilter />
+                <TfiMoreAlt onClick={openIDFilterModal} />
+              </IconButton>
+            </td>
           </tr>
         ))}
       </tbody>
+      <Detail isOpen={isIdFilterOpen} onClose={closeFilterModal} />
     </table>
   );
 };

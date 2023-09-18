@@ -70,7 +70,7 @@ export const Product = () => {
           <IconButton onClick={handlePrint} title="Imprimir Produtos">
             <BsPrinterFill className="w-6 h-6 text-[#6d6d70]" />
           </IconButton>
-          <IconButton title="Adicionar Produto">
+          <IconButton title="Filtrar Produto">
             <Filter />
           </IconButton>
           <IconButton onClick={handleAdd} title="Adicionar Produto">
