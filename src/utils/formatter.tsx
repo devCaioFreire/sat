@@ -10,6 +10,23 @@ export function CurrentDateFormatted() {
   return `${day}/${month}/${year}`
 }
 
+export function formatDate(inputDate: string) {
+  const months = [
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+  ];
+
+  const date = new Date(inputDate);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${month} ${day}, ${year}`;
+}
+
+const formattedDate = formatDate("2023-08-18T18:24:47.421Z");
+console.log(formattedDate);
+
 export function CurrentTimeFormatted() {
   const [time, setTime] = useState(new Date());
 

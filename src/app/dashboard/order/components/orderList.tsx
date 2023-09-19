@@ -1,37 +1,17 @@
 'use client'
 import { IDFilter } from "@/components/ui/filterTypes/IDFilter";
-import { useProductContext } from "@/context/productContext";
-import { formatCurrency } from "@/utils/formatter";
+import { useOrderContext } from "@/context/orderContext";
+import { formatCurrency, formatDate } from "@/utils/formatter";
 import { useState } from "react";
 import { TfiMoreAlt } from 'react-icons/tfi';
 import { IconButton } from "../../product/components/inputButton";
 import { Detail } from "./detail";
 
 export const OrderList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts } = useProductContext();
+  const { sales, selectedProduct, setSelectedOrder, setSelectedProduct, selectedOrder } = useOrderContext();
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
 
-  const filteredProducts = loadedProducts.filter((product) => {
-    if (!filter || !filterType) {
-      return true;
-    }
-    for (const filter of filterType) {
-      switch (filter.field) {
-        case "id":
-          return product.id === filter.field;
-        case "codEAN":
-          return product.codEAN === filter.field;
-        case "descricao":
-          return product.descricao.includes(filter.field);
-        case "saldo":
-          return product.saldo !== "0";
-        case "withoutSaldo":
-          return product.saldo === "0";
-        default:
-          return true;
-      }
-    }
-  });
+  const filteredProducts = sales;
 
   const openIDFilterModal = () => {
     setIsIdFilterOpen(true);
@@ -59,16 +39,16 @@ export const OrderList = () => {
         {filteredProducts.map((item, index) => (
           <tr
             key={index}
-            className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}
+            className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedOrder ? "bg-indigo-900" : ""}`}
             tabIndex={0}
-            onClick={() => setSelectedProduct(item)}
+            onClick={() => setSelectedOrder(item)}
           >
             <td className="px-4 w-[20%] overflow-hidden">{item.id}</td>
-            <td className="px-4 w-[20%] overflow-hidden">
-              {formatCurrency(parseFloat(item.vlrUnCom))}
+            <td className="px-8 w-[20%] overflow-hidden">
+              {formatCurrency(parseFloat(item.valor_liquido))}
             </td>
-            <td className="px-4 w-[20%] overflow-hidden">Crédito</td>
-            <td className="px-0 w-[20%] text-right overflow-hidden">Sep 18, 2023</td>
+            <td className="px-10 w-[20%] overflow-hidden">{item.forma_pagamento}</td>
+            <td className="px-0 w-[20%] ml-14 text-right overflow-hidden">{formatDate(item.data_realizacao)}</td>
             <td className="px-12 w-[20%] flex justify-end text-right overflow-hidden">
               <IconButton title="Adicionar Produto">
                 <IDFilter />
@@ -78,7 +58,7 @@ export const OrderList = () => {
           </tr>
         ))}
       </tbody>
-      <Detail isOpen={isIdFilterOpen} onClose={closeFilterModal} />
+      <Detail isOpen={isIdFilterOpen} onClose={closeFilterModal} selectedSalesOrder={selectedOrder} />
     </table>
   );
 };
