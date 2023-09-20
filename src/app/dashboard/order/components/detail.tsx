@@ -6,7 +6,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { SalesOrderProps, useOrderContext } from "@/context/orderContext";
-import { formatCurrency, formatDate } from "@/utils/formatter";
+import { capitalizeFirstLetter, formatCurrency, formatDate } from "@/utils/formatter";
 import React, { ReactNode, useState } from "react";
 
 interface DetailModalProps {
@@ -54,7 +54,7 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children, 
                   <td className="px-4 w-[25%]">
                     {formatCurrency(parseFloat(selectedSalesOrder.valor_liquido))}
                   </td>
-                  <td className="px-4 w-[25%]">{selectedSalesOrder.forma_pagamento}</td>
+                  <td className="px-4 w-[25%]">{capitalizeFirstLetter(selectedSalesOrder.forma_pagamento)}</td>
                   <td className="px-4 w-[25%] text-right">{formatDate(selectedSalesOrder.data_realizacao)}
 
                   </td>

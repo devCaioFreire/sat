@@ -3,8 +3,8 @@ import { BsPrinterFill } from 'react-icons/bs';
 
 
 import { DatePickerWithRange } from '@/components/ui/datePicker';
-import { Filter } from '@/components/ui/filter';
 import { IconButton } from '../product/components/inputButton';
+import { OrderFilter } from './components/filters/orderFilter';
 import { OrderList } from './components/orderList';
 
 export const Order = () => {
@@ -16,9 +16,9 @@ export const Order = () => {
 
         <div className='flex gap-4'>
           <DatePickerWithRange />
-          
+
           <IconButton title="Adicionar Produto">
-            <Filter />
+            <OrderFilter />
           </IconButton>
 
           <IconButton title="Imprimir Produtos">

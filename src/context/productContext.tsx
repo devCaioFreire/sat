@@ -61,7 +61,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
-  const [productsToPrint, setProductsToPrint] = useState<ProductProps[]>([]);
 
   // GET
   const fetchMoreProducts = async () => {

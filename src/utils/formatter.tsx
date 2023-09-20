@@ -24,8 +24,10 @@ export function formatDate(inputDate: string) {
   return `${month} ${day}, ${year}`;
 }
 
-const formattedDate = formatDate("2023-08-18T18:24:47.421Z");
-console.log(formattedDate);
+export function capitalizeFirstLetter(str: string) {
+  if (!str || typeof str !== 'string') return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 
 export function CurrentTimeFormatted() {
   const [time, setTime] = useState(new Date());

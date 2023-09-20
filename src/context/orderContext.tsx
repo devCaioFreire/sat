@@ -1,5 +1,5 @@
 import { AxiosNode } from "@/services/axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
 export interface SalesOrderProps {
   id: string;
@@ -17,6 +17,16 @@ export interface ProductProps {
   valor_total: string;
 }
 
+interface FilterType {
+  field: string;
+  value: string | number | boolean;
+}
+
+interface SortType {
+  asc: string;
+  desc: string;
+}
+
 interface OrderContextType {
   sales: SalesOrderProps[];
   products: ProductProps[];
@@ -26,6 +36,17 @@ interface OrderContextType {
   setSelectedProduct: (product: ProductProps | null) => void;
   selectedOrder: SalesOrderProps | null;
   setSelectedOrder: (order: SalesOrderProps | null) => void;
+  getOrderByFilter: (filterType: FilterType) => void;
+  loadedProducts: SalesOrderProps[];
+  setLoadedProducts: Dispatch<SetStateAction<SalesOrderProps[]>>;
+  filter: string | null;
+  setFilter: (filter: string | null) => void;
+  filterType: FilterType[];
+  setFilterType: (filterType: FilterType[]) => void;
+  loadSalesItems: (orderID: string) => void;
+  clearFilter: () => void;
+  sortOrder: string;
+  toggleSort: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -33,13 +54,15 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
 export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [sales, setSales] = useState<SalesOrderProps[]>([]);
   const [products, setProducts] = useState<ProductProps[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
-  const [loadedProducts, setLoadedProducts] = useState<ProductProps[]>([]);
+  const [loadedProducts, setLoadedProducts] = useState<SalesOrderProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<SalesOrderProps | null>(null);
+  const [filter, setFilter] = useState<string | null>(null);
+  const [filterType, setFilterType] = useState<FilterType[]>([]);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const getSalesItems = async (orderID: string) => {
     try {
@@ -48,7 +71,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       );
       const newProducts = response.data;
       setProducts(newProducts);
-      setLoadedProducts(newProducts);
     } catch (err) {
       console.error(err);
     }
@@ -60,27 +82,73 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         `/getSalesOrders/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
-      setSales(prevProducts => [...prevProducts, ...newProducts]);
-
-      setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
+      if (currentPage === 0) {
+        setSales(newProducts); // Redefina a lista se estiver na página 0
+        setLoadedProducts(newProducts);
+      } else {
+        setSales(prevProducts => [...prevProducts, ...newProducts]); // Anexe à lista se estiver em uma página diferente de 0
+        setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
+      }
     } catch (err) {
       console.error(err);
     }
+  };
+
+  // GET
+  const getOrderByFilter = async (filterType: FilterType) => {
+    setCurrentPage(0);
+    console.log(filterType);
+    const newFilterArray = [];
+
+    try {
+      const filterMap: FilterType[] = [filterType];
+
+      for (const filter of filterMap) {
+        if (filter.field === 'withSaldo') {
+          newFilterArray.push({ field: filter.field, value: "1" });
+        } else if (filter.field === 'withoutSaldo') {
+          newFilterArray.push({ field: filter.field, value: "0" });
+        } else {
+          newFilterArray.push(filter);
+        }
+      }
+
+      console.log('filter', currentPage);
+      const apiUrl = `/getSalesOrders/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
+      const response = await AxiosNode.get(apiUrl);
+      const orders = response.data;
+      setLoadedProducts(orders);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  useEffect(() => {
-    if (selectedOrder) {
-      setProducts([]);
-      getSalesItems(selectedOrder.id);
-    }
-  }, [selectedOrder]);
+  const toggleSort = () => {
+    setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
+  };
+
+  const clearFilter = () => {
+    setFilter(null);
+    setFilterType([]);
+    setFilterArray([]);
+    setLoadedProducts([]);
+    setCurrentPage(0);
+    console.log(filterArray)
+    getSalesOrders();
+  };
+
+  // Estou passando o id da venda para conseguir ver os items do pedido de venda
+  const loadSalesItems = (orderID: string) => {
+    setProducts([]);
+    getSalesItems(orderID);
+  }
 
   useEffect(() => {
     getSalesOrders();
   }, []);
 
   useEffect(() => {
-    const table = document.getElementById('table');
+    const table = document.getElementById('table_order');
     if (table) {
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
@@ -105,6 +173,17 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setSelectedProduct,
         selectedOrder,
         setSelectedOrder,
+        getOrderByFilter,
+        loadedProducts,
+        setLoadedProducts,
+        filter,
+        setFilter,
+        filterType,
+        setFilterType,
+        loadSalesItems,
+        clearFilter,
+        sortOrder,
+        toggleSort
       }}>
       {children}
     </OrderContext.Provider>

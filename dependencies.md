@@ -33,17 +33,15 @@
    [X] -> Exportar todos os dados do produto;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Criar relatório completo de vendas;
-   [] -> Criar tela Relatório de vendas;
+   [X] -> Criar tela Relatório de vendas;
    [] -> Exportar todos os dados da venda permitindo filtrar por periodo e agrupado por forma de pagamento;
+   [] -> Desenvolver filtros;
+      [] ->  ID;
+      [] ->  Maior Valor;
+      [] ->  Menor Valor;
+      [] ->  Forma de Pagamento;
+      [] ->  Ulitmos Lançamentos;
+      [] ->  Limpar Filtro;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Desenvolver rotina de adição e subtração de saldo; 
 ------------------------------------------------------------------------------------------------------------------------
-
-CREATE OR REPLACE VIEW relatorio_pedidos_venda AS
-SELECT 
-pv.id, pv.valor_liquido, pv.forma_pagamento, pv.data_realizacao, pvi.descricao, pvi.valor_unitario,
- p.unCom, pvi.quantidade
- FROM pedidos_venda_itens pvi 
- LEFT JOIN pedidos_venda pv ON pv.id = pvi.pedido_id
- LEFT JOIN produtos p ON pvi.produto_id = p.id
- 
