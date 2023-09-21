@@ -7,7 +7,7 @@ import { IconButton } from "../../product/components/inputButton";
 import { Detail } from "./detail";
 
 export const OrderList = () => {
-  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder, toggleSort } = useOrderContext();
+  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder } = useOrderContext();
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
 
   const filteredProducts = loadedProducts.filter((product) => {
@@ -61,8 +61,7 @@ export const OrderList = () => {
           <th className="pt-3 px-4 w-[20%] text-base font-medium">Valor</th>
           <th className="pt-3 px-4 w-[20%] text-base font-medium">Pagamento</th>
           <th
-            onClick={toggleSort}
-            className="pt-3 px-8 w-[20%] text-base text-right font-medium cursor-pointer">
+            className="pt-3 px-8 w-[20%] text-base text-right font-medium">
             Data
           </th>
         </tr>
@@ -80,7 +79,8 @@ export const OrderList = () => {
               {formatCurrency(parseFloat(item.valor_liquido))}
             </td>
             <td className="px-10 w-[20%] overflow-hidden">{capitalizeFirstLetter(item.forma_pagamento)}</td>
-            <td className="px-0 w-[20%] ml-14 text-right overflow-hidden">
+            <td
+              className="px-0 w-[20%] ml-14 text-right overflow-hidden">
               {formatDate(item.data_realizacao)}
             </td>
             <td className="px-12 w-[20%] flex justify-end text-right overflow-hidden">

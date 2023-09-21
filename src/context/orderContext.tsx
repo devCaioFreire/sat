@@ -135,6 +135,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setCurrentPage(0);
     console.log(filterArray)
     getSalesOrders();
+    setSortOrder('asc')
   };
 
   // Estou passando o id da venda para conseguir ver os items do pedido de venda

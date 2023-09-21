@@ -14,7 +14,7 @@ import { IDFilter } from "./IDFilter";
 import { PaymentMethodFilter } from "./PaymentMethodFilter";
 
 export const OrderFilter: React.FC = () => {
-  const { clearFilter } = useOrderContext();
+  const { clearFilter, toggleSort } = useOrderContext();
   const [isPaymentMethodFilterOpen, setIsPaymentMethodFilterOpen] = useState(false);
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
   const [isEANFilterOpen, setIsEANFilterOpen] = useState(false);
@@ -54,7 +54,7 @@ export const OrderFilter: React.FC = () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={openIDFilterModal}>ID</DropdownMenuItem>
           <DropdownMenuItem onClick={openPaymentMethodFilterModal}>Forma de Pagamento</DropdownMenuItem>
-          <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
+          <DropdownMenuItem onClick={toggleSort}>Últimos Lançamentos</DropdownMenuItem>
           <DropdownMenuItem onClick={() => clearFilter()}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
