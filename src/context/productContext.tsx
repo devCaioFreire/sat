@@ -215,7 +215,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setFilteredProducts(rawProducts);
     setLoadedProducts(rawProducts);
     setFilterArray([])
-    // setCurrentPage(0)
+    setSortOrder('asc')
   };
 
   useEffect(() => {
