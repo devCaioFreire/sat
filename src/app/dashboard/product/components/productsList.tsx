@@ -3,7 +3,7 @@ import { useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
 
 export const ProductList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder } = useProductContext();
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
@@ -27,6 +27,14 @@ export const ProductList = () => {
     }
   });
 
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return new Date(a.id!).getTime() - new Date(b.id!).getTime();
+    } else {
+      return new Date(b.id!).getTime() - new Date(a.id!).getTime();
+    }
+  });
+
   return (
     <table
       id="table"
@@ -44,7 +52,7 @@ export const ProductList = () => {
         </tr>
       </thead>
       <tbody>
-        {filteredProducts.map((item, index) => (
+        {sortedProducts.map((item, index) => (
           <tr
             key={index}
             className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}

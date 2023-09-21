@@ -9,8 +9,6 @@ export interface ProductProps {
   vlrUnCom: string;
   unCom: string;
   saldo: string;
-  // withSaldo: string;
-  // withoutSaldo: string;
   status: string;
   ncm?: string;
   codEAN?: string;
@@ -43,6 +41,8 @@ interface ProductContextType {
   setFilteredProducts: Dispatch<SetStateAction<ProductProps[]>>;
   clearFilter: () => void;
   fetchAllProductsForPrint: (filterArray: any[]) => Promise<ProductProps[]>;
+  sortOrder: string;
+  toggleSort: () => void;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -61,6 +61,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   // GET
   const fetchMoreProducts = async () => {
@@ -110,7 +111,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
       setFilterArray(newFilterArray); // Atualize o estado com a nova matriz de filtros
       console.log('filter', currentPage);
-      const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id`;
+      const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
       const response = await AxiosNode.get(apiUrl);
       const product = response.data;
       setLoadedProducts(product);
@@ -205,6 +206,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const toggleSort = () => {
+    setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
+  };
+
   const clearFilter = () => {
     setFilter(null);
     setFilteredProducts(rawProducts);
@@ -240,7 +245,9 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setLoadedProducts,
         setFilteredProducts,
         clearFilter,
-        fetchAllProductsForPrint
+        fetchAllProductsForPrint,
+        toggleSort,
+        sortOrder,
       }}>
       {children}
     </ProductContext.Provider>

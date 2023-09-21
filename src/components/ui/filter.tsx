@@ -15,7 +15,7 @@ import { EANFilter } from "./filterTypes/EANFilter";
 import { IDFilter } from "./filterTypes/IDFilter";
 
 export const Filter: React.FC = () => {
-  const { setFilter, setFilterType, clearFilter, getProductByFilter } = useProductContext();
+  const { setFilter, setFilterType, clearFilter, getProductByFilter, toggleSort } = useProductContext();
 
   const [isDescriptionFilterOpen, setIsDescriptionFilterOpen] = useState(false);
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
@@ -62,7 +62,7 @@ export const Filter: React.FC = () => {
           <DropdownMenuItem onClick={openEANFilterModal}>EAN</DropdownMenuItem>
           <DropdownMenuItem onClick={balance}>Com Saldo</DropdownMenuItem>
           <DropdownMenuItem onClick={() => getProductByFilter({ field: 'saldo', value: 0 })}>Sem Saldo</DropdownMenuItem>
-          <DropdownMenuItem>Últimos Lançamentos</DropdownMenuItem>
+          <DropdownMenuItem onClick={toggleSort}>Últimos Lançamentos</DropdownMenuItem>
           <DropdownMenuItem onClick={clearFilter}>Limpar Filtro</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
