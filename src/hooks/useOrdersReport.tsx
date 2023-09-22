@@ -32,9 +32,11 @@ const styles = StyleSheet.create({
     top: 0,
     padding: 16,
     width: '100vw',
-    backgroundColor: '#4338ca',
+    // backgroundColor: '#7c7c7c',
+    borderTop: '1px solid #000',
+    borderBottom: '1px solid #000',
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000',
   },
   headerItems: {
     display: 'flex',
@@ -43,9 +45,11 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     padding: 16,
     width: '100vw',
-    backgroundColor: '#3a31a3',
+    // backgroundColor: '#696969',
+    borderTop: '1px solid #000',
+    borderBottom: '1px solid #000',
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000',
   },
   table: {
     display: 'flex',
@@ -88,10 +92,10 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
         <Text style={{ width: '25%' }}>Data</Text>
       </View>
       <View style={styles.table}>
-        <Text style={{ width: '25%', paddingHorizontal: 16 }}>{order.id}</Text>
-        <Text style={{ width: '25%', paddingHorizontal: 8 }}>{formatCurrency(parseFloat(order.valor_liquido))}</Text>
-        <Text style={{ width: '25%', paddingHorizontal: 2 }}>{order.forma_pagamento}</Text>
-        <Text style={{ width: '25%', paddingHorizontal: -6 }}>{formatDate(order.data_realizacao)}</Text>
+        <Text style={{ width: '25%', paddingHorizontal: 16, fontSize: 12 }}>{order.id}</Text>
+        <Text style={{ width: '25%', paddingHorizontal: 8, fontSize: 12 }}>{formatCurrency(parseFloat(order.valor_liquido))}</Text>
+        <Text style={{ width: '25%', paddingHorizontal: 2, fontSize: 12 }}>{order.forma_pagamento}</Text>
+        <Text style={{ width: '25%', paddingHorizontal: -6, fontSize: 12 }}>{formatDate(order.data_realizacao)}</Text>
       </View>
 
       {/* Renderizando o cabeçalho dos itens */}
@@ -109,12 +113,12 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
         <View key={itemIndex} style={[
           styles.table,
           (itemIndex !== order.itens!.length - 1) ? {} : styles.borderBottom]}>
-          <Text style={{ width: '10%', paddingHorizontal: 16 }}>{item.id}</Text>
-          <Text style={{ width: '30%', paddingHorizontal: 14 }}>{item.descricao}</Text>
-          <Text style={{ width: '15%', paddingHorizontal: 6 }}>{formatCurrency(item.valor_unitario)}</Text>
-          <Text style={{ width: '15%', paddingHorizontal: 0 }}>{item.unCom}</Text>
-          <Text style={{ width: '15%', paddingHorizontal: 0 }}>{item.quantidade}</Text>
-          <Text style={{ width: '15%', paddingHorizontal: 0 }}>{formatCurrency(parseFloat(item.valor_total))}</Text>
+          <Text style={{ width: '10%', paddingHorizontal: 16, fontSize: 12 }}>{item.id}</Text>
+          <Text style={{ width: '30%', paddingHorizontal: 14, fontSize: 12 }}>{item.descricao}</Text>
+          <Text style={{ width: '15%', paddingHorizontal: 6, fontSize: 12 }}>{formatCurrency(item.valor_unitario)}</Text>
+          <Text style={{ width: '15%', paddingHorizontal: 0, fontSize: 12 }}>{item.unCom}</Text>
+          <Text style={{ width: '15%', paddingHorizontal: 0, fontSize: 12 }}>{item.quantidade}</Text>
+          <Text style={{ width: '15%', paddingHorizontal: 0, fontSize: 12 }}>{formatCurrency(parseFloat(item.valor_total))}</Text>
         </View>
       ))}
     </View>
