@@ -3,11 +3,19 @@ import { BsPrinterFill } from 'react-icons/bs';
 
 
 import { DatePickerWithRange } from '@/components/ui/datePicker';
+import { useState } from 'react';
 import { IconButton } from '../product/components/inputButton';
 import { OrderFilter } from './components/filters/orderFilter';
 import { OrderList } from './components/orderList';
+import { PrintOrderModal } from './components/printOrderModal';
 
 export const Order = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handlePrint = async () => {
+    setIsModalOpen(true);
+  }
+
   return (
     <main className="flex flex-col border border-border rounded-lg h-full">
       <header
@@ -21,12 +29,13 @@ export const Order = () => {
             <OrderFilter />
           </IconButton>
 
-          <IconButton title="Imprimir Produtos">
+          <IconButton onClick={handlePrint} title="Imprimir Pedidos">
             <BsPrinterFill className="w-6 h-6 text-[#6d6d70]" />
           </IconButton>
 
         </div>
       </header>
+      <PrintOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <OrderList />
     </main>

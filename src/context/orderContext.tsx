@@ -1,15 +1,9 @@
 import { AxiosNode } from "@/services/axios";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
-export interface SalesOrderProps {
-  id: string;
-  valor_liquido: string;
-  forma_pagamento: string;
-  data_realizacao: string;
-}
-
 export interface ProductProps {
   id: string;
+  pedido_id: string;
   descricao: string;
   valor_unitario: number;
   unCom: number;
@@ -17,21 +11,22 @@ export interface ProductProps {
   valor_total: string;
 }
 
+export interface SalesOrderProps {
+  id: string;
+  valor_liquido: string;
+  forma_pagamento: string;
+  data_realizacao: string;
+  itens?: ProductProps[];
+}
+
 interface FilterType {
   field: string;
   value: string | number | boolean;
 }
 
-interface SortType {
-  asc: string;
-  desc: string;
-}
-
 interface OrderContextType {
   sales: SalesOrderProps[];
   products: ProductProps[];
-  // getSalesOrder: (SalesOrder: SalesOrderProps) => void;
-  // getSalesItems: (SalesItems: SalesOrderProps) => void;
   selectedProduct: ProductProps | null;
   setSelectedProduct: (product: ProductProps | null) => void;
   selectedOrder: SalesOrderProps | null;
@@ -47,6 +42,10 @@ interface OrderContextType {
   clearFilter: () => void;
   sortOrder: string;
   toggleSort: () => void;
+  filterArray: any[];
+  fetchAllProductsForPrint: (filterArray: any[]) => Promise<SalesOrderProps[]>;
+  combineOrdersWithItems: () => Promise<SalesOrderProps[]>;
+  combined: any;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -63,6 +62,8 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [filter, setFilter] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<FilterType[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [combined, setCombined] = useState<SalesOrderProps[]>([]);
+
 
   const getSalesItems = async (orderID: string) => {
     try {
@@ -122,6 +123,47 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       console.log(error);
     }
   }
+
+  const fetchAllProductsForPrint = async (filterArray: any[]) => {
+    try {
+      const response = await AxiosNode.get(
+        `/getSalesOrders/?take=1000000000000&page=0&filter=${JSON.stringify(filterArray)}&orderBy=id`
+      );
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  };
+
+  const combineOrdersWithItems = async () => {
+    try {
+      const response = await AxiosNode.get(
+        `/getOrderItems/?page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: "" }])}&orderBy=id`
+      );
+      const allProducts = response.data;
+
+      return sales.map(order => {
+        const orderItems = allProducts.filter((product: any) => product.pedido_id === order.id);
+        return {
+          ...order,
+          itens: orderItems
+        };
+      });
+    } catch (error) {
+      console.error("Erro ao buscar os itens:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const fetchAndCombineOrders = async () => {
+      const orders = await combineOrdersWithItems();
+      setCombined(orders);
+    };
+
+    fetchAndCombineOrders();
+  }, []);
 
   const toggleSort = () => {
     setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
@@ -184,7 +226,11 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         loadSalesItems,
         clearFilter,
         sortOrder,
-        toggleSort
+        toggleSort,
+        filterArray,
+        fetchAllProductsForPrint,
+        combineOrdersWithItems,
+        combined
       }}>
       {children}
     </OrderContext.Provider>
