@@ -3,7 +3,7 @@ import { useProductContext } from "@/context/productContext";
 import { useEffect, useState } from "react";
 import { InputNumber, InputText } from "../components/inputs";
 
-export const RegisterProduct = () => {
+export default function RegisterProduct() {
 
   const { nextProductId, getNextProductId, sendNewProduct } = useProductContext()
 
@@ -161,5 +161,3 @@ export const RegisterProduct = () => {
     </main>
   )
 }
-
-export default RegisterProduct;
