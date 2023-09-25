@@ -1,16 +1,14 @@
 'use client'
-import { ProductProps, useProductContext } from "@/context/productContext";
+import { useProductContext } from "@/context/productContext";
 import { useEffect, useState } from "react";
 import { InputNumber, InputText } from "../../components/inputs";
 
-export const EditProduct = ({ params }: { params: { id: string } }) => {
+export default function EditProduct({ params }: { params: { id: string } }) {
   const { id } = params;
   console.log("ID do Produto:", id);
 
-  const { products, selectedProduct, setSelectedProduct, sendUpdateProduct, filteredProducts, getProductByFilter } = useProductContext();
+  const { products, selectedProduct, sendUpdateProduct, getProductByFilter } = useProductContext();
   console.log("Products:", products);
-  const [product, setProduct] = useState<ProductProps | null>(null);
-
   const [error, setError] = useState(false);
   const [ID, setID] = useState("");
   const [productCode, setProductCode] = useState("");
@@ -23,7 +21,7 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    getProductByFilter(id, "id");
+    getProductByFilter({ field: 'id', value: ID })
   }, [id, getProductByFilter]);
 
   useEffect(() => {
@@ -171,5 +169,3 @@ export const EditProduct = ({ params }: { params: { id: string } }) => {
     </main>
   )
 }
-
-export default EditProduct;
