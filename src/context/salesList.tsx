@@ -1,4 +1,4 @@
-import { AxiosNode, AxiosProduct } from "@/services/axios";
+import { AxiosNode } from "@/services/axios";
 import { AxiosResponse } from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
@@ -69,7 +69,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   // GET
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
-    return AxiosProduct.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
+    return AxiosNode.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data.Produtos;
 
