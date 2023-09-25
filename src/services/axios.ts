@@ -5,15 +5,8 @@ dotenv.config();
 
 const API_BASE = process.env.BASE_TEST_API;
 
-export const AxiosProduct = axios.create({
-  baseURL: 'http://localhost:8081/datasnap/rest/TSMProdutos/GetProdutos/',
-  headers: {
-    'Content-Type': 'application/json',
-  }
-});
-
 export const AxiosNode = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://soft-api.onrender.com',
   // baseURL: 'http://192.168.0.183:3333',
   headers: {
     'Content-Type': 'application/json',
