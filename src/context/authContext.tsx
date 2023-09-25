@@ -56,7 +56,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  const jwtToken = sessionStorage.getItem('token');
+  let jwtToken: any;
+  if (typeof window !== 'undefined') {
+    jwtToken = sessionStorage.getItem('token');
+  }
 
   useEffect(() => {
     if (!jwtToken) {
