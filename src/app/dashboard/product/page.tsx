@@ -14,7 +14,7 @@ import { PrintModal } from './components/PrintModal';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 
-export const Product = () => {
+export default function Product() {
   const router = useRouter();
   const { selectedProduct, sendDeleteProduct, loadedProducts, setLoadedProducts, setFilteredProducts } = useProductContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,5 +90,3 @@ export const Product = () => {
     </main>
   )
 }
-
-export default Product;

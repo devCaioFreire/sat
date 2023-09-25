@@ -9,7 +9,7 @@ import { OrderFilter } from './components/filters/orderFilter';
 import { OrderList } from './components/orderList';
 import { PrintOrderModal } from './components/printOrderModal';
 
-export const Order = () => {
+export default function Order() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePrint = async () => {
@@ -41,5 +41,3 @@ export const Order = () => {
     </main>
   )
 }
-
-export default Order;
