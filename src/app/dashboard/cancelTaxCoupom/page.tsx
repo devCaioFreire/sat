@@ -1,6 +1,6 @@
 import CoupomList from "./components/coupomList";
 
-export const CancelTaxCoupom = () => {
+export default function CancelTaxCoupom() {
   return (
     <main className="flex flex-col border border-border rounded-lg h-full">
       <header
@@ -12,5 +12,3 @@ export const CancelTaxCoupom = () => {
     </main>
   )
 }
-
-export default CancelTaxCoupom;
