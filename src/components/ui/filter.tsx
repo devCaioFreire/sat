@@ -48,7 +48,7 @@ export const Filter: React.FC = () => {
       <DropdownMenu>
         <DropdownMenuTrigger className="outline-none">
           <BsFilterCircleFill
-            className="mt-1 w-6 h-6 text-zinc-100"
+            className="mt-1 w-[1.625rem] h-[1.625rem] text-zinc-100"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

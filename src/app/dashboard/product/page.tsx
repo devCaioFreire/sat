@@ -1,9 +1,8 @@
 'use client'
 import { BsPrinterFill } from 'react-icons/bs';
+import { FaRegTrashCan } from 'react-icons/fa6';
 import { FiEdit2 } from 'react-icons/fi';
-import { IoMdRemove } from 'react-icons/io';
 import { IoAdd } from 'react-icons/io5';
-
 
 import { Filter } from '@/components/ui/filter';
 import { useProductContext } from '@/context/productContext';
@@ -13,6 +12,7 @@ import { useState } from 'react';
 import { PrintModal } from './components/PrintModal';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
+import { Routines } from './components/routines/routines';
 
 export default function Product() {
   const router = useRouter();
@@ -68,19 +68,27 @@ export default function Product() {
 
         <div className='flex gap-4'>
           <IconButton onClick={handlePrint} title="Imprimir Produtos">
-            <BsPrinterFill className="w-6 h-6 text-[#6d6d70]" />
+            <BsPrinterFill className="w-6 h-6 text-zinc-100" />
           </IconButton>
+
           <IconButton title="Filtrar Produto">
             <Filter />
           </IconButton>
+
+          <IconButton title="Rotinas">
+            <Routines />
+          </IconButton>
+
           <IconButton onClick={handleAdd} title="Adicionar Produto">
             <IoAdd className="w-8 h-8  text-green-500" />
           </IconButton>
+
           <IconButton onClick={handleEdit} title="Editar Produto">
             <FiEdit2 className="w-5 h-5 text-indigo-500" />
           </IconButton>
+
           <IconButton onClick={handleRemove} title="Remover Produto">
-            <IoMdRemove className="w-8 h-8 text-red-700" />
+            <FaRegTrashCan className="w-5 h-5 text-red-700" />
           </IconButton>
         </div>
       </header>
