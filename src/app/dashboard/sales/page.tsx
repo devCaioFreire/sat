@@ -163,7 +163,7 @@ export default function Sales() {
             {/* Grid Quantity and Value */}
             <div className="grid grid-cols-2 h-[18%] gap-6 default:gap-4 lg:gap-10">
               {/* Value */}
-              <ValueProduct title="Valor Unitário" value={formatCurrency(selectedProduct?.vlrUnCom || 0)} />
+              <ValueProduct title="Valor Unitário" value={formatCurrency(parseFloat(selectedProduct ? selectedProduct?.vlrUnCom.toString() : '0'))} />
               <ValueProduct title="Valor Total" value={formatCurrency(totalValueIndex || 0)} />
             </div>
 

@@ -59,7 +59,7 @@ export function List() {
           </tr>
         </thead>
         <tbody>
-          {product.map((item, index) => (
+          {product.map((item, index): any => (
             <tr
               key={index}
               className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedItem ? "bg-indigo-900" : ""}`}
@@ -69,7 +69,7 @@ export function List() {
             >
               <td className="px-4 w-[60%]">{item.descricao}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
-              <td className="px-4 w-[15%]">{formatCurrency(item.vlrUnCom)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(parseFloat(item.vlrUnCom.toString()))}</td>
               <td className="px-4 w-[15%]">{formatCurrency(item.vlrUnCom * item.quantity)}</td>
             </tr>
           ))}

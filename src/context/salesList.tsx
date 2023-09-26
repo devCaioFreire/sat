@@ -69,12 +69,12 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   // GET
   const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
-    return AxiosNode.get<ProductProps>(`/?codEAN=${ean}&userToken=a77a9fcc-09fd-11ee-a4ed-08626698f6fc&token=8309eaec-d311-11ed-a238-8c89a5fa70e8`)
+    return AxiosNode.get<ProductProps>(`/getEANProductFilter/${ean}`)
       .then((response: AxiosResponse) => {
-        const productsArray = response.data.Produtos;
+        const productsArray = response.data;
 
-        const product = productsArray[0];
-        const { id, eAN, descricao, vlrUnCom } = product;
+        const product = productsArray;
+        const { id, codEAN, descricao, vlrUnCom } = product;
 
         if (!ean) {
           setError("Product not found");
@@ -82,12 +82,13 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
         }
         const data = {
           id: id,
-          ean: eAN,
+          ean: codEAN,
           descricao,
           quantity: quantity,
           vlrUnCom,
           totalValue: vlrUnCom * quantity
         };
+        console.log(data);
         setProduct((Products) => [...Products, data]);
         setError(null);
         return data;
