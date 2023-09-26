@@ -121,7 +121,7 @@ export default function RegisterProduct() {
 
           {/* Balance */}
           <InputNumber
-            className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
+            className="px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed"
             isNotAllowed
             value={balance}
             onChange={(e: any) => setBalance(e.target.value)}
