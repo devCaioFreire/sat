@@ -52,12 +52,13 @@ export default function Home() {
           <Card
             title="2ª Via Cupom SAT"
             shortcut="(Ctrl + N)"
-            link={''} />
+            link={''}
+            isDisabled={true} />
 
           <Card
             title="Módulos Adicionais"
             shortcut="(Ctrl + N)"
-            link={''} />
+            link={'https://sistemasatfiscal.com.br'} />
 
           <Card
             title="Sair do Sistema"

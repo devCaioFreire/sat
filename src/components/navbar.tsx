@@ -67,7 +67,7 @@ export function Navbar() {
           href={'/dashboard/product'}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
-          <Image alt="" src={AddProduct} className="w-6 " />
+          <Image alt="" src={AddProduct} className="w-6" />
           <p className="text-base font-medium">
             {isSalesPage ? '' : 'Produtos'}
           </p>
@@ -96,7 +96,7 @@ export function Navbar() {
         <Link
           href={''}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
-          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Drawer} className="w-6" />
           <p className="text-base font-medium">
             {isSalesPage ? '' : 'Abrir Gaveta'}
@@ -106,7 +106,7 @@ export function Navbar() {
         <Link
           href={''}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
-          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Rel} className="w-6" />
           <p className="text-base font-medium">
             {isSalesPage ? '' : 'Relatório Gerencial de Vendas'}
@@ -116,7 +116,7 @@ export function Navbar() {
         <Link
           href={''}
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
-          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
+          className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={sat} className="w-6" />
           <p className="text-base font-medium">
             {isSalesPage ? '' : '2ª Via Cupom SAT'}
