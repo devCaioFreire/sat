@@ -86,13 +86,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         router.push('/dashboard/home');
 
       } else {
-        console.log('Error: ' + response.status + 'Não foi permitido acessar')
         setIsAuthenticated(false);
+        setError(true);
+        console.log('Error: ' + response.status + 'Não foi permitido acessar')
+        throw new Error('não foi permitido acessar');
       }
     } catch (err) {
-      console.log('Error: Não foi permitido acessar')
       setIsAuthenticated(false);
       setError(true);
+      console.log('Error: Não foi permitido acessar')
+      throw err;
     }
   };
 

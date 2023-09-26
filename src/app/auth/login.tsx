@@ -8,6 +8,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleLogin(e: any) {
     e.preventDefault();
@@ -17,16 +18,20 @@ export default function Login() {
 
     if (trimmedEmail === '' || trimmedPassword === '') {
       setError(true);
+      setIsLoading(false);
       return;
     }
 
     try {
-      setError(false);
+      setIsLoading(true);
       await login(trimmedEmail, trimmedPassword);
+      setIsLoading(false);
+      setError(false);
     } catch (err) {
+      setError(true);
+      setIsLoading(false);
       console.error(err);
     }
-    setError(true);
   }
 
   return (
@@ -56,10 +61,11 @@ export default function Login() {
 
               <button
                 type="submit"
-                className={`text-center bg-transparent p-4 rounded-md mt-[1.5rem] 
-                border  transition-all hover:bg-loginBtn ${error ? 'border-red-700' : 'border-border'}`}
+                className={`text-center p-4 rounded-md mt-[1.5rem] 
+                border transition-all hover:bg-loginBtn ${isLoading ? 'cursor-not-allowed bg-loginBtn' : 'cursor-pointer bg-transparent'} ${error ? 'border-red-700' : 'border-border'}`}
+                disabled={isLoading}
               >
-                {error ? 'Credenciais inválidas' : 'Acessar'}
+                {isLoading ? 'Acessando...' : error ? 'Credenciais inválidas' : 'Acessar'}
               </button>
             </div>
           </form>
