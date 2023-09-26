@@ -33,14 +33,13 @@ export default function Home() {
             link={'/dashboard/product'} />
 
           <Card
-            title="Abrir Gaveta"
-            shortcut="(Ctrl + P)"
-            link={''}
-            isDisabled={true} />
+            title="Vendas"
+            shortcut="(Ctrl + N)"
+            link={'/dashboard/order'} />
 
           <Card
-            title="Capturar Pedido de Venda"
-            shortcut="(Ctrl + N)"
+            title="Abrir Gaveta"
+            shortcut="(Ctrl + P)"
             link={''}
             isDisabled={true} />
 
