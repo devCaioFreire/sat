@@ -13,7 +13,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-
+import { formatDate } from "@/utils/formatter"
+import { ptBR } from "date-fns/locale"
 
 export function DatePickerWithRange({
   className,
@@ -45,11 +46,11 @@ export function DatePickerWithRange({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {formatDate(format(date.from, "LLL dd, y"))} -{" "}
+                  {formatDate(format(date.to, "LLL dd, y"))}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                formatDate(format(date.from, "LLL dd, y"))
               )
             ) : (
               <span>Escolha uma data</span>
@@ -64,6 +65,7 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}
+            locale={ptBR}
           />
           <Button
             id="date"

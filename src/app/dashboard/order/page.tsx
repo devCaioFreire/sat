@@ -3,8 +3,8 @@ import { BsPrinterFill } from 'react-icons/bs';
 
 
 import { useState } from 'react';
-import { DatePickerWithRange } from '../product/components/filter/datePicker';
 import { IconButton } from '../product/components/inputButton';
+import { DatePickerWithRange } from './components/filters/datePicker';
 import { OrderFilter } from './components/filters/orderFilter';
 import { OrderList } from './components/orderList';
 import { PrintOrderModal } from './components/printOrderModal';
@@ -29,8 +29,8 @@ export default function Order() {
             <OrderFilter />
           </IconButton>
 
-          <IconButton onClick={handlePrint} title="Imprimir Pedidos">
-            <BsPrinterFill className="w-6 h-6 text-[#6d6d70]" />
+          <IconButton onClick={handlePrint} title="Imprimir Produtos">
+            <BsPrinterFill className="w-6 h-6 text-zinc-100" />
           </IconButton>
 
         </div>
