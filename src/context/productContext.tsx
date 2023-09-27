@@ -1,5 +1,5 @@
 import { AxiosNode } from '@/services/axios';
-import React, { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 export interface ProductProps {
   // filter(arg0: (product: any) => any): unknown;
@@ -63,17 +63,22 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [isFetching, setIsFetching] = useState(false);
+
+  const nextPageRef = useRef(0);
 
   // GET
   const fetchMoreProducts = async () => {
     if (isLoading) return;
     setIsLoading(true);
+
     try {
       const response = await AxiosNode.get(
-        `/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+        `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
       setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
+      nextPageRef.current += 1;
     } catch (err) {
       console.error(err);
     } finally {
@@ -169,7 +174,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   useEffect(() => {
     fetchMoreProducts();
-  }, [currentPage, filterArray]);
+  }, [filterArray]);
 
   useEffect(() => {
     const table = document.getElementById('table');
@@ -178,7 +183,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         const { scrollTop, clientHeight, scrollHeight } = table;
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
         if (isAtBottom && !isLoading) {
-          setCurrentPage(prevPage => prevPage + 1);
+          fetchMoreProducts()
         }
       };
       table.addEventListener('scroll', handleScroll);
@@ -190,8 +195,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
-
-    // setCurrentPage(prevPage => prevPage + 1);
 
     try {
       const response = await AxiosNode.get(`/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
