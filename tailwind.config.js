@@ -1,12 +1,14 @@
-const { fontFamily } = require("tailwindcss/defaultTheme");
 const withMT = require("@material-tailwind/react/utils/withMT");
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
-module.exports = withMT({
+module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     container: {
@@ -104,4 +106,4 @@ module.exports = withMT({
     require("tailwind-scrollbar"),
     require("tailwindcss-animate"),
   ],
-});
+};
