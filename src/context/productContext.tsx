@@ -179,7 +179,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
         if (isAtBottom && !isLoading) {
           setCurrentPage(prevPage => prevPage + 1);
-          
         }
       };
       table.addEventListener('scroll', handleScroll);
@@ -250,7 +249,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         fetchAllProductsForPrint,
         toggleSort,
         sortOrder,
-        isLoading,
+        isLoading
       }}>
       {children}
     </ProductContext.Provider>

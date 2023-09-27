@@ -36,10 +36,6 @@ export const ProductList = () => {
     }
   });
 
-  // if (isLoading) {
-  //   return <Loading />
-  // }
-
   return (
     <>
       <table
