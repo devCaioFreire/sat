@@ -43,6 +43,7 @@ interface ProductContextType {
   fetchAllProductsForPrint: (filterArray: any[]) => Promise<ProductProps[]>;
   sortOrder: string;
   toggleSort: () => void;
+  isLoading: boolean;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -178,6 +179,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
         if (isAtBottom && !isLoading) {
           setCurrentPage(prevPage => prevPage + 1);
+          
         }
       };
       table.addEventListener('scroll', handleScroll);
@@ -248,6 +250,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         fetchAllProductsForPrint,
         toggleSort,
         sortOrder,
+        isLoading,
       }}>
       {children}
     </ProductContext.Provider>

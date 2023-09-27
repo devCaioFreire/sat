@@ -46,6 +46,7 @@ interface OrderContextType {
   fetchAllProductsForPrint: (filterArray: any[]) => Promise<SalesOrderProps[]>;
   combineOrdersWithItems: () => Promise<SalesOrderProps[]>;
   combined: any;
+  isLoading: boolean;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -230,7 +231,8 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         filterArray,
         fetchAllProductsForPrint,
         combineOrdersWithItems,
-        combined
+        combined,
+        isLoading
       }}>
       {children}
     </OrderContext.Provider>
