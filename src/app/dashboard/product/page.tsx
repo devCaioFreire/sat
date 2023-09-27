@@ -4,12 +4,12 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import { FiEdit2 } from 'react-icons/fi';
 import { IoAdd } from 'react-icons/io5';
 
-import { Filter } from '@/components/ui/filter';
 import { useProductContext } from '@/context/productContext';
 import { AxiosNode } from '@/services/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PrintModal } from './components/PrintModal';
+import { Filter } from './components/filter/filter';
 import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 import { Routines } from './components/routines/routines';

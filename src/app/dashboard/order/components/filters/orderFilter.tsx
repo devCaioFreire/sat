@@ -10,8 +10,8 @@ import { useOrderContext } from "@/context/orderContext";
 import React, { useState } from "react";
 import { BsFilterCircleFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
-import { IDFilter } from "./IDFilter";
-import { PaymentMethodFilter } from "./PaymentMethodFilter";
+import { IDFilter } from "./filterTypes/IDFilter";
+import { PaymentMethodFilter } from "./filterTypes/PaymentMethodFilter";
 
 export const OrderFilter: React.FC = () => {
   const { clearFilter, toggleSort } = useOrderContext();

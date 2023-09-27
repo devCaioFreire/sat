@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useProductContext } from "@/context/productContext";
 import React, { ReactNode, useState } from "react";
 import { BiBarcodeReader } from 'react-icons/bi';
-import { Button } from "../button";
+import { Button } from "../../../../../../components/ui/button";
 
 interface FilterModalProps {
   isOpen?: boolean;

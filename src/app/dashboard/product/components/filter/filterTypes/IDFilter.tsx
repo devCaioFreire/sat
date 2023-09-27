@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useProductContext } from "@/context/productContext";
 import React, { ReactNode, useState } from "react";
-import { Button } from "../button";
+import { Button } from "../../../../../../components/ui/button";
 
 interface FilterModalProps {
   isOpen?: boolean;
@@ -17,14 +17,14 @@ interface FilterModalProps {
   children?: ReactNode;
 }
 
-export const DescriptionFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
+export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
   const { getProductByFilter } = useProductContext();
-  const [description, setDescription] = useState("");
+  const [ID, setID] = useState("");
 
-  async function handleSearchDescription(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSearchID(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await getProductByFilter({ field: 'descricao', value: description })
-    setDescription("");
+    await getProductByFilter({ field: 'id', value: ID })
+    setID("");
     onClose?.();
   }
 
@@ -36,16 +36,16 @@ export const DescriptionFilter: React.FC<FilterModalProps> = ({ isOpen, onClose,
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Descrição</DialogTitle>
+            <DialogTitle># ID</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSearchDescription}>
+          <form onSubmit={handleSearchID}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 mb-12 gap-4">
                 <Input
                   id="id"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Digite o produto"
+                  value={ID}
+                  onChange={(e) => setID(e.target.value)}
+                  placeholder="Digite o ID"
                   className="col-span-full"
                   autoComplete="off"
                 />

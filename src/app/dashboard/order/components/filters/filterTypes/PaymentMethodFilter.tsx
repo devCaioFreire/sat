@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useOrderContext } from "@/context/orderContext";
 import React, { ReactNode, useState } from "react";
-import { Button } from "../../../../../components/ui/button";
+import { Button } from "../../../../../../components/ui/button";
 
 interface FilterModalProps {
   isOpen?: boolean;
@@ -17,14 +17,14 @@ interface FilterModalProps {
   children?: ReactNode;
 }
 
-export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
+export const PaymentMethodFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children }) => {
   const { getOrderByFilter } = useOrderContext();
-  const [ID, setID] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   async function handleSearchID(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await getOrderByFilter({ field: 'id', value: ID })
-    setID("");
+    await getOrderByFilter({ field: 'forma_pagamento', value: paymentMethod })
+    setPaymentMethod("");
     onClose?.();
   }
 
@@ -36,16 +36,16 @@ export const IDFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, children
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle># ID</DialogTitle>
+            <DialogTitle>$ Forma de pagamento</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSearchID}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 mb-12 gap-4">
                 <Input
                   id="id"
-                  value={ID}
-                  onChange={(e) => setID(e.target.value)}
-                  placeholder="Digite o ID"
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  placeholder="Digite a forma de pagamento"
                   className="col-span-full"
                   autoComplete="off"
                 />
