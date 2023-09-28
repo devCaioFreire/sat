@@ -1,6 +1,8 @@
 'use client'
 import { useProductContext } from "@/context/productContext";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BiLeftArrowAlt } from "react-icons/bi";
 import { InputNumber, InputText } from "../../components/inputs";
 
 export default function EditProduct({ params }: { params: { id: string } }) {
@@ -83,7 +85,12 @@ export default function EditProduct({ params }: { params: { id: string } }) {
     <main className="flex flex-col border border-border rounded-lg h-1/2">
       <header
         className="flex items-center justify-center w-full shadow-lg rounded-t-xl bg-backgroundSecundary default:h-6 lg:h-10">
-        <h1 className="font-medium">Editar Produto</h1>
+        <Link href={"/dashboard/product"} className="px-4 flex-shrink-0">
+          <BiLeftArrowAlt className="w-6 h-6" />
+        </Link>
+        <div className="flex-grow text-center items-center justify-center">
+          <h1 className="font-medium">Editar Produto</h1>
+        </div>
       </header>
 
       <form onSubmit={handleSubmit} className="flex flex-col h-full justify-between p-4">
@@ -91,8 +98,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
           <InputText
             className={`px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed`}
             placeholder={'ID'}
-            isNotAllowed
             value={ID}
+            isNotAllowed
           />
 
           {/* Product Code */}
@@ -141,8 +148,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             value={ncmCode}
             onChange={(e: any) => setNcmCode(e.target.value)}
-            placeholder="Cód. NCM"
             max={8}
+            placeholder="Cód. NCM"
           />
 
           {/* EAN Code */}
@@ -150,8 +157,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             value={eanCode}
             onChange={(e: any) => setEanCode(e.target.value)}
-            placeholder="Cód. EAN"
             max={14}
+            placeholder="Cód. EAN"
           />
 
           <select id="status" value={status} onChange={(e) => setStatus(e.target.value)} className="h-12 px-2 bg-transparent outline-none rounded border border-border">
