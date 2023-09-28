@@ -44,7 +44,7 @@ export default function Home() {
             isDisabled={true} />
 
           <Card
-            title="Relatório Gerencial de Vendas"
+            title="Relatório Gerencial"
             shortcut="(Ctrl + N)"
             link={''}
             isDisabled={true} />
