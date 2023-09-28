@@ -73,7 +73,7 @@ export default function RegisterProduct() {
   }
 
   return (
-    <main className="flex flex-col border border-border rounded-lg h-1/2">
+    <main className="flex flex-col border border-border rounded-lg h-fit">
       <header
         className="flex items-center justify-start w-full shadow-lg rounded-t-xl bg-backgroundSecundary default:h-6 lg:h-10">
         <Link href={"/dashboard/product"} className="px-4 flex-shrink-0">
@@ -161,7 +161,7 @@ export default function RegisterProduct() {
         </div>
         <button
           type="submit"
-          className={`flex p-4 rounded justify-center w-full transition-all mt-4  ${error ? 'bg-red-700 hover:bg-red-600' : 'bg-indigo-700 hover:bg-indigo-600'}`}>
+          className={`flex p-4 rounded justify-center w-full transition-all mt-6 ${error ? 'bg-red-700 hover:bg-red-600' : 'bg-indigo-700 hover:bg-indigo-600'}`}>
           Cadastrar
         </button>
       </form>
