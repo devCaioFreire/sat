@@ -38,7 +38,7 @@ export function Navbar() {
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           {/* // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields"> */}
           <Image alt="" src={Home} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Home'}
           </p>
         </Link>
@@ -48,7 +48,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Cart} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Nova Venda'}
           </p>
         </Link>
@@ -58,7 +58,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Cancel} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Cancelar Cupom'}
           </p>
         </Link>
@@ -68,7 +68,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={AddProduct} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Produtos'}
           </p>
         </Link>
@@ -78,7 +78,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Search} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Consultar Preços'}
           </p>
         </Link> */}
@@ -88,7 +88,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Sale} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Vendas'}
           </p>
         </Link>
@@ -98,7 +98,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Drawer} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Abrir Gaveta'}
           </p>
         </Link>
@@ -108,8 +108,8 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Rel} className="w-6" />
-          <p className="text-base font-medium">
-            {isSalesPage ? '' : 'Relatório Gerencial de Vendas'}
+          <p className="font-medium xl:text-sm 2xl:text-base">
+            {isSalesPage ? '' : 'Relatório Gerencial'}
           </p>
         </Link>
 
@@ -118,7 +118,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full cursor-not-allowed transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={sat} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : '2ª Via Cupom SAT'}
           </p>
         </Link>
@@ -128,7 +128,7 @@ export function Navbar() {
           // className="flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields">
           className={`${isSalesPage ? 'flex items-center self-center pr-2 justify-center  w-full' : 'flex items-center pr-2 pl-4 flex-1 gap-4 w-full transition-all hover:bg-backgroundFields'}`}>
           <Image alt="" src={Exit} className="w-6" />
-          <p className="text-base font-medium">
+          <p className="font-medium xl:text-sm 2xl:text-base">
             {isSalesPage ? '' : 'Sair do Sistema'}
 
           </p>
