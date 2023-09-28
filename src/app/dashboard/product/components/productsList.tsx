@@ -46,7 +46,7 @@ export const ProductList = () => {
           <tr className="flex text-left">
             <th className="pt-3 px-4 w-[5%] text-base font-medium">ID</th>
             <th className="pt-3 px-4 w-[10%] text-base font-medium">Cód. Interno</th>
-            <th className="pt-3 px-4 w-[50%] text-base font-medium">Descrição</th>
+            <th className="pt-3 px-4 w-[50%] text-base font-medium xl:w-[47%]">Descrição</th>
             <th className="pt-3 px-4 w-[10%] text-base font-medium">Valor</th>
             <th className="pt-3 px-4 w-[10%] text-base font-medium">Unidade</th>
             <th className="pt-3 px-4 w-[10%] text-base font-medium">Saldo</th>
@@ -63,13 +63,13 @@ export const ProductList = () => {
             >
               <td className="px-4 w-[5%] overflow-hidden">{item.id}</td>
               <td className="px-4 w-[10%] overflow-hidden">{item.codProduto}</td>
-              <td className="px-4 w-[50%] overflow-hidden">{item.descricao}</td>
+              <td className="px-4 w-[50%] overflow-hidden xl:w-[47%]">{item.descricao}</td>
               <td className="px-4 w-[10%] overflow-hidden">
                 {formatCurrency(parseFloat(item.vlrUnCom))}
               </td>
               <td className="px-4 w-[10%] overflow-hidden">{item.unCom}</td>
               <td className="px-4 w-[10%] overflow-hidden">{item.saldo}</td>
-              <td className="px-4 w-[5%] overflow-hidden">{item.status}</td>
+              <td className="px-4 w-[5%] overflow-hidden xl:px-8">{item.status}</td>
             </tr>
           ))}
         </tbody>
