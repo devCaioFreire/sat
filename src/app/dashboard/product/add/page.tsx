@@ -82,9 +82,9 @@ export default function RegisterProduct() {
           {/* ID */}
           <InputText
             className={`px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed`}
-            isNotAllowed
-            placeholder={'ID'}
             value={nextProductId || ''}
+            placeholder={'ID'}
+            isNotAllowed
           />
 
           {/* Product Code */}
@@ -133,8 +133,8 @@ export default function RegisterProduct() {
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             value={ncmCode}
             onChange={(e: any) => setNcmCode(e.target.value)}
-            placeholder="Cód. NCM"
             max={8}
+            placeholder="Cód. NCM" 
           />
 
           {/* EAN Code */}
@@ -142,8 +142,8 @@ export default function RegisterProduct() {
             className="px-2 w-full h-12 rounded bg-transparent border border-border outline-none"
             value={eanCode}
             onChange={(e: any) => setEanCode(e.target.value)}
-            placeholder="Cód. EAN"
             max={14}
+            placeholder="Cód. EAN"
           />
 
           <select id="status" value={status} onChange={(e) => setStatus(e.target.value)} className="h-12 px-2 bg-transparent outline-none rounded border border-border">

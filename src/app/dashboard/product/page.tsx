@@ -24,7 +24,7 @@ export default function Product() {
   }
 
   const handleAdd = () => {
-    router.push('/dashboard/product/register');
+    router.push('/dashboard/product/add');
   }
 
   const handleEdit = async () => {
