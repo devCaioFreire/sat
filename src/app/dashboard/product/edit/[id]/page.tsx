@@ -169,7 +169,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
         </div>
         <button
           type="submit"
-          className="flex p-4 rounded justify-center w-full transition-all bg-indigo-700 hover:bg-indigo-600">
+          className="flex p-4 rounded justify-center w-full transition-all mt-4 bg-indigo-700 hover:bg-indigo-600">
           Salvar
         </button>
       </form>
