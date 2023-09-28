@@ -125,7 +125,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
     const salesData = {
       itens: product.map((item) => ({
         produto_id: item.id,
-        ean: item.ean.toString(),
+        ean: item.ean,
         descricao: item.descricao,
         quantidade: item.quantity,
         valor_unitario: item.vlrUnCom,

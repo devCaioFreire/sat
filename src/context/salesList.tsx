@@ -26,7 +26,7 @@ interface ProductContextProps {
 
 interface Item {
   produto_id: number;
-  ean: string;
+  ean: string | number;
   descricao: string;
   quantidade: number;
   valor_total: number;
