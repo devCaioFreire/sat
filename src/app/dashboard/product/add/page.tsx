@@ -161,7 +161,7 @@ export default function RegisterProduct() {
         </div>
         <button
           type="submit"
-          className={`flex p-4 rounded justify-center w-full transition-all  ${error ? 'bg-red-700 hover:bg-red-600' : 'bg-indigo-700 hover:bg-indigo-600'}`}>
+          className={`flex p-4 rounded justify-center w-full transition-all mt-4  ${error ? 'bg-red-700 hover:bg-red-600' : 'bg-indigo-700 hover:bg-indigo-600'}`}>
           Cadastrar
         </button>
       </form>
