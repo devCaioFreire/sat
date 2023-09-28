@@ -1,6 +1,8 @@
 'use client'
 import { useProductContext } from "@/context/productContext";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BiLeftArrowAlt } from "react-icons/bi";
 import { InputNumber, InputText } from "../components/inputs";
 
 export default function RegisterProduct() {
@@ -73,8 +75,13 @@ export default function RegisterProduct() {
   return (
     <main className="flex flex-col border border-border rounded-lg h-1/2">
       <header
-        className="flex items-center justify-center w-full shadow-lg rounded-t-xl bg-backgroundSecundary default:h-6 lg:h-10">
-        <h1 className="font-medium">Cadastrar Produto</h1>
+        className="flex items-center justify-start w-full shadow-lg rounded-t-xl bg-backgroundSecundary default:h-6 lg:h-10">
+        <Link href={"/dashboard/product"} className="px-4 flex-shrink-0">
+          <BiLeftArrowAlt className="w-6 h-6" />
+        </Link>
+        <div className="flex-grow text-center items-center justify-center">
+          <h1 className="font-medium">Cadastrar Produto</h1>
+        </div>
       </header>
 
       <form onSubmit={handleSubmit} className="flex flex-col h-full justify-between p-4">
@@ -134,7 +141,7 @@ export default function RegisterProduct() {
             value={ncmCode}
             onChange={(e: any) => setNcmCode(e.target.value)}
             max={8}
-            placeholder="Cód. NCM" 
+            placeholder="Cód. NCM"
           />
 
           {/* EAN Code */}
