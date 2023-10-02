@@ -6,11 +6,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
+import { useProductContext } from "@/context/productContext";
+import React, { useState } from "react";
 import { FaFilter } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
+import { Expense } from "./routinesTypes/expense";
+import { Income } from "./routinesTypes/income";
 
 export const Routines: React.FC = () => {
+  const { selectedProduct } = useProductContext();
+  const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
+  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+
+  const openIncomeModal = () => {
+    setIsIncomeModalOpen(true);
+  };
+
+  const openExpenseModal = () => {
+    setIsExpenseModalOpen(true);
+  };
+
+  const closeFilterModal = () => {
+    setIsIncomeModalOpen(false);
+    setIsExpenseModalOpen(false);
+  };
 
   return (
     <>
@@ -24,10 +43,12 @@ export const Routines: React.FC = () => {
             Routines
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Entrada</DropdownMenuItem>
-          <DropdownMenuItem>Saída</DropdownMenuItem>
+          <DropdownMenuItem onClick={openIncomeModal}>Entrada</DropdownMenuItem>
+          <DropdownMenuItem onClick={openExpenseModal}>Saída</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Income isOpen={isIncomeModalOpen} onClose={closeFilterModal} selectedIndex={selectedProduct} />
+      <Expense isOpen={isExpenseModalOpen} onClose={closeFilterModal} selectedIndex={selectedProduct} />
     </>
   );
 };
