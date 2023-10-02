@@ -36,6 +36,7 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
     try {
       const response = await AxiosNode.get(`/getDescriptionProductFilter?descricao=${description}&page=${currentPage}`);
       const products = response.data;
+      console.log(products);
 
       if (products && products.length > 0) {
         setSearchedProducts(products);

@@ -124,12 +124,12 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
 
     const salesData = {
       itens: product.map((item) => ({
-        produto_id: item.id,
-        ean: item.ean,
+        produto_id: parseInt(item.id),
+        ean: item.codEAN.toString(),
         descricao: item.descricao,
         quantidade: item.quantity,
-        valor_unitario: item.vlrUnCom,
-        valor_total: item.totalValue!,
+        valor_unitario: parseFloat(item.vlrUnCom),
+        valor_total: parseFloat(item.vlrUnCom) * item.quantity,
       })),
       cpf_cnpj: customerData.cpfOrCnpj,
       valor_bruto: calculateTotal(),
@@ -141,7 +141,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       troco: selectedPaymentMethod === 'dinheiro' ? change : 0,
       status: 'R'
     };
-
+    console.log(salesData)
     try {
       await sendSalesData(salesData);
 

@@ -3,11 +3,11 @@ import { AxiosResponse } from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 interface ProductProps {
-  id: number;
-  ean: number;
+  id: string;
+  codEAN: number;
   descricao: string;
   quantity: number;
-  vlrUnCom: number;
+  vlrUnCom: string;
   totalValue?: number;
   total?: number;
 }
@@ -26,7 +26,7 @@ interface ProductContextProps {
 
 interface Item {
   produto_id: number;
-  ean: string | number;
+  ean: string;
   descricao: string;
   quantidade: number;
   valor_total: number;
@@ -68,21 +68,21 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 
 
   // GET
-  const getProductByEAN = (ean: number, quantity: number): Promise<ProductProps> => {
-    return AxiosNode.get<ProductProps>(`/getEANProductFilter/${ean}`)
+  const getProductByEAN = (codEAN: number, quantity: number): Promise<ProductProps> => {
+    return AxiosNode.get<ProductProps>(`/getEANProductFilter/${codEAN}`)
       .then((response: AxiosResponse) => {
         const productsArray = response.data;
 
         const product = productsArray;
         const { id, codEAN, descricao, vlrUnCom } = product;
 
-        if (!ean) {
+        if (!codEAN) {
           setError("Product not found");
           throw new Error("Product not found");
         }
         const data = {
           id: id,
-          ean: codEAN,
+          codEAN: codEAN,
           descricao,
           quantity: quantity,
           vlrUnCom,
@@ -113,7 +113,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   const calculateTotal = () => {
     return product.reduce((total, product) => {
-      return total + product.quantity * product.vlrUnCom;
+      return total + product.quantity * parseFloat(product.vlrUnCom);
     }, 0);
   };
 
@@ -121,7 +121,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const handleRemoveProduct = (ean: number, quantityToRemove: number) => {
     setProduct((prevProducts) =>
       prevProducts.map((product, index) =>
-        index === selectedProductIndex && product.ean === ean
+        index === selectedProductIndex && product.codEAN === ean
           ? {
             ...product,
             quantity: Math.max(product.quantity - quantityToRemove, 0),
