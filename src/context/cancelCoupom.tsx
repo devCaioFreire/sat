@@ -8,6 +8,7 @@ interface CoupomData {
   cpf_cnpj: string;
   valor_liquido: number;
   data_criacao: Date;
+  token:string;
 }
 
 interface CancelData {

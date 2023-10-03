@@ -2,13 +2,12 @@ import { AxiosNode } from '@/services/axios';
 import React, { Dispatch, SetStateAction, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 export interface ProductProps {
-  // filter(arg0: (product: any) => any): unknown;
   id?: string;
   codProduto: string;
   descricao: string;
   vlrUnCom: string;
   unCom: string;
-  saldo: string;
+  saldo: string | number;
   status: string;
   ncm?: string;
   codEAN?: string;

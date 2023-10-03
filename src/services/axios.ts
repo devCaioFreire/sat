@@ -1,9 +1,6 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const API_BASE = process.env.BASE_TEST_API;
+const token = sessionStorage.getItem('token') ?? '';
 
 export const AxiosNode = axios.create({
   // baseURL: 'https://soft-api.onrender.com',
@@ -11,4 +8,15 @@ export const AxiosNode = axios.create({
   headers: {
     'Content-Type': 'application/json',
   }
+});
+
+// Interceptor de requisição para adicionar o token dinamicamente
+AxiosNode.interceptors.request.use(config => {
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });

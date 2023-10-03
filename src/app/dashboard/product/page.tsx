@@ -30,7 +30,6 @@ export default function Product() {
   const handleEdit = async () => {
     if (selectedProduct) {
       if (!loadedProducts.some((product) => product.id === selectedProduct.id)) {
-        // O produto não está em loadedProducts, faça uma chamada à API para buscá-lo
         try {
           const response = await AxiosNode.get(`/getIDProductFilter/${selectedProduct.id}`);
           const productData = response.data;

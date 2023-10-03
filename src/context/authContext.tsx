@@ -82,6 +82,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const { token } = response.data;
 
         sessionStorage.setItem('token', token);
+        AxiosNode.defaults.headers.common['Authorization'] = `${sessionStorage.getItem('token')}`;
+
         setIsAuthenticated(true);
         router.push('/dashboard/home');
 
@@ -102,6 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem('token');
+    // delete AxiosNode.defaults.headers.common['Authorization'];
     router.push('/');
   };
 

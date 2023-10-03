@@ -31,24 +31,24 @@ export default function RegisterProduct() {
       description === '' ||
       value === '' ||
       unity === '' ||
-      balance === '' ||
       ncmCode === '' ||
       eanCode === '' ||
       status === ''
     ) {
       setError(true);
+      console.log('Você não informou todos os campos');
       return;
     }
 
     const product = {
       codProduto: productCode,
       descricao: description,
-      codEAN: eanCode || '', // Defina um valor padrão (vazio) para os campos não preenchidos
+      codEAN: eanCode || '',
       ncm: ncmCode || '',
-      cfop: '', // Defina um valor para cfop conforme necessário
+      cfop: '',
       unCom: unity,
-      vlrUnCom: value, // Certifique-se de que value seja um número
-      saldo: balance, // Certifique-se de que balance seja um número
+      vlrUnCom: value,
+      saldo: 0,
       status: status
     };
 
@@ -60,7 +60,6 @@ export default function RegisterProduct() {
       setDescription('')
       setValue('')
       setUnity('')
-      setBalance('')
       setNcmCode('')
       setEanCode('')
       setStatus('')
@@ -130,8 +129,7 @@ export default function RegisterProduct() {
           <InputNumber
             className="px-2 w-full h-12 rounded bg-backgroundFields border border-border outline-none disabled:cursor-not-allowed"
             isNotAllowed
-            value={balance}
-            onChange={(e: any) => setBalance(e.target.value)}
+            value={0}
             placeholder="Saldo"
           />
 
