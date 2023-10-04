@@ -43,6 +43,7 @@ interface ProductContextType {
   sortOrder: string;
   toggleSort: () => void;
   isLoading: boolean;
+  loadInitialData: (filters: FilterType[]) => void;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -62,7 +63,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const [isFetching, setIsFetching] = useState(false);
 
   const nextPageRef = useRef(0);
 
@@ -251,7 +251,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         fetchAllProductsForPrint,
         toggleSort,
         sortOrder,
-        isLoading
+        isLoading,
+        loadInitialData
       }}>
       {children}
     </ProductContext.Provider>

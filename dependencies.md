@@ -52,3 +52,8 @@
 [X] -> Melhorar UX;
    [X] -> Adicionar "Loading Component" ao carregar as listas;
 ------------------------------------------------------------------------------------------------------------------------
+[] -> Correções;
+   [] -> Impressão pedidos de venda;
+   [X] -> Lista não carrega de primeira (produtos);
+   [] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
+------------------------------------------------------------------------------------------------------------------------

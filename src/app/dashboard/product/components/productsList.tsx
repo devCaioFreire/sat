@@ -2,9 +2,10 @@
 import { Loading } from "@/components/loading";
 import { useProductContext } from "@/context/productContext";
 import { formatCurrency } from "@/utils/formatter";
+import { useEffect } from "react";
 
 export const ProductList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading, loadInitialData } = useProductContext();
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
@@ -35,6 +36,11 @@ export const ProductList = () => {
       return new Date(b.id!).getTime() - new Date(a.id!).getTime();
     }
   });
+
+  useEffect(() => {
+    loadInitialData(filterType);
+    console.log('OKOOKOK')
+  }, []);
 
   return (
     <>
