@@ -3,7 +3,7 @@ import { BsPrinterFill } from 'react-icons/bs';
 
 
 import { useState } from 'react';
-import { IconButton } from '../product/components/inputButton';
+import { IconButton } from '../../../components/iconButton';
 import { DatePickerWithRange } from './components/filters/datePicker';
 import { OrderFilter } from './components/filters/orderFilter';
 import { OrderList } from './components/orderList';

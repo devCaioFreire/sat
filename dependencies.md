@@ -42,6 +42,8 @@
 [X] -> Desenvolver rotina de adição e subtração de saldo; 
    [X] -> Tela de adição de saldo; 
    [X] -> Tela de remoção de saldo; 
+   [] -> Adicionar o saldo; 
+   [] -> Remover o saldo; 
 ------------------------------------------------------------------------------------------------------------------------
 (backend SQL)
 [] -> Movimentação de estoque; 

@@ -4,7 +4,7 @@ import { useOrderContext } from "@/context/orderContext";
 import { capitalizeFirstLetter, formatCurrency, formatDate } from "@/utils/formatter";
 import { useState } from "react";
 import { TfiMoreAlt } from 'react-icons/tfi';
-import { IconButton } from "../../product/components/inputButton";
+import { IconButton } from "../../../../components/iconButton";
 import { Detail } from "./detail";
 
 export const OrderList = () => {

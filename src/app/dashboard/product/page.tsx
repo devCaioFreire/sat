@@ -8,9 +8,9 @@ import { useProductContext } from '@/context/productContext';
 import { AxiosNode } from '@/services/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { IconButton } from '../../../components/iconButton';
 import { PrintModal } from './components/PrintModal';
 import { Filter } from './components/filter/filter';
-import { IconButton } from './components/inputButton';
 import { ProductList } from './components/productsList';
 import { Routines } from './components/routines/routines';
 
