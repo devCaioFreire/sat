@@ -29,16 +29,19 @@
 [X] -> Criar relatório completo de produtos;
 [X] -> Exportar todos os dados do produto;
 ------------------------------------------------------------------------------------------------------------------------
-[] -> Criar relatório completo de vendas;
+[X] -> Criar relatório completo de vendas;
    [X] -> Criar tela Relatório de vendas;
-   [] -> Exportar todos os dados da venda permitindo filtrar por periodo e agrupado por forma de pagamento;
+   [X] -> Exportar todos os dados da venda;
    [X] -> Desenvolver filtros;
       [X] ->  ID;
       [X] ->  Forma de Pagamento;
       [X] ->  Ulitmos Lançamentos;
       [X] ->  Limpar Filtro;
+      [X] ->  Tempo determinado;
 ------------------------------------------------------------------------------------------------------------------------
-[] -> Desenvolver rotina de adição e subtração de saldo; 
+[X] -> Desenvolver rotina de adição e subtração de saldo; 
+   [X] -> Tela de adição de saldo; 
+   [X] -> Tela de remoção de saldo; 
 ------------------------------------------------------------------------------------------------------------------------
 (backend SQL)
 [] -> Movimentação de estoque; 
@@ -49,8 +52,9 @@
 ## ISSUES
 
 ------------------------------------------------------------------------------------------------------------------------
-[X] -> Melhorar UX;
+[] -> Melhorar UX;
    [X] -> Adicionar "Loading Component" ao carregar as listas;
+   [] -> Dialog de confirmação para deletar;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
    [] -> Impressão pedidos de venda;

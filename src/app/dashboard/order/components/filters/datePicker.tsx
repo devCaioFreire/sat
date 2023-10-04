@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { useOrderContext } from "@/context/orderContext"
 import { cn } from "@/lib/utils"
 import { formatDate } from "@/utils/formatter"
 import { ptBR } from "date-fns/locale"
@@ -19,6 +20,8 @@ import { ptBR } from "date-fns/locale"
 export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+
+  const { searchByPeriod } = useOrderContext();
 
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, '0');
@@ -29,6 +32,14 @@ export function DatePickerWithRange({
     from: new Date(year, parseFloat(month) + 1, parseFloat(day)),
     to: addDays(new Date(year, parseFloat(month) + 1, parseFloat(day)), 0),
   })
+
+  function handleSubmit() {
+    if (date?.from && date?.to) {
+      const dateInitial = format(date.from, 'yyyy-MM-dd');
+      const dateFinal = format(date.to, 'yyyy-MM-dd');
+      searchByPeriod({ dateInitial, dateFinal });
+    }
+  }
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -68,6 +79,7 @@ export function DatePickerWithRange({
             locale={ptBR}
           />
           <Button
+            onClick={handleSubmit}
             id="date"
             variant={"default"}
             className={cn(

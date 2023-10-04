@@ -39,7 +39,6 @@ export const ProductList = () => {
 
   useEffect(() => {
     loadInitialData(filterType);
-    console.log('OKOOKOK')
   }, []);
 
   return (
