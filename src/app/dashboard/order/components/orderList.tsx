@@ -51,6 +51,10 @@ export const OrderList = () => {
     openIDFilterModal();
   }
 
+  // useEffect(() => {
+  //   loadInitialData(filterType);
+  // }, []);
+
   return (
     <>
       <table

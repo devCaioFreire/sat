@@ -59,5 +59,5 @@
 [] -> Correções;
    [] -> Impressão pedidos de venda;
    [X] -> Lista não carrega de primeira (produtos);
-   [] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
+   [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
 ------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 import { AxiosNode } from "@/services/axios";
-import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useRef, useState } from "react";
 
 export interface ProductProps {
   id: string;
@@ -47,6 +47,7 @@ interface OrderContextType {
   combineOrdersWithItems: () => Promise<SalesOrderProps[]>;
   combined: any;
   isLoading: boolean;
+  searchByPeriod: ({ dateInitial, dateFinal }: any) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -65,6 +66,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [combined, setCombined] = useState<SalesOrderProps[]>([]);
 
+  const nextPageRef = useRef(0);
 
   const getSalesItems = async (orderID: string) => {
     try {
@@ -125,6 +127,20 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }
 
+  const searchByPeriod = async ({ dateInitial, dateFinal }: any) => {
+    try {
+      const periodFilter = [
+        { field: 'dateInitial', value: dateInitial },
+        { field: 'dateFinal', value: dateFinal }
+      ];
+      const apiUrl = `/getSalesOrders/?page=${currentPage}&filter=${JSON.stringify(periodFilter)}&orderBy=id&order=${sortOrder}`;
+      const response = (await AxiosNode.get(apiUrl)).data;
+      setLoadedProducts(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const fetchAllProductsForPrint = async (filterArray: any[]) => {
     try {
       const response = await AxiosNode.get(
@@ -157,6 +173,24 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const fetchMoreProducts = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    try {
+      const response = await AxiosNode.get(
+        `/getSalesOrders/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+      );
+      const newProducts = response.data;
+      setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
+      nextPageRef.current += 1;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchAndCombineOrders = async () => {
       const orders = await combineOrdersWithItems();
@@ -176,7 +210,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setFilterArray([]);
     setLoadedProducts([]);
     setCurrentPage(0);
-    console.log(filterArray)
     getSalesOrders();
     setSortOrder('asc')
   };
@@ -189,7 +222,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   useEffect(() => {
     getSalesOrders();
-  }, []);
+  }, [])
 
   useEffect(() => {
     const table = document.getElementById('table_order');
@@ -197,8 +230,8 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = table;
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-        if (isAtBottom && !isLoading && loadedProducts.length > 0) {
-          setCurrentPage(prevPage => prevPage + 1);
+        if (isAtBottom && !isLoading) {
+          fetchMoreProducts()
         }
       };
       table.addEventListener('scroll', handleScroll);
@@ -207,6 +240,23 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, [isLoading]);
+
+  // useEffect(() => {
+  //   const table = document.getElementById('table_order');
+  //   if (table) {
+  //     const handleScroll = () => {
+  //       const { scrollTop, clientHeight, scrollHeight } = table;
+  //       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+  //       if (isAtBottom && !isLoading && loadedProducts.length > 0) {
+  //         setCurrentPage(prevPage => prevPage + 1);
+  //       }
+  //     };
+  //     table.addEventListener('scroll', handleScroll);
+  //     return () => {
+  //       table.removeEventListener('scroll', handleScroll);
+  //     };
+  //   }
+  // }, [isLoading]);
 
   return (
     <OrderContext.Provider
@@ -232,7 +282,8 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         fetchAllProductsForPrint,
         combineOrdersWithItems,
         combined,
-        isLoading
+        isLoading,
+        searchByPeriod
       }}>
       {children}
     </OrderContext.Provider>
