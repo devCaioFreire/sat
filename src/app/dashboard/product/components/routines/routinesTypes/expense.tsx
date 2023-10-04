@@ -57,14 +57,42 @@ export const Expense: React.FC<FilterModalProps> = ({ isOpen, onClose, children,
                 </span>
               </div>
 
-              <div className="grid grid-cols-4 mb-12 gap-4">
-                <Input
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <div className="flex flex-col gap-4">
+                  <label>Número da nota</label>
+                  <Input
+                    id="id"
+                    type="number"
+                    value={decreaseBalance}
+                    onChange={(e) => setDecreaseBalance(e.target.value)}
+                    placeholder="Informe o número da nota"
+                    className="col-span-full"
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <label>Saldo</label>
+                  <Input
+                    id="id"
+                    type="number"
+                    value={decreaseBalance}
+                    onChange={(e) => setDecreaseBalance(e.target.value)}
+                    placeholder="Saldo a ser removido"
+                    className="col-span-full"
+                    autoComplete="off"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col my-12 gap-4">
+                <label>Observação</label>
+                <textarea
                   id="id"
-                  type="number"
                   value={decreaseBalance}
                   onChange={(e) => setDecreaseBalance(e.target.value)}
-                  placeholder="Saldo a ser retirado"
-                  className="col-span-full"
+                  placeholder="Digite a observação para a retirada de saldo desse produto"
+                  className="resize-none flex h-24 w-full rounded-md border border-stone-800 bg-stone-950 ring-offset-stone-200 px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-stone-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   autoComplete="off"
                 />
               </div>

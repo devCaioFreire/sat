@@ -63,3 +63,7 @@
    [X] -> Lista não carrega de primeira (produtos);
    [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
 ------------------------------------------------------------------------------------------------------------------------
+
+N° NOTA 
+-------
+OBS
