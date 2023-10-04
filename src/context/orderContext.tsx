@@ -66,7 +66,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [combined, setCombined] = useState<SalesOrderProps[]>([]);
 
-  const nextPageRef = useRef(0);
+  const nextPageRef = useRef(1);
 
   const getSalesItems = async (orderID: string) => {
     try {
@@ -240,23 +240,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, [isLoading]);
-
-  // useEffect(() => {
-  //   const table = document.getElementById('table_order');
-  //   if (table) {
-  //     const handleScroll = () => {
-  //       const { scrollTop, clientHeight, scrollHeight } = table;
-  //       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //       if (isAtBottom && !isLoading && loadedProducts.length > 0) {
-  //         setCurrentPage(prevPage => prevPage + 1);
-  //       }
-  //     };
-  //     table.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       table.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }
-  // }, [isLoading]);
 
   return (
     <OrderContext.Provider
