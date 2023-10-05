@@ -46,9 +46,9 @@
    [] -> Remover o saldo; 
 ------------------------------------------------------------------------------------------------------------------------
 (backend SQL)
-[] -> Movimentação de estoque; 
+[X] -> Movimentação de estoque; 
    [X] -> Retirar saldo quando fizer a venda;
-   [] -> Devolver quando cancelar o cupom;
+   [X] -> Devolver quando cancelar o cupom;
 ------------------------------------------------------------------------------------------------------------------------
 
 ## ISSUES
@@ -62,8 +62,5 @@
    [] -> Impressão pedidos de venda;
    [X] -> Lista não carrega de primeira (produtos);
    [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
+   [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
 ------------------------------------------------------------------------------------------------------------------------
-
-N° NOTA 
--------
-OBS
