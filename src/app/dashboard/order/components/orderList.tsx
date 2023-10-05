@@ -2,15 +2,15 @@
 import { Loading } from "@/components/loading";
 import { useOrderContext } from "@/context/orderContext";
 import { capitalizeFirstLetter, formatCurrency, formatDate } from "@/utils/formatter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TfiMoreAlt } from 'react-icons/tfi';
 import { IconButton } from "../../../../components/iconButton";
 import { Detail } from "./detail";
 
 export const OrderList = () => {
-  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder, isLoading } = useOrderContext();
+  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder, isLoading, loadInitialData } = useOrderContext();
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
-
+  
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
       return true;
@@ -41,7 +41,6 @@ export const OrderList = () => {
     setIsIdFilterOpen(true);
   };
 
-
   const closeFilterModal = () => {
     setIsIdFilterOpen(false);
   };
@@ -51,9 +50,9 @@ export const OrderList = () => {
     openIDFilterModal();
   }
 
-  // useEffect(() => {
-  //   loadInitialData(filterType);
-  // }, []);
+  useEffect(() => {
+    loadInitialData(filterType);
+  }, []);
 
   return (
     <>
