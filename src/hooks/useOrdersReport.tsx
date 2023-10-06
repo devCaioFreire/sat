@@ -1,7 +1,7 @@
 import { ProductProps, SalesOrderProps, useOrderContext } from '@/context/orderContext';
 import { formatCurrency, formatDate } from '@/utils/formatter';
 import { Document, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface PrintProps {
   name?: string;
@@ -70,7 +70,7 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
 
   const { itens } = props;
 
-  const { combineOrdersWithItems, combined } = useOrderContext();
+  const { combineOrdersWithItems, combined, getSalesOrders, setCombined } = useOrderContext();
   const combinedOrders = combineOrdersWithItems();
 
   React.useImperativeHandle(ref, () => ({
@@ -79,8 +79,15 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
     }
   }));
 
-  const itemsPerPage = 100000000;
-  const numberOfPages = Math.ceil((itens?.length || 0) / itemsPerPage);
+  useEffect(() => {
+    const fetchAndCombineOrders = async () => {
+      await getSalesOrders();
+      const orders = await combinedOrders;
+      setCombined(orders);
+    };
+
+    fetchAndCombineOrders();
+  }, []);
 
   const renderOrderWithItems = (order: SalesOrderProps) => (
     <View key={order.id} style={{ marginBottom: 24 }}>
@@ -128,7 +135,7 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
     <PDFViewer style={styles.main}>
       <Document>
         {[...Array(renderOrderWithItems)].map((_, index) => (
-          <Page size="A4" wrap={false} key={index}>
+          <Page size="A4" key={index}>
             <View style={styles.container}>
               {combined.map((order: any) => renderOrderWithItems(order))}
             </View>

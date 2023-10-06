@@ -46,7 +46,7 @@ export const PrintOrderModal = ({ isOpen, onClose }: CoupomModalProps) => {
       <div className="modalContent absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-2xl flex flex-col w-[32%] h-[83%] gap-4 border border-border rounded-2xl bg-background">
         {/* Header */}
         <div className='absolute flex items-center justify-center top-0 h-16 w-full rounded-t-2xl bg-backgroundSecundary'>
-          <h1 className='text-xl font-medium'>Relatório de Produtos</h1>
+          <h1 className='text-xl font-medium'>Relatório de Vendas</h1>
         </div>
 
         <div className="flex w-full h-full mt-2">

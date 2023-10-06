@@ -59,7 +59,7 @@
    [] -> Dialog de confirmação para deletar;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
-   [] -> Impressão pedidos de venda;
+   [X] -> Impressão pedidos de venda;
    [X] -> Lista não carrega de primeira (produtos);
    [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
    [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);

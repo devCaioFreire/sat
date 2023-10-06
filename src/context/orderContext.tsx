@@ -32,6 +32,7 @@ interface OrderContextType {
   selectedOrder: SalesOrderProps | null;
   setSelectedOrder: (order: SalesOrderProps | null) => void;
   getOrderByFilter: (filterType: FilterType) => void;
+  getSalesOrders: () => void;
   loadedProducts: SalesOrderProps[];
   setLoadedProducts: Dispatch<SetStateAction<SalesOrderProps[]>>;
   filter: string | null;
@@ -46,12 +47,11 @@ interface OrderContextType {
   fetchAllProductsForPrint: (filterArray: any[]) => Promise<SalesOrderProps[]>;
   combineOrdersWithItems: () => Promise<SalesOrderProps[]>;
   combined: any;
+  setCombined: Dispatch<SetStateAction<SalesOrderProps[]>>;
   isLoading: boolean;
   searchByPeriod: ({ dateInitial, dateFinal }: any) => void;
   loadInitialData: (filters: FilterType[]) => void;
 }
-
-const PRODUCTS_PER_PAGE = 20;
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
@@ -68,8 +68,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [filterType, setFilterType] = useState<FilterType[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [combined, setCombined] = useState<SalesOrderProps[]>([]);
-  const [rawProducts, setRawProducts] = useState<SalesOrderProps[]>([]);
-
 
   const nextPageRef = useRef(1);
 
@@ -88,7 +86,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const getSalesOrders = async () => {
     try {
       const response = await AxiosNode.get(
-        `/getSalesOrders/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+        `/getSalesOrders/?take=1000000000000&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
       if (currentPage === 0) {
@@ -146,7 +144,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }
 
-  const fetchAllProductsForPrint = async (filterArray: any[]) => {
+  const fetchAllProductsForPrint = async (filterArray?: any[]) => {
     try {
       const response = await AxiosNode.get(
         `/getSalesOrders/?take=1000000000000&page=0&filter=${JSON.stringify(filterArray)}&orderBy=id`
@@ -161,22 +159,28 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const combineOrdersWithItems = async () => {
     try {
       const response = await AxiosNode.get(
-        `/getOrderItems/?page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: "" }])}&orderBy=id`
+        `/getOrderItems/?take=1000000000000&page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: "" }])}&orderBy=id`
       );
       const allProducts = response.data;
+      console.log("Todos os itens:", allProducts);
 
-      return sales.map(order => {
+      const combinedOrders = sales.map(order => {
         const orderItems = allProducts.filter((product: any) => product.pedido_id === order.id);
         return {
           ...order,
           itens: orderItems
         };
       });
+      console.log("Lista de pedidos:", sales);
+
+      console.log("Pedidos combinados:", combinedOrders);
+      return combinedOrders;
     } catch (error) {
       console.error("Erro ao buscar os itens:", error);
       return [];
     }
   };
+
 
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
@@ -289,9 +293,11 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         fetchAllProductsForPrint,
         combineOrdersWithItems,
         combined,
+        setCombined,
         isLoading,
         searchByPeriod,
-        loadInitialData
+        loadInitialData,
+        getSalesOrders
       }}>
       {children}
     </OrderContext.Provider>
