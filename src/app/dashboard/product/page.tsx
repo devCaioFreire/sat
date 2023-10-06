@@ -10,14 +10,16 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IconButton } from '../../../components/iconButton';
 import { PrintModal } from './components/PrintModal';
+import { DeleteModal } from './components/deleteModal';
 import { Filter } from './components/filter/filter';
 import { ProductList } from './components/productsList';
 import { Routines } from './components/routines/routines';
 
 export default function Product() {
   const router = useRouter();
-  const { selectedProduct, sendDeleteProduct, loadedProducts, setLoadedProducts, setFilteredProducts } = useProductContext();
+  const { selectedProduct, loadedProducts, setLoadedProducts, setFilteredProducts } = useProductContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handlePrint = async () => {
     setIsModalOpen(true);
@@ -48,14 +50,8 @@ export default function Product() {
   }
 
   const handleRemove = async () => {
-    if (selectedProduct && selectedProduct.id) {
-      const productId = parseInt(selectedProduct.id);
-      console.log(productId)
-      try {
-        await sendDeleteProduct(productId);
-      } catch (error) {
-        console.error('Error deleting product:', error);
-      }
+    if (selectedProduct) {
+      setIsDeleteModalOpen(true);
     }
   }
 
@@ -92,7 +88,7 @@ export default function Product() {
         </div>
       </header>
       <PrintModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
+      <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
       <ProductList />
     </main>
   )
