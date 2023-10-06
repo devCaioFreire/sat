@@ -13,6 +13,15 @@ export interface ProductProps {
   codEAN?: string;
 }
 
+interface BalanceProps {
+  pm_usuario_id: number;
+  pm_produto_id?: number | string;
+  pm_quantidade: number;
+  pm_pedido_venda_id?: number;
+  pm_numero_nota_fiscal?: number;
+  pm_observacao?: string;
+}
+
 interface FilterType {
   field: string;
   value: string | number | boolean;
@@ -44,6 +53,9 @@ interface ProductContextType {
   toggleSort: () => void;
   isLoading: boolean;
   loadInitialData: (filters: FilterType[]) => void;
+  increaseBalance: (balance: BalanceProps) => void;
+  error: boolean;
+  setError: Dispatch<SetStateAction<boolean>>;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -63,6 +75,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [error, setError] = useState(false);
 
   const nextPageRef = useRef(0);
 
@@ -148,6 +161,16 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       throw error;
     }
   };
+
+  const increaseBalance = async (balance: BalanceProps) => {
+    try {
+      const response = await AxiosNode.post('/addBalance/input');
+      console.log('Response from server:', balance)
+    } catch (error) {
+      setError(true);
+      throw new Error();
+    }
+  }
 
   // UPDATE
   const sendUpdateProduct = async (updateProduct: ProductProps) => {
@@ -252,7 +275,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         toggleSort,
         sortOrder,
         isLoading,
-        loadInitialData
+        loadInitialData,
+        increaseBalance,
+        error,
+        setError
       }}>
       {children}
     </ProductContext.Provider>

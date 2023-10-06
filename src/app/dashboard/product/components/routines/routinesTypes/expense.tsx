@@ -7,6 +7,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useAuthContext } from "@/context/authContext";
 import { useProductContext } from "@/context/productContext";
 import React, { ReactNode, useState } from "react";
 import { Button } from "../../../../../../components/ui/button";
@@ -19,13 +20,42 @@ interface FilterModalProps {
 }
 
 export const Expense: React.FC<FilterModalProps> = ({ isOpen, onClose, children, selectedIndex }) => {
-  const { selectedProduct } = useProductContext();
+  const { increaseBalance, selectedProduct, error, setError } = useProductContext();
   const [decreaseBalance, setDecreaseBalance] = useState("");
+
+  const { user } = useAuthContext();
+
+  const [increaseBalanceValue, setIncreaseBalanceValue] = useState("");
+  const [order, setOrder] = useState("");
+  const [observation, setObservation] = useState("");
 
   async function handleDecrease(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setDecreaseBalance("");
-    onClose?.();
+
+    const data = {
+      pm_usuario_id: user!.id,
+      pm_produto_id: selectedProduct?.id,
+      pm_quantidade: parseFloat(increaseBalanceValue),
+      pm_numero_nota_fiscal: parseInt(order),
+      pm_observacao: observation,
+    }
+
+    if (increaseBalanceValue && order && observation === '' || null) {
+      setError(true);
+      return;
+    }
+
+    try {
+      console.log(data)
+      await increaseBalance(data)
+      setIncreaseBalanceValue("");
+      setOrder("");
+      setObservation("");
+      onClose?.();
+    } catch (error) {
+      console.log('Error:', error);
+      setError(true);
+    }
   }
 
   return (
@@ -34,7 +64,7 @@ export const Expense: React.FC<FilterModalProps> = ({ isOpen, onClose, children,
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[768px]">
+        <DialogContent className={`sm:max-w-[768px] ${error ? 'border-red-700' : ''}`}>
           <DialogHeader>
             <DialogTitle>Saída</DialogTitle>
           </DialogHeader>
@@ -63,8 +93,8 @@ export const Expense: React.FC<FilterModalProps> = ({ isOpen, onClose, children,
                   <Input
                     id="id"
                     type="number"
-                    value={decreaseBalance}
-                    onChange={(e) => setDecreaseBalance(e.target.value)}
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
                     placeholder="Informe o número da nota"
                     className="col-span-full"
                     autoComplete="off"
@@ -89,15 +119,16 @@ export const Expense: React.FC<FilterModalProps> = ({ isOpen, onClose, children,
                 <label>Observação</label>
                 <textarea
                   id="id"
-                  value={decreaseBalance}
-                  onChange={(e) => setDecreaseBalance(e.target.value)}
+                  value={observation}
+                  onChange={(e) => setObservation(e.target.value)}
                   placeholder="Digite a observação para a retirada de saldo desse produto"
                   className="resize-none flex h-24 w-full rounded-md border border-stone-800 bg-stone-950 ring-offset-stone-200 px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-stone-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   autoComplete="off"
                 />
               </div>
-              <DialogFooter className="absolute right-5 bottom-5">
-                <Button type="submit">Retirar</Button>
+
+              <DialogFooter className="w-full">
+                <Button className="w-full" type="submit">Retirar</Button>
               </DialogFooter>
             </div>
           </form>

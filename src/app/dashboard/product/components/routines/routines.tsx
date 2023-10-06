@@ -19,11 +19,15 @@ export const Routines: React.FC = () => {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
 
   const openIncomeModal = () => {
-    setIsIncomeModalOpen(true);
+    if (selectedProduct) {
+      setIsIncomeModalOpen(true);
+    }
   };
 
   const openExpenseModal = () => {
-    setIsExpenseModalOpen(true);
+    if (selectedProduct) {
+      setIsExpenseModalOpen(true);
+    }
   };
 
   const closeFilterModal = () => {
