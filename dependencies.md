@@ -54,9 +54,9 @@
 ## ISSUES
 
 ------------------------------------------------------------------------------------------------------------------------
-[] -> Melhorar UX;
+[X] -> Melhorar UX;
    [X] -> Adicionar "Loading Component" ao carregar as listas;
-   [] -> Dialog de confirmação para deletar;
+   [X] -> Dialog de confirmação para deletar;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
    [X] -> Impressão pedidos de venda;
