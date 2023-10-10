@@ -44,11 +44,11 @@ export const Routines: React.FC = () => {
         <DropdownMenuContent>
           <DropdownMenuLabel className="flex items-center justify-center gap-2">
             <FaFilter className="w-3 h-3" />
-            Routines
+            Rotinas
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={openIncomeModal}>Entrada</DropdownMenuItem>
-          <DropdownMenuItem onClick={openExpenseModal}>Saída</DropdownMenuItem>
+          <DropdownMenuItem onClick={openExpenseModal}>Ajustar Saldo</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <Income isOpen={isIncomeModalOpen} onClose={closeFilterModal} selectedIndex={selectedProduct} />

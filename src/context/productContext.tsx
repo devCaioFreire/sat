@@ -17,9 +17,10 @@ interface BalanceProps {
   pm_usuario_id: number;
   pm_produto_id?: number | string;
   pm_quantidade: number;
-  pm_pedido_venda_id?: number;
-  pm_numero_nota_fiscal?: number;
+  pm_pedido_venda_id?: number | null;
+  pm_numero_nota_fiscal?: number | null;
   pm_observacao?: string;
+  pm_tipo_movimentacao?: string,
 }
 
 interface FilterType {
@@ -56,6 +57,7 @@ interface ProductContextType {
   increaseBalance: (balance: BalanceProps) => void;
   error: boolean;
   setError: Dispatch<SetStateAction<boolean>>;
+  adjustmentBalance: (adjustment: BalanceProps) => void;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -164,8 +166,18 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const increaseBalance = async (balance: BalanceProps) => {
     try {
-      const response = await AxiosNode.post('/addBalance/input');
+      const response = await AxiosNode.post('/StockAdd', balance);
       console.log('Response from server:', balance)
+    } catch (error) {
+      setError(true);
+      throw new Error();
+    }
+  }
+
+  const adjustmentBalance = async (adjustment: BalanceProps) => {
+    try {
+      const response = await AxiosNode.post('/StockAdjustment', adjustment);
+      console.log('Response from server:', adjustment)
     } catch (error) {
       setError(true);
       throw new Error();
@@ -278,7 +290,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         loadInitialData,
         increaseBalance,
         error,
-        setError
+        setError,
+        adjustmentBalance
       }}>
       {children}
     </ProductContext.Provider>

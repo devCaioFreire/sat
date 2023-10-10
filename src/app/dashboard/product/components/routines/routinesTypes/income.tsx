@@ -32,13 +32,13 @@ export const Income: React.FC<FilterModalProps> = ({ isOpen, onClose, children, 
 
     const data = {
       pm_usuario_id: user!.id,
-      pm_produto_id: selectedProduct?.id,
+      pm_produto_id: selectedProduct!.id,
       pm_quantidade: parseFloat(increaseBalanceValue),
       pm_numero_nota_fiscal: parseInt(invoice),
       pm_observacao: observation,
     }
-
-    if (increaseBalanceValue && invoice && observation === '' || null) {
+ 
+    if (increaseBalanceValue === '' || null) {
       setError(true);
       return;
     }
