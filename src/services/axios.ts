@@ -5,6 +5,7 @@ const token = sessionStorage.getItem('token') ?? '';
 export const AxiosNode = axios.create({
   // baseURL: 'https://soft-api.onrender.com',
   baseURL: 'http://localhost:3333',
+  // baseURL: 'http://192.168.0.183:3333',
   headers: {
     'Content-Type': 'application/json',
   }

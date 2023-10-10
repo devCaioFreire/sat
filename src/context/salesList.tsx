@@ -12,23 +12,13 @@ interface ProductProps {
   total?: number;
 }
 
-interface ProductContextProps {
-  product: ProductProps[];
-  setProduct: React.Dispatch<React.SetStateAction<ProductProps[]>>;
-  addProduct: (product: ProductProps, quantidade: number) => void;
-  getProductByEAN: (id: number, quantity: number) => void;
-  calculateTotal: () => number;
-  handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
-  selectedProductIndex: number;
-  setSelectedProductIndex: React.Dispatch<React.SetStateAction<number>>;
-  sendSalesData: (salesData: SalesData) => void;
-}
-
 interface Item {
   produto_id: number;
+  pedido_id?: number;
   ean: string;
   descricao: string;
   quantidade: number;
+  valor_unitario: number;
   valor_total: number;
 }
 
@@ -44,6 +34,37 @@ interface SalesData {
   order?: number;
 }
 
+interface DataCompany {
+  cep: number;
+  cidadeEstado: string;
+  endereco: string;
+  nomeEmpresa: string;
+  telefone: number;
+}
+
+interface DataOrder {
+  id: number;
+  data: Date;
+  valorTotal: number;
+  produtos: Item[];
+}
+
+interface ProductContextProps {
+  product: ProductProps[];
+  setProduct: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  addProduct: (product: ProductProps, quantidade: number) => void;
+  getProductByEAN: (id: number, quantity: number) => void;
+  calculateTotal: () => number;
+  handleRemoveProduct: (ean: number, quantityToRemove: number) => void,
+  selectedProductIndex: number;
+  setSelectedProductIndex: React.Dispatch<React.SetStateAction<number>>;
+  sendSalesData: (salesData: SalesData) => void;
+  responseData: {
+    dadosEmpresa?: DataCompany;
+    dadosPedido?: DataOrder;
+  };
+}
+
 const ProductContext = createContext<ProductContextProps>({
   product: [],
   setProduct: () => [],
@@ -53,19 +74,22 @@ const ProductContext = createContext<ProductContextProps>({
   handleRemoveProduct: () => { },
   selectedProductIndex: -1,
   setSelectedProductIndex: () => { },
-  sendSalesData: () => { }
+  sendSalesData: () => { },
+  responseData: {},
 });
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [product, setProduct] = useState<ProductProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number>(-1);
-  const [productList, setProductList] = useState<ProductProps[]>([]);
+  const [responseData, setResponseData] = useState<{
+    dadosEmpresa?: DataCompany;
+    dadosPedido?: DataOrder;
+  }>({});
 
   function addProduct(productToAdd: ProductProps, quantity: number) {
     setProduct(prevProducts => [...prevProducts, { ...productToAdd, quantity }]);
   }
-
 
   // GET
   const getProductByEAN = (codEAN: number, quantity: number): Promise<ProductProps> => {
@@ -104,6 +128,14 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const sendSalesData = async (salesData: SalesData) => {
     try {
       const response = await AxiosNode.post('/dataSale', salesData);
+      const dataCompany = response.data.dadosEmpresa;
+      const items = response.data.dadosPedido;
+
+      setResponseData({
+        dadosEmpresa: dataCompany,
+        dadosPedido: items,
+      });
+
       console.log('Response from server: ', response.data);
     } catch (error) {
       console.error('Context (Error): ', error);
@@ -145,7 +177,8 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
       handleRemoveProduct,
       selectedProductIndex,
       setSelectedProductIndex,
-      sendSalesData
+      sendSalesData,
+      responseData,
     }}>
       {children}
     </ProductContext.Provider>

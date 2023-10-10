@@ -29,7 +29,7 @@ export default function Sales() {
   const [totalValue, setTotalValue] = useState(0);
 
   const selectedProduct = product[selectedProductIndex];
-  const totalValueIndex = selectedProduct?.vlrUnCom * selectedProduct?.quantity || 0;
+  const totalValueIndex = parseFloat(selectedProduct?.vlrUnCom) * selectedProduct?.quantity || 0;
 
   const listRef = useRef<HTMLDivElement>(null);
   const barcodeRef = useRef<HTMLDivElement>(null);
@@ -47,7 +47,7 @@ export default function Sales() {
   useEffect(() => {
     if (product.length > 0) {
       const lastProduct = product[product.length - 1];
-      setLastProductTotalValue(lastProduct.vlrUnCom * (lastProduct.quantity || 0));
+      setLastProductTotalValue(parseFloat(lastProduct.vlrUnCom) * (lastProduct.quantity || 0));
     }
 
     // Função para lidar com as teclas "ArrowLeft" e "ArrowRight"

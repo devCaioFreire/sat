@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import CupomFiscal from '../../../../services/print';
+import UseSalePrint from "../../../../hooks/useSalePrint";
 
 interface CoupomModalProps {
   isOpen: boolean;
@@ -121,7 +121,7 @@ export const CoupomModal = ({ onOpenCoupomModal, onClose, onOpenCustomerModal }:
         </div>
 
         <div className="flex w-full h-full mt-2">
-          {cupomVisible && <CupomFiscal />}
+          {cupomVisible && <UseSalePrint />}
         </div>
         <div className="flex gap-4">
           <button

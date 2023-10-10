@@ -1,15 +1,16 @@
+import { useAuthContext } from '@/context/authContext';
+import { ProductContext } from '@/context/salesList';
+import { formatCurrency, formatDate } from '@/utils/formatter';
 import { Document, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { useContext } from 'react';
 
-interface PrintProps {
-  name?: string;
-  itens?: any[];
+export interface DataCompany {
+  cep: number;
+  cidadeEstado: string;
+  endereco: string;
+  nomeEmpresa: string;
+  telefone: number;
 }
-
-const defaultProps: Required<PrintProps> = {
-  name: '',
-  itens: [],
-};
 
 export interface CupomFiscalRef {
   handlePrintCupom: () => void;
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     height: '91.1%',
   },
   container: {
-    maxWidth: 200,
+    maxWidth: 215,
     maxHeight: '100%',
     padding: 0,
     paddingHorizontal: 5,
@@ -83,66 +84,79 @@ const styles = StyleSheet.create({
   },
   listProducts: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    margin: '5px 0px'
   }
 });
 
-const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = ({ name, itens }, ref) => {
+const useSalePrint: React.ForwardRefRenderFunction<CupomFiscalRef> = (ref) => {
+
+  const { responseData } = useContext(ProductContext);
+  const { user } = useAuthContext();
+
+  if (!responseData || !responseData.dadosPedido || !responseData.dadosEmpresa) {
+    return null;
+  }
+
+  const empresa = responseData.dadosEmpresa;
+  const dadosPedido = responseData.dadosPedido;
 
   return (
     <PDFViewer style={styles.main}>
       <Document>
         <Page size="A6">
+
           <View style={styles.container}>
             <View style={styles.header}>
-              {/* Dados da empresa que comprou o software */}
-              <Text>BNB IMPORT E EXPORT DE MAT P TAPECARIA L</Text>
-              <Text>RUA DOUTOR EDMUNDO DOBRAWA, 1320</Text>
-              <Text>ZONA INDUSTRIAL NORTE</Text>
-              <Text>JOINVILLE, SC</Text>
-              <Text>89219502</Text>
-              <Text>(47) 3467-7010</Text>
+              <Text>{empresa.nomeEmpresa}</Text>
+              <Text>{empresa.endereco}</Text>
+              <Text>{empresa.cidadeEstado}</Text>
+              <Text>{empresa.cep}</Text>
+              <Text>{empresa.telefone}</Text>
             </View>
 
             <Text style={styles.boldText}>P E D I D O - SEM VALOR FISCAL</Text>
 
             <View style={styles.detail}>
-              <Text>Data: 14/08/2023-10:38:19</Text>
-              <Text>Pedido: 21882</Text>
+              <Text>Data: {formatDate(String(dadosPedido.data))}</Text>
+              <Text>Pedido: {dadosPedido.id}</Text>
             </View>
 
             <View style={styles.separator}></View>
 
             <View style={styles.section}>
               <Text style={styles.title}>
-                CLIENTE.: CONSUMIDOR FINAL</Text>
-              <Text>CPF.....: CPF</Text>
+                CLIENTE{''}: CONSUMIDOR FINAL</Text>
+              <Text>CPF{'        '}: CPF</Text>
             </View>
 
             <View style={styles.separator}></View>
 
             {/* LISTA PRODUTOS */}
-            <View style={styles.products}>
-              <Text style={styles.title}>DESC PRODUTO</Text>
-              <View style={styles.listProducts}>
-                <Text>ID</Text>
-                <Text>UN COMERCIAL</Text>
-                <Text>QNT</Text>
-                <Text>VLR UNITARIO</Text>
-                <Text>VLR TOTAL</Text>
-              </View>
+            <View>
+              {dadosPedido.produtos.map((produto, index) => (
+                <View style={styles.listProducts} key={index}>
+                  <View>
+                    <Text>{produto.descricao}</Text>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '4px 0' }}>
+                      <Text>{produto.produto_id}</Text>
+                      <Text>{formatCurrency(produto.valor_unitario)}</Text>
+                      <Text>{produto.quantidade}</Text>
+                      <Text>{formatCurrency(produto.valor_total)}</Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
 
               <View style={styles.separator}></View>
 
               <View>
-                <Text>TOTAL LIQUIDO:</Text>
-                <Text>VALOR TOTAL LIQUIDO</Text>
+                <Text>TOTAL LIQUIDO{'  '}: {formatCurrency(dadosPedido.valorTotal)}</Text>
               </View>
             </View>
 
             <View>
-              <Text>USUARIO............: NOME USUARIO</Text>
+              <Text>USUARIO{'             '}: {user?.name} {user?.lastName}</Text>
             </View>
 
             <View style={styles.separator}></View>
@@ -155,8 +169,8 @@ const CupomFiscal: React.ForwardRefRenderFunction<CupomFiscalRef, PrintProps> = 
           </View>
         </Page>
       </Document>
-    </PDFViewer>
+    </PDFViewer >
   );
 };
 
-export default React.forwardRef(CupomFiscal);
+export default React.forwardRef(useSalePrint);

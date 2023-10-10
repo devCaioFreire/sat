@@ -24,7 +24,7 @@ export function List() {
       setSelectedItem((prevIndex) => Math.min(prevIndex + 1, product.length - 1));
     } else if (e.key === "Delete" && selectedItem >= 0) {
       const selectedProduct = product[selectedItem];
-      handleRemove(selectedProduct.ean, 1);
+      handleRemove(selectedProduct.codEAN, 1);
     }
   };
 
@@ -64,13 +64,13 @@ export function List() {
               key={index}
               className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${index === selectedItem ? "bg-indigo-900" : ""}`}
               tabIndex={0}
-              onKeyDown={(e) => handleKeyDown(e, item.ean)}
+              onKeyDown={(e) => handleKeyDown(e, item.codEAN)}
               onClick={() => setSelectedItem(index)}
             >
               <td className="px-4 w-[60%]">{item.descricao}</td>
               <td className="px-0 w-[15%]">{item.quantity}</td>
               <td className="px-4 w-[15%]">{formatCurrency(parseFloat(item.vlrUnCom.toString()))}</td>
-              <td className="px-4 w-[15%]">{formatCurrency(item.vlrUnCom * item.quantity)}</td>
+              <td className="px-4 w-[15%]">{formatCurrency(parseFloat(item.vlrUnCom) * item.quantity)}</td>
             </tr>
           ))}
         </tbody>
