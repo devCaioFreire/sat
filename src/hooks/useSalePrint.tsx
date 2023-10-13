@@ -1,6 +1,6 @@
 import { useAuthContext } from '@/context/authContext';
 import { ProductContext } from '@/context/salesList';
-import { formatCurrency, formatDate } from '@/utils/formatter';
+import { formatCurrency } from '@/utils/formatter';
 import { Document, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import React, { useContext } from 'react';
 
@@ -118,7 +118,7 @@ const useSalePrint: React.ForwardRefRenderFunction<CupomFiscalRef> = (ref) => {
             <Text style={styles.boldText}>P E D I D O - SEM VALOR FISCAL</Text>
 
             <View style={styles.detail}>
-              <Text>Data: {formatDate(String(dadosPedido.data))}</Text>
+              <Text>Data: {new Date(dadosPedido.data).toLocaleDateString()}</Text>
               <Text>Pedido: {dadosPedido.id}</Text>
             </View>
 
