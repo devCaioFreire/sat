@@ -5,7 +5,9 @@ import { useContext } from "react";
 export function DescriptionProduct({ selectedProduct }: any) {
 
   const { product } = useContext(ProductContext);
-  const lastProduct = product[product.length - 1];
+  if (product.length > 0 && !selectedProduct) {
+    selectedProduct = product[0];
+  }
 
   return (
     <div className="flex flex-col items-center justify-center w-full rounded-xl bg-backgroundFields relative h-[36%]">

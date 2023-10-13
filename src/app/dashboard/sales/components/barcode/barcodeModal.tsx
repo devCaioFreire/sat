@@ -55,6 +55,18 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
   };
 
   useEffect(() => {
+    if (isOpen) {
+      setSelectedItemIndex(0);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (searchedProducts.length > 0) {
+      setSelectedItemIndex(0);
+    }
+  }, [searchedProducts]);
+
+  useEffect(() => {
     const table = document.getElementById('table') as HTMLDivElement;
 
     const fetchMoreProducts = async () => {
