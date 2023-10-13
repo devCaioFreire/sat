@@ -237,7 +237,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setCurrentPage(0);
     nextPageRef.current = 1;
     setSortOrder('asc');
-    console.log("Loaded products after clearing filter:", loadedProducts);
   };
 
   // Estou passando o id da venda para conseguir ver os items do pedido de venda
