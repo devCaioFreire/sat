@@ -7,16 +7,18 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import { DeleteCoupomModal } from "./deleteCoupomModal";
 
 export const CoupomList = () => {
-  const { coupoms, getLastSales, deleteLastSale } = useCoupomContext();
+  const { coupoms, getLastSales, setSelectedIndex, selectedIndex } = useCoupomContext();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     getLastSales();
-  }, [coupoms])
+  }, [])
 
-  function handleDelete() {
+  function handleDelete(item: any) {
+    setSelectedIndex(item);
     setIsDeleteModalOpen(true)
   }
+
 
   return (
     <div className="flex w-full">
@@ -33,7 +35,9 @@ export const CoupomList = () => {
           {coupoms.map((item, index) => (
             <tr
               key={index}
-              className={`flex text-left items-center text-sm min-h-[5rem] border-b border-border outline-none`}
+              className={`flex text-left items-center text-sm min-h-[5rem] border-b border-border outline-none ${item === selectedIndex ? "bg-indigo-900" : ""}`}
+              tabIndex={0}
+              onClick={() => setSelectedIndex(item)}
             >
               <td className="px-4 w-[15%]">{item.id}</td>
               <td className="px-6 w-[35%]">{formatCpfOrCnpj(item.cpf_cnpj)}</td>
@@ -50,7 +54,7 @@ export const CoupomList = () => {
           ))}
         </tbody>
       </table>
-      <DeleteCoupomModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
+      <DeleteCoupomModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} selectedCoupom={selectedIndex} />
     </div>
   )
 }

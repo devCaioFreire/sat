@@ -1,14 +1,14 @@
 import { AxiosNode } from '@/services/axios';
 import { AxiosResponse } from 'axios';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 
-interface CoupomData {
+export interface CoupomData {
   id: number;
   cpf_cnpj: string;
   valor_liquido: number;
   data_criacao: Date;
-  token:string;
+  token: string;
 }
 
 interface CancelData {
@@ -21,6 +21,8 @@ interface CoupomContextProps {
   getLastSales: () => void; // Uma função para buscar os últimos cupons
   deleteLastSale: (cancel: CancelData) => void;
   addCoupom: (coupom: CoupomData) => void;
+  selectedIndex: CoupomData | null;
+  setSelectedIndex: (cancel: CoupomData | null) => void;
 }
 
 export const CoupomContext = createContext<CoupomContextProps | undefined>(undefined);
@@ -35,6 +37,7 @@ export function useCoupomContext() {
 
 export function CoupomProvider({ children }: { children: React.ReactNode }) {
   const [coupoms, setCoupoms] = useState<CoupomData[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<CoupomData | null>(null);
 
   // GET
   const getLastSales = () => {
@@ -64,12 +67,8 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
     setCoupoms((prevCoupoms) => [coupom, ...prevCoupoms]);
   };
 
-  useEffect(() => {
-    getLastSales();
-  }, []);
-
   return (
-    <CoupomContext.Provider value={{ coupoms, getLastSales, addCoupom, deleteLastSale }}>
+    <CoupomContext.Provider value={{ coupoms, getLastSales, addCoupom, deleteLastSale, selectedIndex, setSelectedIndex }}>
       {children}
     </CoupomContext.Provider>
   );
