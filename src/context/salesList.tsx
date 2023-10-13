@@ -26,7 +26,7 @@ interface SalesData {
   itens: Item[];
   valor_bruto: number;
   valor_liquido: number;
-  vendedor_id: number;
+  usuario_id: number;
   desconto: number;
   forma_pagamento: string;
   pagamento: number;
@@ -128,6 +128,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const sendSalesData = async (salesData: SalesData) => {
     try {
       const response = await AxiosNode.post('/dataSale', salesData);
+      console.log('/dataSale?', JSON.stringify(salesData))
       const dataCompany = response.data.dadosEmpresa;
       const items = response.data.dadosPedido;
 

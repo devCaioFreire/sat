@@ -134,7 +134,7 @@ export const CheckoutModalList: React.FC<CheckoutModalProps> = ({ isOpen, onClos
       cpf_cnpj: customerData.cpfOrCnpj,
       valor_bruto: calculateTotal(),
       valor_liquido: totalValue,
-      vendedor_id: user?.id || 0,
+      usuario_id: user?.id || 0,
       desconto: discountAmount,
       forma_pagamento: selectedPaymentMethod,
       pagamento: selectedPaymentMethod === 'dinheiro' ? parseFloat(payment) : totalValue,
