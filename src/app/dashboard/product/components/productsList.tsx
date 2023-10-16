@@ -5,7 +5,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
 
 export const ProductList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading, loadInitialData } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading, loadInitialData, filterArray } = useProductContext();
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
@@ -38,7 +38,7 @@ export const ProductList = () => {
   });
 
   useEffect(() => {
-    loadInitialData(filterType);
+    loadInitialData();
   }, []);
 
   return (

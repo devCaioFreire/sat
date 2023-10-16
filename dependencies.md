@@ -63,4 +63,9 @@
    [X] -> Lista não carrega de primeira (produtos);
    [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
    [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
+   [] -> Arrumar a API para deletar cupom fiscal (backend);
+   [] -> Mostrar a primeira descrição do index em nova venda;
+   [] -> Dar foco ao botão de imprimir quando finalizar a venda;
+   [] -> Produtos está dando erro quando rola muito a lista e depois limpa o filtro;
+   [] -> Produtos começa do inicio da lista quando faz filtro;
 ------------------------------------------------------------------------------------------------------------------------

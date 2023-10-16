@@ -162,7 +162,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         `/getOrderItems/?take=1000000000000&page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: "" }])}&orderBy=id`
       );
       const allProducts = response.data;
-      console.log("Todos os itens:", allProducts);
+      // console.log("Todos os itens:", allProducts);
 
       const combinedOrders = sales.map(order => {
         const orderItems = allProducts.filter((product: any) => product.pedido_id === order.id);
@@ -171,9 +171,9 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           itens: orderItems
         };
       });
-      console.log("Lista de pedidos:", sales);
+      // console.log("Lista de pedidos:", sales);
 
-      console.log("Pedidos combinados:", combinedOrders);
+      // console.log("Pedidos combinados:", combinedOrders);
       return combinedOrders;
     } catch (error) {
       console.error("Erro ao buscar os itens:", error);

@@ -53,14 +53,12 @@ interface ProductContextType {
   sortOrder: string;
   toggleSort: () => void;
   isLoading: boolean;
-  loadInitialData: (filters: FilterType[]) => void;
+  loadInitialData: () => void;
   increaseBalance: (balance: BalanceProps) => void;
   error: boolean;
   setError: Dispatch<SetStateAction<boolean>>;
   adjustmentBalance: (adjustment: BalanceProps) => void;
 }
-
-const PRODUCTS_PER_PAGE = 20;
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -71,15 +69,29 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<FilterType[]>([]);
-  const [rawProducts, setRawProducts] = useState<ProductProps[]>([])
   const [loadedProducts, setLoadedProducts] = useState<ProductProps[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [error, setError] = useState(false);
 
-  const nextPageRef = useRef(0);
+  const nextPageRef = useRef(1);
+
+  const loadInitialData = async () => {
+    setIsLoading(true);
+
+    try {
+      nextPageRef.current = 0;
+      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
+      const allProducts = response.data;
+
+      setLoadedProducts(allProducts);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // GET
   const fetchMoreProducts = async () => {
@@ -88,11 +100,12 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     try {
       const response = await AxiosNode.get(
-        `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+        `/getProducts/?page=${nextPageRef.current += 1}&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
+
       setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
-      nextPageRef.current += 1;
+      // nextPageRef.current = nextPage;
     } catch (err) {
       console.error(err);
     } finally {
@@ -113,7 +126,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // GET
   const getProductByFilter = async (filterType: FilterType) => {
-    setCurrentPage(0);
     const newFilterArray = [];
 
     try {
@@ -129,15 +141,22 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
       }
 
-      setFilterArray(newFilterArray); // Atualize o estado com a nova matriz de filtros
-      console.log('filter', currentPage);
-      const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
+      setFilterArray(newFilterArray);
+      nextPageRef.current = 0;
+      setIsLoading(true);
+
+      const apiUrl = `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
+      console.log(newFilterArray);
+
       const response = await AxiosNode.get(apiUrl);
       const product = response.data;
-      setLoadedProducts(product);
+      setLoadedProducts([...product]);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
+
   }
 
   // GET
@@ -206,9 +225,18 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  useEffect(() => {
-    fetchMoreProducts();
-  }, [filterArray]);
+  const toggleSort = () => {
+    setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
+  };
+
+  const clearFilter = () => {
+    setFilter(null);
+    setLoadedProducts([]);
+    setFilterArray([]);
+    nextPageRef.current = 1;
+    setSortOrder('asc');
+    loadInitialData();
+  };
 
   useEffect(() => {
     const table = document.getElementById('table');
@@ -226,39 +254,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       };
     }
   }, [isLoading]);
-
-  const loadInitialData = async (filters?: FilterType[]) => {
-    setIsLoading(true);
-
-    try {
-      const response = await AxiosNode.get(`/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
-      const allProducts = response.data;
-
-      setProducts(allProducts.slice(0, PRODUCTS_PER_PAGE));
-
-      setRawProducts(allProducts);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const toggleSort = () => {
-    setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
-  };
-
-  const clearFilter = () => {
-    setFilter(null);
-    setFilteredProducts(rawProducts);
-    setLoadedProducts(rawProducts);
-    setFilterArray([])
-    setSortOrder('asc')
-  };
-
-  useEffect(() => {
-    loadInitialData(filterType);
-  }, []);
 
   return (
     <ProductContext.Provider
