@@ -31,9 +31,9 @@ export const CoupomModal = ({ onOpenCoupomModal, onClose, onOpenCustomerModal }:
 
         let nextIndex = currentIndex;
         if (event.key === "ArrowRight") {
-          nextIndex = (currentIndex + 1) % focusableElements.length;
+          nextIndex = (currentIndex - 1) % focusableElements.length;
         } else if (event.key === "ArrowLeft") {
-          nextIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
+          nextIndex = (currentIndex + 1 + focusableElements.length) % focusableElements.length;
         }
 
         focusableElements[nextIndex]?.focus();
@@ -50,7 +50,7 @@ export const CoupomModal = ({ onOpenCoupomModal, onClose, onOpenCustomerModal }:
         "a[href], button, textarea, input[type='text'], input[type='number'], input[type='checkbox'], select"
       );
 
-      const firstElement = focusableElements[0] as HTMLElement;
+      const firstElement = focusableElements[1] as HTMLElement;
       const lastElement =
         focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -75,7 +75,7 @@ export const CoupomModal = ({ onOpenCoupomModal, onClose, onOpenCustomerModal }:
           "a[href], button, textarea, input[type='text'], input[type='number'], input[type='checkbox'], select"
         );
 
-        const firstElement = focusableElements[0] as HTMLElement;
+        const firstElement = focusableElements[1] as HTMLElement;
         firstElement.focus();
       }
     }
