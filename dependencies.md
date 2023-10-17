@@ -59,15 +59,15 @@
    [X] -> Dialog de confirmação para deletar;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
-   [X] -> Impressão pedidos de venda;
-   [X] -> Lista não carrega de primeira (produtos);
-   [X] -> Pedidos de venda não chama mais pedidos quando termina de scrollar;
-   [X] -> Mostrar a primeira descrição do index em nova venda;
-   [X] -> Dar foco ao botão de imprimir quando finalizar a venda;
-   [X] -> Produtos está dando erro quando rola muito a lista e depois limpa o filtro;
-   [] -> Produtos está com erro depois que filtra, tem que limpar o filtro varias vezes para realmente limpar;
-   [] -> Produtos começa do inicio da lista quando faz filtro;
-   [] -> Depois que cancela o cupom não está removendo da lista;
-   [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
-   [X] -> Arrumar a API para deletar cupom fiscal (backend);
+   [X] -> *Venda* Impressão pedidos de venda;
+   [X] -> *produtos* Lista não carrega de primeira;
+   [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
+   [X] -> *Venda* Mostrar a primeira descrição do index em nova venda;
+   [X] -> *Venda* Dar foco ao botão de imprimir quando finalizar a venda;
+   [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
+   [] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
+   [] -> *Produtos* não começa do inicio da lista quando faz filtro;
+   [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
+   [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
+   [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
 ------------------------------------------------------------------------------------------------------------------------
