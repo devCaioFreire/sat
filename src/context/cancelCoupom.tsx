@@ -55,13 +55,20 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
 
   const deleteLastSale = async (cancel: CancelData) => {
     try {
+      // Faz a requisição para atualizar o status no servidor
       const response = await AxiosNode.post('/updateCoupomStatus', cancel);
       console.log('Response from server:', response.data);
+
+      // Se a requisição foi bem-sucedida, remove o cupom da lista local
+      if (response.data.success) {
+        setCoupoms((prevCoupoms) => prevCoupoms.filter(coupom => coupom.id !== cancel.id));
+      }
     } catch (error) {
       console.error('Context (Error): ', error);
       throw error;
     }
   };
+
 
   const addCoupom = (coupom: CoupomData) => {
     setCoupoms((prevCoupoms) => [coupom, ...prevCoupoms]);

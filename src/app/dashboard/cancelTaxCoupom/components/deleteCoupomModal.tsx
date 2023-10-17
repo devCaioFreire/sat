@@ -21,7 +21,12 @@ interface FilterModalProps {
 export const DeleteCoupomModal: React.FC<FilterModalProps> = ({ isOpen, onClose, children, selectedCoupom }) => {
   const { coupoms, deleteLastSale } = useCoupomContext();
   function handleDelete(cancel: { id: number, status: string }) {
-    deleteLastSale(cancel);
+    try {
+      deleteLastSale(cancel);
+      onClose?.();
+    } catch (error) {
+      throw new Error;
+    }
   }
 
   return (

@@ -65,7 +65,9 @@
    [X] -> Mostrar a primeira descrição do index em nova venda;
    [X] -> Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> Produtos está dando erro quando rola muito a lista e depois limpa o filtro;
-   [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
-   [] -> Arrumar a API para deletar cupom fiscal (backend);
+   [] -> Produtos está com erro depois que filtra, tem que limpar o filtro varias vezes para realmente limpar;
    [] -> Produtos começa do inicio da lista quando faz filtro;
+   [] -> Depois que cancela o cupom não está removendo da lista;
+   [] -> Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
+   [X] -> Arrumar a API para deletar cupom fiscal (backend);
 ------------------------------------------------------------------------------------------------------------------------
