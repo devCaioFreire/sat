@@ -58,7 +58,10 @@ interface ProductContextType {
   error: boolean;
   setError: Dispatch<SetStateAction<boolean>>;
   adjustmentBalance: (adjustment: BalanceProps) => void;
+  tableRef: HTMLDivElement | any;
 }
+
+type TableRefType = HTMLDivElement | null;
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -76,6 +79,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [error, setError] = useState(false);
 
   const nextPageRef = useRef(1);
+  const tableRef = useRef<HTMLDivElement | any>(null);
 
   const loadInitialData = async () => {
     setIsLoading(true);
@@ -152,6 +156,9 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const product = response.data;
       setLoadedProducts([...product]);
       setIsLoading(false);
+      if (tableRef.current) {
+        tableRef.current.scrollTo(0, 0);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -248,19 +255,37 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  // useEffect(() => {
+  //   const table = document.getElementById('table');
+  //   if (table) {
+  //     const handleScroll = () => {
+  //       const { scrollTop, clientHeight, scrollHeight } = table;
+  //       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+  //       if (isAtBottom && !isLoading) {
+  //         fetchMoreProducts()
+  //       }
+  //     };
+  //     table.addEventListener('scroll', handleScroll);
+  //     return () => {
+  //       table.removeEventListener('scroll', handleScroll);
+  //     };
+  //   }
+  // }, [isLoading]);
+
   useEffect(() => {
-    const table = document.getElementById('table');
-    if (table) {
+    if (tableRef) {
       const handleScroll = () => {
-        const { scrollTop, clientHeight, scrollHeight } = table;
+        const { scrollTop, clientHeight, scrollHeight } = tableRef.current;
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
         if (isAtBottom && !isLoading) {
-          fetchMoreProducts()
+          fetchMoreProducts();
+          console.log('chamou aqui')
         }
       };
-      table.addEventListener('scroll', handleScroll);
+
+      tableRef.current?.addEventListener('scroll', handleScroll);
       return () => {
-        table.removeEventListener('scroll', handleScroll);
+        tableRef.current?.removeEventListener('scroll', handleScroll);
       };
     }
   }, [isLoading]);
@@ -296,7 +321,8 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         increaseBalance,
         error,
         setError,
-        adjustmentBalance
+        adjustmentBalance,
+        tableRef
       }}>
       {children}
     </ProductContext.Provider>

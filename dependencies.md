@@ -66,7 +66,7 @@
    [X] -> *Venda* Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
    [X] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
-   [] -> *Produtos* não começa do inicio da lista quando faz filtro;
+   [X] -> *Produtos* não começa do inicio da lista quando faz filtro;
    [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
    [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
    [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);

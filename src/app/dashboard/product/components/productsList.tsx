@@ -5,7 +5,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
 
 export const ProductList = () => {
-  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading, loadInitialData, filterArray } = useProductContext();
+  const { selectedProduct, setSelectedProduct, filter, filterType, loadedProducts, sortOrder, isLoading, loadInitialData, tableRef } = useProductContext();
 
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
@@ -45,6 +45,7 @@ export const ProductList = () => {
     <>
       <table
         id="table"
+        ref={tableRef}
         className="flex relative flex-col h-full w-full border-collapse overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-[#636369] scrollbar-track-transparent"
       >
         <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-backgroundFields">
