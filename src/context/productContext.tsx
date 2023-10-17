@@ -229,13 +229,23 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
   };
 
-  const clearFilter = () => {
+
+  const clearFilter = async () => {
     setFilter(null);
-    setLoadedProducts([]);
-    setFilterArray([]);
-    nextPageRef.current = 1;
+    setFilterArray([]); // Certifique-se de limpar o filterArray
+    nextPageRef.current = 0;
     setSortOrder('asc');
-    loadInitialData();
+    setIsLoading(true); // Define isLoading para true para mostrar o carregamento
+
+    try {
+      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify([])}&orderBy=id&order=${sortOrder}`);
+      const product = response.data;
+      setLoadedProducts([...product]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false); // Define isLoading para false quando a busca for concluída
+    }
   };
 
   useEffect(() => {
