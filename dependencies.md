@@ -68,6 +68,7 @@
    [X] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
    [X] -> *Produtos* não começa do inicio da lista quando faz filtro;
    [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
+   [X] -> *Venda* Atalho de pesquisa conflitando com o navegador (ctrl + K);
    [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
    [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
 ------------------------------------------------------------------------------------------------------------------------

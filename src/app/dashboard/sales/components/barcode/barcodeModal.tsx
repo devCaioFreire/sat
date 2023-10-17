@@ -49,7 +49,7 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
   }
 
   const handleFocusSearch = (event: KeyboardEvent) => {
-    if (event.ctrlKey && event.key === "k") {
+    if (event.ctrlKey && event.key === "m") {
       inputRef.current?.focus();
     }
   };
