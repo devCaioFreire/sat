@@ -1,7 +1,7 @@
 "use client"
 
 import { CalendarIcon } from "@radix-ui/react-icons"
-import { addDays, format } from "date-fns"
+import { format } from "date-fns"
 import * as React from "react"
 import { DateRange } from "react-day-picker"
 
@@ -23,15 +23,7 @@ export function DatePickerWithRange({
 
   const { searchByPeriod } = useOrderContext();
 
-  const currentDate = new Date();
-  const day = currentDate.getDate().toString().padStart(2, '0');
-  const month = (currentDate.getMonth() - 1).toString().padStart(2, '0');
-  const year = currentDate.getFullYear();
-
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(year, parseFloat(month) + 1, parseFloat(day)),
-    to: addDays(new Date(year, parseFloat(month) + 1, parseFloat(day)), 0),
-  })
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
 
   function handleSubmit() {
     if (date?.from && date?.to) {
@@ -68,14 +60,13 @@ export function DatePickerWithRange({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex flex-col items-center justify-center w-auto p-0 mx-7" align="start">
+        <PopoverContent className="flex flex-col items-center justify-center w-auto p-0" align="start">
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2}
+            numberOfMonths={1}
             locale={ptBR}
           />
           <Button
