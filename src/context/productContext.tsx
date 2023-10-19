@@ -28,6 +28,8 @@ interface FilterType {
   value: string | number | boolean;
 }
 
+type TableRefType = HTMLDivElement | null | any;
+
 interface ProductContextType {
   products: ProductProps[];
   getNextProductId: () => void;
@@ -58,10 +60,8 @@ interface ProductContextType {
   error: boolean;
   setError: Dispatch<SetStateAction<boolean>>;
   adjustmentBalance: (adjustment: BalanceProps) => void;
-  tableRef: HTMLDivElement | any;
+  tableRef: TableRefType;
 }
-
-type TableRefType = HTMLDivElement | null;
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -79,7 +79,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [error, setError] = useState(false);
 
   const nextPageRef = useRef(1);
-  const tableRef = useRef<HTMLDivElement | any>(null);
+  const tableRef = useRef<TableRefType>(null);
 
   const loadInitialData = async () => {
     setIsLoading(true);
@@ -255,39 +255,30 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  // useEffect(() => {
-  //   const table = document.getElementById('table');
-  //   if (table) {
-  //     const handleScroll = () => {
-  //       const { scrollTop, clientHeight, scrollHeight } = table;
-  //       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //       if (isAtBottom && !isLoading) {
-  //         fetchMoreProducts()
-  //       }
-  //     };
-  //     table.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       table.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }
-  // }, [isLoading]);
-
   useEffect(() => {
-    if (tableRef) {
-      const handleScroll = () => {
-        const { scrollTop, clientHeight, scrollHeight } = tableRef.current;
-        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-        if (isAtBottom && !isLoading) {
-          fetchMoreProducts();
-          console.log('chamou aqui')
-        }
-      };
-
-      tableRef.current?.addEventListener('scroll', handleScroll);
-      return () => {
-        tableRef.current?.removeEventListener('scroll', handleScroll);
-      };
+    if (tableRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = tableRef.current;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      if (isAtBottom && !isLoading) {
+        fetchMoreProducts();
+        console.log('chamou aqui');
+      }
     }
+    // if (tableRef) {
+    //   const handleScroll = () => {
+    //     const { scrollTop, clientHeight, scrollHeight } = tableRef.current;
+    //     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+    //     if (isAtBottom && !isLoading) {
+    //       fetchMoreProducts();
+    //       console.log('chamou aqui')
+    //     }
+    //   };
+
+    //   tableRef.current?.addEventListener('scroll', handleScroll);
+    //   return () => {
+    //     tableRef.current?.removeEventListener('scroll', handleScroll);
+    //   };
+    // }
   }, [isLoading]);
 
   return (
