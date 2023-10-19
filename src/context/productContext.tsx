@@ -7,7 +7,7 @@ export interface ProductProps {
   descricao: string;
   vlrUnCom: string;
   unCom: string;
-  saldo: string;
+  saldo: string | number;
   status: string;
   ncm?: string;
   codEAN?: string;

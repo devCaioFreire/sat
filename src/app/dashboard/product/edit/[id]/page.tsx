@@ -35,7 +35,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       setDescription(selectedProduct.descricao || "");
       setValue(selectedProduct.vlrUnCom || "");
       setUnity(selectedProduct.unCom || "");
-      setBalance(selectedProduct.saldo || "");
+      setBalance(selectedProduct.saldo.toString() || "");
       setNcmCode(selectedProduct.ncm || "");
       setEanCode(selectedProduct.codEAN || "");
       setStatus(selectedProduct.status || "");
