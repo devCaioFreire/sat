@@ -7,20 +7,10 @@ export interface ProductProps {
   descricao: string;
   vlrUnCom: string;
   unCom: string;
-  saldo: string;
+  saldo: string | number;
   status: string;
   ncm?: string;
   codEAN?: string;
-}
-
-interface BalanceProps {
-  pm_usuario_id: number;
-  pm_produto_id?: number | string;
-  pm_quantidade: number;
-  pm_pedido_venda_id?: number | null;
-  pm_numero_nota_fiscal?: number | null;
-  pm_observacao?: string;
-  pm_tipo_movimentacao?: string,
 }
 
 interface FilterType {
@@ -53,15 +43,10 @@ interface ProductContextType {
   sortOrder: string;
   toggleSort: () => void;
   isLoading: boolean;
-  loadInitialData: () => void;
-  increaseBalance: (balance: BalanceProps) => void;
-  error: boolean;
-  setError: Dispatch<SetStateAction<boolean>>;
-  adjustmentBalance: (adjustment: BalanceProps) => void;
-  tableRef: HTMLDivElement | any;
+  loadInitialData: (filters: FilterType[]) => void;
 }
 
-type TableRefType = HTMLDivElement | null;
+const PRODUCTS_PER_PAGE = 20;
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -72,30 +57,14 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<FilterType[]>([]);
+  const [rawProducts, setRawProducts] = useState<ProductProps[]>([])
   const [loadedProducts, setLoadedProducts] = useState<ProductProps[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [filterArray, setFilterArray] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const [error, setError] = useState(false);
 
-  const nextPageRef = useRef(1);
-  const tableRef = useRef<HTMLDivElement | any>(null);
-
-  const loadInitialData = async () => {
-    setIsLoading(true);
-
-    try {
-      nextPageRef.current = 0;
-      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
-      const allProducts = response.data;
-
-      setLoadedProducts(allProducts);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const nextPageRef = useRef(0);
 
   // GET
   const fetchMoreProducts = async () => {
@@ -104,12 +73,11 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     try {
       const response = await AxiosNode.get(
-        `/getProducts/?page=${nextPageRef.current += 1}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+        `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
       const newProducts = response.data;
-
       setLoadedProducts(prevLoadedProducts => [...prevLoadedProducts, ...newProducts]);
-      // nextPageRef.current = nextPage;
+      nextPageRef.current += 1;
     } catch (err) {
       console.error(err);
     } finally {
@@ -130,6 +98,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // GET
   const getProductByFilter = async (filterType: FilterType) => {
+    setCurrentPage(0);
     const newFilterArray = [];
 
     try {
@@ -145,25 +114,15 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
       }
 
-      setFilterArray(newFilterArray);
-      nextPageRef.current = 0;
-      setIsLoading(true);
-
-      const apiUrl = `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
-      console.log(newFilterArray);
-
+      setFilterArray(newFilterArray); // Atualize o estado com a nova matriz de filtros
+      console.log('filter', currentPage);
+      const apiUrl = `/getProducts/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
       const response = await AxiosNode.get(apiUrl);
       const product = response.data;
-      setLoadedProducts([...product]);
-      setIsLoading(false);
-      if (tableRef.current) {
-        tableRef.current.scrollTo(0, 0);
-      }
+      setLoadedProducts(product);
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
-
   }
 
   // GET
@@ -190,26 +149,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  const increaseBalance = async (balance: BalanceProps) => {
-    try {
-      const response = await AxiosNode.post('/StockAdd', balance);
-      console.log('Response from server:', balance)
-    } catch (error) {
-      setError(true);
-      throw new Error();
-    }
-  }
-
-  const adjustmentBalance = async (adjustment: BalanceProps) => {
-    try {
-      const response = await AxiosNode.post('/StockAdjustment', adjustment);
-      console.log('Response from server:', adjustment)
-    } catch (error) {
-      setError(true);
-      throw new Error();
-    }
-  }
-
   // UPDATE
   const sendUpdateProduct = async (updateProduct: ProductProps) => {
     try {
@@ -232,63 +171,59 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  useEffect(() => {
+    fetchMoreProducts();
+  }, [filterArray]);
+
+  useEffect(() => {
+    const table = document.getElementById('table');
+    if (table) {
+      const handleScroll = () => {
+        const { scrollTop, clientHeight, scrollHeight } = table;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+        if (isAtBottom && !isLoading) {
+          fetchMoreProducts()
+        }
+      };
+      table.addEventListener('scroll', handleScroll);
+      return () => {
+        table.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [isLoading]);
+
+  const loadInitialData = async (filters?: FilterType[]) => {
+    setIsLoading(true);
+
+    try {
+      const response = await AxiosNode.get(`/getProducts/?page=${currentPage}&filter=${JSON.stringify(filterArray)}&orderBy=id`);
+      const allProducts = response.data;
+
+      setProducts(allProducts.slice(0, PRODUCTS_PER_PAGE));
+
+      setRawProducts(allProducts);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const toggleSort = () => {
     setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
   };
 
-
-  const clearFilter = async () => {
+  const clearFilter = () => {
     setFilter(null);
-    setFilterArray([]); // Certifique-se de limpar o filterArray
-    nextPageRef.current = 0;
-    setSortOrder('asc');
-    setIsLoading(true); // Define isLoading para true para mostrar o carregamento
-
-    try {
-      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify([])}&orderBy=id&order=${sortOrder}`);
-      const product = response.data;
-      setLoadedProducts([...product]);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false); // Define isLoading para false quando a busca for concluída
-    }
+    setFilteredProducts(rawProducts);
+    setLoadedProducts(rawProducts);
+    setFilterArray([])
+    setSortOrder('asc')
   };
 
-  // useEffect(() => {
-  //   const table = document.getElementById('table');
-  //   if (table) {
-  //     const handleScroll = () => {
-  //       const { scrollTop, clientHeight, scrollHeight } = table;
-  //       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //       if (isAtBottom && !isLoading) {
-  //         fetchMoreProducts()
-  //       }
-  //     };
-  //     table.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       table.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }
-  // }, [isLoading]);
-
   useEffect(() => {
-    if (tableRef) {
-      const handleScroll = () => {
-        const { scrollTop, clientHeight, scrollHeight } = tableRef.current;
-        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-        if (isAtBottom && !isLoading) {
-          fetchMoreProducts();
-          console.log('chamou aqui')
-        }
-      };
-
-      tableRef.current?.addEventListener('scroll', handleScroll);
-      return () => {
-        tableRef.current?.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [isLoading]);
+    loadInitialData(filterType);
+  }, []);
 
   return (
     <ProductContext.Provider
@@ -317,12 +252,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         toggleSort,
         sortOrder,
         isLoading,
-        loadInitialData,
-        increaseBalance,
-        error,
-        setError,
-        adjustmentBalance,
-        tableRef
+        loadInitialData
       }}>
       {children}
     </ProductContext.Provider>
