@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const token = sessionStorage.getItem('token') ?? '';
+// declare global {
+//   interface Window {
+//     sessionStorage: Storage;
+//   }
+// }
 
 export const AxiosNode = axios.create({
   // baseURL: 'https://soft-api.onrender.com',
