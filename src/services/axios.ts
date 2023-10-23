@@ -8,8 +8,9 @@ import axios from 'axios';
 
 export const AxiosNode = axios.create({
   // baseURL: 'https://soft-api.onrender.com',
-  // baseURL: 'http://localhost:3333',
-  baseURL: 'http://177.131.142.37:3333',
+  url: 'http://localhost:3333',
+  baseURL: 'http://177.131.142.37:8099',
+  // baseURL: 'http://177.131.142.37:3333',
   // baseURL: 'http://192.168.0.183:3333',
   headers: {
     'Content-Type': 'application/json',
