@@ -14,6 +14,10 @@ export const AxiosNode = axios.create({
   // baseURL: 'http://192.168.0.183:3333',
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+    'Access-Control-Allow-Credentials': 'true'
   }
 });
 
