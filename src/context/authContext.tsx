@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         senha: password
       })
 
-      if (response.status === 200) {
+      if (response.status === 200 || 201) {
         const { token } = response.data;
 
         sessionStorage.setItem('token', token);
@@ -91,12 +91,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsAuthenticated(false);
         setError(true);
         console.log('Error: ' + response.status + 'Não foi permitido acessar')
-        throw new Error('não foi permitido acessar');
+        throw new Error('não foi permitido acessar 1');
       }
     } catch (err) {
       setIsAuthenticated(false);
       setError(true);
-      console.log('Error: Não foi permitido acessar')
+      console.log('Error: Não foi permitido acessar 2')
       throw err;
     }
   };
