@@ -23,6 +23,15 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children, 
 
   const filteredProducts = products;
 
+  function getStatusLabel(status: string): string {
+    if (status === "C") {
+      return "Cancelado";
+    } else if (status === "R") {
+      return "Realizado";
+    }
+    return status; // Default to the original status if not "C" or "R"
+  }
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -38,10 +47,11 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children, 
           >
             <thead className="sticky top-0 w-full drop-shadow-lg pb-4 bg-zinc-300 text-black">
               <tr className="flex text-left">
-                <th className="pt-3 px-4 w-[25%] text-base font-medium">ID</th>
-                <th className="pt-3 px-4 w-[25%] text-base font-medium">Valor</th>
-                <th className="pt-3 px-4 w-[25%] text-base font-medium">Pagamento</th>
-                <th className="pt-3 px-8 w-[25%] text-base text-right font-medium">Data</th>
+                <th className="pt-3 px-4 w-[20%] text-base font-medium">ID</th>
+                <th className="pt-3 px-4 w-[20%] text-base font-medium">Valor</th>
+                <th className="pt-3 px-4 w-[20%] text-base font-medium">Pagamento</th>
+                <th className="pt-3 px-4 w-[20%] text-base font-medium">Status</th>
+                <th className="pt-3 px-8 w-[20%] text-base  font-medium">Data</th>
               </tr>
             </thead>
             <tbody>
@@ -50,12 +60,13 @@ export const Detail: React.FC<DetailModalProps> = ({ isOpen, onClose, children, 
                   className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none`}
                   tabIndex={0}
                 >
-                  <td className="px-4 w-[25%]">{selectedSalesOrder.id}</td>
-                  <td className="px-4 w-[25%]">
+                  <td className="px-4 w-[20%]">{selectedSalesOrder.id}</td>
+                  <td className="px-4 w-[20%]">
                     {formatCurrency(parseFloat(selectedSalesOrder.valor_liquido))}
                   </td>
-                  <td className="px-4 w-[25%]">{capitalizeFirstLetter(selectedSalesOrder.forma_pagamento)}</td>
-                  <td className="px-4 w-[25%] text-right">{formatDate(selectedSalesOrder.data_realizacao)}
+                  <td className="px-4 w-[20%]">{capitalizeFirstLetter(selectedSalesOrder.forma_pagamento)}</td>
+                  <td className="px-4 w-[20%]">{getStatusLabel(selectedSalesOrder.status!)}</td>
+                  <td className="px-4 w-[20%]">{formatDate(selectedSalesOrder.data_realizacao)}
 
                   </td>
                 </tr>

@@ -65,7 +65,7 @@
    [X] -> *Vendas* Mostrar a primeira descrição do index em nova venda;
    [X] -> *Vendas* Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> *Vendas* Atalho de pesquisa conflitando com o navegador (ctrl + K);
-   [] -> *Vendas* Não pode vender produtos inativos;
+   [] -> *Vendas* Não pode vender produtos inativos (backend);
    [] -> *Vendas* Trocar o TAB por Enter para entrar nos componentes;
 
    [X] -> *Pedidos de venda* Impressão pedidos de venda;
@@ -74,6 +74,7 @@
    [X] -> *Pedidos de venda* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
    [] -> *Pedidos de venda* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
    [] -> *Pedidos de venda* Impressão deve seguir o filtro;
+   [] -> *Pedidos de venda* Informando o status da venda;
 
    [X] -> *Produtos* Lista não carrega de primeira;
    [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
@@ -82,6 +83,7 @@
 
    [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
    [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
+   [] -> *Cupom* CancelCupom Não devolve os itens ao estoque (backend);
 
    [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
 ------------------------------------------------------------------------------------------------------------------------

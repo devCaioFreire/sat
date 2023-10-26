@@ -16,6 +16,7 @@ export interface SalesOrderProps {
   valor_liquido: string;
   forma_pagamento: string;
   data_realizacao: string;
+  status?: string;
   itens?: ProductProps[];
 }
 
