@@ -69,6 +69,8 @@
    [X] -> *Vendas* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
    [] -> *Vendas* Impressão deve seguir o filtro;
    [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
+   [] -> *Vendas* Não pode vender produtos inativos;
+   [] -> *Vendas* Trocar o TAB por Enter para entrar nos componentes;
 
    [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
 
