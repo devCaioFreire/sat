@@ -66,7 +66,7 @@
    [X] -> *Vendas* Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> *Vendas* Atalho de pesquisa conflitando com o navegador (ctrl + K);
    [X] -> *Vendas* Trocar text field por select;
-   [] -> *Vendas* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
+   [X] -> *Vendas* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
    [] -> *Vendas* Impressão deve seguir o filtro;
    [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
 

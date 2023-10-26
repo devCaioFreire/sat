@@ -8,9 +8,9 @@ import { IconButton } from "../../../../components/iconButton";
 import { Detail } from "./detail";
 
 export const OrderList = () => {
-  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder, isLoading, loadInitialData } = useOrderContext();
+  const { setSelectedOrder, selectedOrder, loadedProducts, filter, filterType, loadSalesItems, sortOrder, isLoading, loadInitialData, getSalesOrders, setCombined, combineOrdersWithItems } = useOrderContext();
   const [isIdFilterOpen, setIsIdFilterOpen] = useState(false);
-  
+
   const filteredProducts = loadedProducts.filter((product) => {
     if (!filter || !filterType) {
       return true;
@@ -52,6 +52,17 @@ export const OrderList = () => {
 
   useEffect(() => {
     loadInitialData(filterType);
+  }, []);
+
+  useEffect(() => {
+    const fetchAndCombineOrders = async () => {
+      await getSalesOrders();
+      const orders = await combineOrdersWithItems();
+      setCombined(orders);
+      console.log('ORDERS',orders);
+    };
+
+    fetchAndCombineOrders();
   }, []);
 
   return (

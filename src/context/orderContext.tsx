@@ -124,6 +124,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const apiUrl = `/getSalesOrders/?page=${currentPage}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
       const response = await AxiosNode.get(apiUrl);
       const orders = response.data;
+      setFilterArray(orders);
       setLoadedProducts(orders);
     } catch (error) {
       console.log(error);
@@ -144,11 +145,12 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }
 
-  const fetchAllProductsForPrint = async (filterArray?: any[]) => {
+  const fetchAllProductsForPrint = async (filterArray: FilterType[]) => {
     try {
       const response = await AxiosNode.get(
         `/getSalesOrders/?take=1000000000000&page=0&filter=${JSON.stringify(filterArray)}&orderBy=id`
       );
+      console.log('teste 7', response.data);
       return response.data;
     } catch (err) {
       console.error(err);
@@ -180,7 +182,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       return [];
     }
   };
-
 
   const loadInitialData = async (filters?: FilterType[]) => {
     setIsLoading(true);
@@ -217,6 +218,9 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   useEffect(() => {
     const fetchAndCombineOrders = async () => {
+      if (filterType.length > 0) {
+        await getOrderByFilter(filterType[0]); // Passe o filtro desejado aqui
+      }
       const orders = await combineOrdersWithItems();
       setCombined(orders);
     };
@@ -245,9 +249,9 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     getSalesItems(orderID);
   }
 
-  useEffect(() => {
-    loadInitialData(filterType);
-  }, []);
+  // useEffect(() => {
+  //   loadInitialData(filterType);
+  // }, []);
 
   useEffect(() => {
     const table = document.getElementById('table_order');
@@ -266,7 +270,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         table.removeEventListener('scroll', handleScroll);
       };
     }
-  }, [isLoading, filterArray]);
+  }, [isLoading]);
 
   return (
     <OrderContext.Provider

@@ -70,8 +70,7 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
 
   const { itens } = props;
 
-  const { combineOrdersWithItems, combined, getSalesOrders, setCombined } = useOrderContext();
-  const combinedOrders = combineOrdersWithItems();
+  const { combined, setCombined, getSalesOrders, combineOrdersWithItems, fetchAllProductsForPrint, filterArray } = useOrderContext();
 
   React.useImperativeHandle(ref, () => ({
     handlePrintCupom: () => {
@@ -81,13 +80,15 @@ const OrdersReport: React.ForwardRefRenderFunction<ProductsReportRef, PrintProps
 
   useEffect(() => {
     const fetchAndCombineOrders = async () => {
-      await getSalesOrders();
-      const orders = await combinedOrders;
-      setCombined(orders);
+      const orders = await fetchAllProductsForPrint(filterArray);
+      console.log('teste 1', orders)
+      const items = await combineOrdersWithItems();
+      setCombined(filterArray && items);
+      console.log('ORDERS', orders);
     };
 
     fetchAndCombineOrders();
-  }, []);
+  }, [filterArray]);
 
   const renderOrderWithItems = (order: SalesOrderProps) => (
     <View key={order.id} style={{ marginBottom: 24 }}>
