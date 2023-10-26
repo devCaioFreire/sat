@@ -59,6 +59,7 @@
    [X] -> Dialog de confirmação para deletar;
    [X] -> Arrumar busca por EAN em produtos;
    [X] -> Atualizar Home;
+   [X] -> Colocar Toast para melhorar UX;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
    [X] -> *Vendas* Mostrar a primeira descrição do index em nova venda;
