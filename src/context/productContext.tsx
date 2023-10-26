@@ -1,5 +1,6 @@
 import { AxiosNode } from '@/services/axios';
 import React, { Dispatch, SetStateAction, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export interface ProductProps {
   id?: string;
@@ -184,12 +185,15 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const response = await AxiosNode.post('/addProduct', addProduct);
       console.log('Response from server: ', response.data);
+      toast.success('Produto adicionado!')
     } catch (error) {
       console.error('Context (Error): ', error);
+      toast.error('Erro ao adicionar!')
       throw error;
     }
   };
 
+  // POST
   const increaseBalance = async (balance: BalanceProps) => {
     try {
       const response = await AxiosNode.post('/StockAdd', balance);
@@ -200,6 +204,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }
 
+  // POST
   const adjustmentBalance = async (adjustment: BalanceProps) => {
     try {
       const response = await AxiosNode.post('/StockAdjustment', adjustment);
@@ -215,8 +220,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const response = await AxiosNode.post('/updateProduct', updateProduct);
       console.log('Response from server: ', response.data);
+      toast.success('Produto atualizado!')
     } catch (error) {
       console.error('Context (Error): ', error);
+      toast.error('Erro ao atualizar o produto!')
       throw error;
     }
   };
@@ -226,8 +233,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const response = await AxiosNode.delete(`/deleteProduct/${productId}`);
       console.log('Response from server: ', response.data);
+      toast.success('Produto deletado!')
     } catch (error) {
       console.error('Context (Error): ', error);
+      toast.error('Erro ao deletar o produto!')
       throw error;
     }
   };
