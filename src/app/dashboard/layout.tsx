@@ -1,6 +1,7 @@
 'use client'
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import { Toastify } from "@/components/toastify";
 import { AuthProvider } from "@/context/authContext";
 import { CoupomProvider } from "@/context/cancelCoupom";
 import { CustomerProvider } from "@/context/customerData";
@@ -19,26 +20,29 @@ export default function DashboardLayout({
   const isSalesPage = pathname === '/dashboard/sales';
 
   return (
-    <AuthProvider>
-      <ProductProvider>
-        <SalesOrderProvider>
-          <CustomerProvider>
-            <AllProductProvider>
-              <CoupomProvider>
-                <div className="flex h-[100vh] gap-8">
-                  <Navbar />
-                  <section className={`${isSalesPage ? 'flex-col justify-center items-center pt-8 w-[98%] h-full' : 'flex-col justify-center items-center pt-8 w-[85%] h-full'}`}>
-                    <div className="w-[98%] h-[95%]">
-                      {children}
-                    </div>
-                    {isSalesPage && <Footer />}
-                  </section>
-                </div>
-              </CoupomProvider>
-            </AllProductProvider>
-          </CustomerProvider>
-        </SalesOrderProvider>
-      </ProductProvider>
-    </AuthProvider>
+    <>
+      <Toastify />
+      <AuthProvider>
+        <ProductProvider>
+          <SalesOrderProvider>
+            <CustomerProvider>
+              <AllProductProvider>
+                <CoupomProvider>
+                  <div className="flex h-[100vh] gap-8">
+                    <Navbar />
+                    <section className={`${isSalesPage ? 'flex-col justify-center items-center pt-8 w-[98%] h-full' : 'flex-col justify-center items-center pt-8 w-[85%] h-full'}`}>
+                      <div className="w-[98%] h-[95%]">
+                        {children}
+                      </div>
+                      {isSalesPage && <Footer />}
+                    </section>
+                  </div>
+                </CoupomProvider>
+              </AllProductProvider>
+            </CustomerProvider>
+          </SalesOrderProvider>
+        </ProductProvider>
+      </AuthProvider >
+    </>
   );
 }
