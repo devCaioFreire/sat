@@ -58,6 +58,7 @@
    [X] -> Adicionar "Loading Component" ao carregar as listas;
    [X] -> Dialog de confirmação para deletar;
    [X] -> Arrumar busca por EAN em produtos;
+   [X] -> Atualizar Home;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
    [X] -> *Vendas* Impressão pedidos de venda;
