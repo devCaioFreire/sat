@@ -61,20 +61,20 @@
    [X] -> Atualizar Home;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
-   [X] -> *Vendas* Impressão pedidos de venda;
    [X] -> *Vendas* Mostrar a primeira descrição do index em nova venda;
    [X] -> *Vendas* Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> *Vendas* Atalho de pesquisa conflitando com o navegador (ctrl + K);
-   [X] -> *Vendas* Trocar text field por select;
-   [X] -> *Vendas* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
-   [] -> *Vendas* Impressão deve seguir o filtro;
-   [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
    [] -> *Vendas* Não pode vender produtos inativos;
    [] -> *Vendas* Trocar o TAB por Enter para entrar nos componentes;
 
+   [X] -> *Pedidos de venda* Impressão pedidos de venda;
    [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
+   [X] -> *Pedidos de venda* Trocar text field por select;
+   [X] -> *Pedidos de venda* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
+   [] -> *Pedidos de venda* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
+   [] -> *Pedidos de venda* Impressão deve seguir o filtro;
 
-   [X] -> *produtos* Lista não carrega de primeira;
+   [X] -> *Produtos* Lista não carrega de primeira;
    [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
    [X] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
    [X] -> *Produtos* não começa do inicio da lista quando faz filtro;
