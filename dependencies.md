@@ -72,9 +72,9 @@
    [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
    [X] -> *Pedidos de venda* Trocar text field por select;
    [X] -> *Pedidos de venda* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
-   [] -> *Pedidos de venda* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
+   [X] -> *Pedidos de venda* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
    [] -> *Pedidos de venda* Impressão deve seguir o filtro;
-   [] -> *Pedidos de venda* Informando o status da venda;
+   [X] -> *Pedidos de venda* Informando o status da venda;
 
    [X] -> *Produtos* Lista não carrega de primeira;
    [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
