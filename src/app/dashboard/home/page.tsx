@@ -18,51 +18,52 @@ export default function Home() {
         <div className="grid grid-cols-3 justify-items-center h-[90%]">
           <Card
             title="Nova Venda"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
             link={'/dashboard/sales'}
             withColor={true} />
 
           <Card
             title="Cancelar Cupom"
-            shortcut="(Ctrl + C)"
+            // shortcut="(Ctrl + C)"
             link={'/dashboard/cancelTaxCoupom'} />
 
           <Card
             title="Produtos"
-            shortcut="(Ctrl + P)"
+            // shortcut="(Ctrl + P)"
             link={'/dashboard/product'} />
 
           <Card
             title="Vendas"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
             link={'/dashboard/order'} />
 
           <Card
             title="Abrir Gaveta"
-            shortcut="(Ctrl + P)"
+            // shortcut="(Ctrl + P)"
             link={''}
             isDisabled={true} />
 
           <Card
             title="Relatório Gerencial"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
             link={''}
             isDisabled={true} />
 
           <Card
             title="2ª Via Cupom SAT"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
             link={''}
             isDisabled={true} />
 
           <Card
             title="Módulos Adicionais"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
+            targetBlank={true}
             link={'https://sistemasatfiscal.com.br'} />
 
           <Card
             title="Sair do Sistema"
-            shortcut="(Ctrl + N)"
+            // shortcut="(Ctrl + N)"
             link={''}
             onClick={logout}
           />

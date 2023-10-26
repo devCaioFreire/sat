@@ -57,6 +57,7 @@
 [X] -> Melhorar UX;
    [X] -> Adicionar "Loading Component" ao carregar as listas;
    [X] -> Dialog de confirmação para deletar;
+   [] -> Arrumar busca por EAN em produtos;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
    [X] -> *Venda* Impressão pedidos de venda;
@@ -75,4 +76,5 @@
    [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
    [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
    [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
+
 ------------------------------------------------------------------------------------------------------------------------
