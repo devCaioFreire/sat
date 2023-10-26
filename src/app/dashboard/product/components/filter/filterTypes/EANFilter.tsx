@@ -41,9 +41,9 @@ export const EANFilter: React.FC<FilterModalProps> = ({ isOpen, onClose, childre
           </DialogHeader>
           <form onSubmit={handleSearchEAN}>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-4 mb-12 gap-4">
                 <Input
-                  id="id"
+                  id="ean"
                   value={ean}
                   onChange={(e) => setEAN(e.target.value)}
                   placeholder="Digite o código EAN"

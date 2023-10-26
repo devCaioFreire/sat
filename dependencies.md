@@ -57,24 +57,27 @@
 [X] -> Melhorar UX;
    [X] -> Adicionar "Loading Component" ao carregar as listas;
    [X] -> Dialog de confirmação para deletar;
-   [] -> Arrumar busca por EAN em produtos;
+   [X] -> Arrumar busca por EAN em produtos;
 ------------------------------------------------------------------------------------------------------------------------
 [] -> Correções;
-   [X] -> *Venda* Impressão pedidos de venda;
-   [X] -> *produtos* Lista não carrega de primeira;
+   [X] -> *Vendas* Impressão pedidos de venda;
+   [X] -> *Vendas* Mostrar a primeira descrição do index em nova venda;
+   [X] -> *Vendas* Dar foco ao botão de imprimir quando finalizar a venda;
+   [X] -> *Vendas* Atalho de pesquisa conflitando com o navegador (ctrl + K);
+   [X] -> *Vendas* Trocar text field por select;
+   [] -> *Vendas* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
+   [] -> *Vendas* Impressão deve seguir o filtro;
+   [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
+
    [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
-   [X] -> *Venda* Mostrar a primeira descrição do index em nova venda;
-   [X] -> *Venda* Dar foco ao botão de imprimir quando finalizar a venda;
+
+   [X] -> *produtos* Lista não carrega de primeira;
    [X] -> *Produtos* está dando erro quando rola muito a lista e depois limpa o filtro;
    [X] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
    [X] -> *Produtos* não começa do inicio da lista quando faz filtro;
-   [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
-   [X] -> *Venda* Atalho de pesquisa conflitando com o navegador (ctrl + K);
-   [X] -> *Venda* Trocar text field por select;
-   [] -> *Venda* Impressão de vendas não mostra de primeira, tem que clicar duas vezes para imprimir;
-   [] -> *Venda* Impressão deve seguir o filtro;
-   [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
-   [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
-   [] -> *Vendas* Filtro não mostra o dia, tem que colocar um dia a mais (backend);
 
+   [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
+   [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
+
+   [] -> *Filtros* Últimos lançamentos não está mandando o último do banco apenas o último que está carregado na lista (backend);
 ------------------------------------------------------------------------------------------------------------------------
