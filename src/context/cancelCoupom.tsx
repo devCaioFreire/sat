@@ -1,6 +1,7 @@
 import { AxiosNode } from '@/services/axios';
 import { AxiosResponse } from 'axios';
 import { createContext, useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 export interface CoupomData {
@@ -53,6 +54,7 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
       });
   };
 
+  //Delete
   const deleteLastSale = async (cancel: CancelData) => {
     try {
       // Faz a requisição para atualizar o status no servidor
@@ -63,8 +65,10 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
       if (response.data.success) {
         setCoupoms((prevCoupoms) => prevCoupoms.filter(coupom => coupom.id !== cancel.id));
       }
+      toast.success('Cupom cancelado!')
     } catch (error) {
       console.error('Context (Error): ', error);
+      toast.error('Erro ao cancelar cupom!')
       throw error;
     }
   };
