@@ -22,9 +22,9 @@ export default function EditProduct({ params }: { params: { id: string } }) {
   const [eanCode, setEanCode] = useState("");
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    getProductByFilter({ field: 'id', value: ID })
-  }, []);
+  // useEffect(() => {
+  //   getProductByFilter({ field: 'id', value: id })
+  // }, []);
 
   useEffect(() => {
     // Quando selectedProduct for atualizado com o produto encontrado, faça o restante da lógica
@@ -44,6 +44,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // alert('clicou')
 
     if (
       productCode === '' ||

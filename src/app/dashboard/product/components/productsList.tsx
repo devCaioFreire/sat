@@ -29,14 +29,6 @@ export const ProductList = () => {
     }
   });
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return new Date(a.id!).getTime() - new Date(b.id!).getTime();
-    } else {
-      return new Date(b.id!).getTime() - new Date(a.id!).getTime();
-    }
-  });
-
   useEffect(() => {
     loadInitialData();
   }, []);
@@ -60,7 +52,7 @@ export const ProductList = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedProducts.map((item, index) => (
+          {filteredProducts.map((item, index) => (
             <tr
               key={index}
               className={`flex text-left items-center text-sm min-h-[4rem] border-b outline-none ${item === selectedProduct ? "bg-indigo-900" : ""}`}

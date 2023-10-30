@@ -105,7 +105,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     try {
       const response = await AxiosNode.get(
-        `/getProducts/?page=${nextPageRef.current += 1}&filter=${JSON.stringify(filterArray)}&orderBy=id`
+        `/getProducts/?page=${nextPageRef.current += 1}&filter=${JSON.stringify(filterArray)}&order=${sortOrder}`
       );
       const newProducts = response.data;
 
@@ -131,6 +131,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // GET
   const getProductByFilter = async (filterType: FilterType) => {
+    nextPageRef.current = 0;
     const newFilterArray = [];
 
     try {
@@ -147,10 +148,10 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       }
 
       setFilterArray(newFilterArray);
-      nextPageRef.current = 0;
+      // nextPageRef.current = 0;
       setIsLoading(true);
 
-      const apiUrl = `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(newFilterArray)}&orderBy=id&order=${sortOrder}`;
+      const apiUrl = `/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify(newFilterArray)}&order=${sortOrder}`;
       console.log(newFilterArray);
 
       const response = await AxiosNode.get(apiUrl);
@@ -164,7 +165,6 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       console.log(error);
     }
     setIsLoading(false);
-
   }
 
   // GET
@@ -218,7 +218,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // UPDATE
   const sendUpdateProduct = async (updateProduct: ProductProps) => {
     try {
-      const response = await AxiosNode.post('/updateProduct', updateProduct);
+      const response = await AxiosNode.put('/updateProduct', updateProduct);
       console.log('Response from server: ', response.data);
       toast.success('Produto atualizado!')
     } catch (error) {
@@ -241,9 +241,22 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
-  const toggleSort = () => {
-    setSortOrder(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
+  const toggleSort = async () => {
+    setIsLoading(true);
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+  
+    try {
+      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify([])}&order=${newSortOrder}`);
+      const product = response.data;
+      setLoadedProducts([...product]);
+      setSortOrder(newSortOrder);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   const clearFilter = async () => {
     setFilter(null);
@@ -253,7 +266,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setIsLoading(true); // Define isLoading para true para mostrar o carregamento
 
     try {
-      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify([])}&orderBy=id&order=${sortOrder}`);
+      const response = await AxiosNode.get(`/getProducts/?page=${nextPageRef.current}&filter=${JSON.stringify([])}&order=asc`);
       const product = response.data;
       setLoadedProducts([...product]);
     } catch (error) {
