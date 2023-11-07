@@ -91,12 +91,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsAuthenticated(false);
         setError(true);
         console.log('Error: ' + response.status + 'Não foi permitido acessar')
-        throw new Error('não foi permitido acessar 1');
+        throw new Error('não foi permitido acessar');
       }
     } catch (err) {
       setIsAuthenticated(false);
       setError(true);
-      console.log('Error: Não foi permitido acessar 2')
+      console.log('Error: Não foi permitido acessar')
       throw err;
     }
   };
