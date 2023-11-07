@@ -62,7 +62,7 @@ export function CoupomProvider({ children }: { children: React.ReactNode }) {
       console.log('Response from server:', response.data);
 
       // Se a requisição foi bem-sucedida, remove o cupom da lista local
-      if (response.data.success) {
+      if (response.data) {
         setCoupoms((prevCoupoms) => prevCoupoms.filter(coupom => coupom.id !== cancel.id));
       }
       toast.success('Cupom cancelado!')
