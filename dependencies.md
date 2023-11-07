@@ -65,7 +65,8 @@
    [X] -> *Vendas* Mostrar a primeira descrição do index em nova venda;
    [X] -> *Vendas* Dar foco ao botão de imprimir quando finalizar a venda;
    [X] -> *Vendas* Atalho de pesquisa conflitando com o navegador (ctrl + K);
-   [] -> *Vendas* Não pode vender produtos inativos (backend);
+   [X] -> *Vendas* Não pode vender produtos inativos (backend);
+   [] -> *Vendas* Bug quando mexe no desconto e volta pra 0 está mantendo o desconto;
 
    [X] -> *Pedidos de venda* Impressão pedidos de venda;
    [X] -> *Pedidos de venda* não chama mais pedidos quando termina de scrollar;
@@ -80,7 +81,7 @@
    [X] -> *Produtos* tem que limpar o filtro varias vezes para realmente limpar;
    [X] -> *Produtos* não começa do inicio da lista quando faz filtro;
    [X] -> *Produtos* não traz o ultimo produto do banco de dados (back + front);
-   [] -> *Produtos* remover da lista quando for excluido;
+   [X] -> *Produtos* remover da lista quando for excluido;
 
    [X] -> *Cupom* Depois que cancela o cupom não está removendo da lista;
    [X] -> *Cupom* Arrumar a API para deletar cupom fiscal (backend);
