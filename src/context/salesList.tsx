@@ -95,8 +95,8 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const getProductByEAN = (codEAN: number, quantity: number): Promise<ProductProps> => {
     return AxiosNode.get<ProductProps>(`/getEANProductFilter/${codEAN}`)
       .then((response: AxiosResponse) => {
-        const productsArray = response.data;
-
+        const productsArray = response.data[0];
+        
         const product = productsArray;
         const { id, codEAN, descricao, vlrUnCom } = product;
 
