@@ -34,7 +34,7 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
     setCurrentPage(0);
 
     try {
-      const response = await AxiosNode.get(`/getDescriptionProductFilter?descricao=${description}&page=${currentPage}`);
+      const response = await AxiosNode.get(`/getDescriptionProductFilter?descricao=${description}&page=${currentPage}&status='A'`);
       const products = response.data;
       console.log(products);
 
@@ -73,7 +73,7 @@ export const BarcodeModal: React.FC<ModalProps> = ({ isOpen, onClose, children }
       setIsLoading(true);
 
       try {
-        const response = await AxiosNode.get(`/getDescriptionProductFilter?descricao=${description}&page=${currentPage}`);
+        const response = await AxiosNode.get(`/getDescriptionProductFilter?descricao=${description}&page=${currentPage}&status='A'`);
         const products = response.data;
 
         if (products && products.length > 0) {
