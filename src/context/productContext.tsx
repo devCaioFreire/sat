@@ -197,6 +197,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const increaseBalance = async (balance: BalanceProps) => {
     try {
       const response = await AxiosNode.post('/StockAdd', balance);
+      loadInitialData();
       console.log('Response from server:', balance)
     } catch (error) {
       setError(true);
@@ -208,6 +209,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const adjustmentBalance = async (adjustment: BalanceProps) => {
     try {
       const response = await AxiosNode.post('/StockAdjustment', adjustment);
+      loadInitialData();
       console.log('Response from server:', adjustment)
     } catch (error) {
       setError(true);
