@@ -75,7 +75,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const getSalesItems = async (orderID: string) => {
     try {
       const response = await AxiosNode.get(
-        `/getOrderItems/?page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: orderID }])}&orderBy=id`
+        `/getOrderItems/?page=${currentPage}&filter=${JSON.stringify([{ field: 'id', value: orderID }])}&orderBy=id`
       );
       const newProducts = response.data;
       setProducts(newProducts);
@@ -162,7 +162,7 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const combineOrdersWithItems = async () => {
     try {
       const response = await AxiosNode.get(
-        `/getOrderItems/?take=1000000000000&page=${currentPage}&filter=${JSON.stringify([{ field: 'pedido_id', value: "" }])}&orderBy=id`
+        `/getOrderItems/?take=1000000000000&page=${currentPage}&filter=${JSON.stringify([{ field: 'id', value: "" }])}&orderBy=id`
       );
       const allProducts = response.data;
       // console.log("Todos os itens:", allProducts);
@@ -249,10 +249,6 @@ export const SalesOrderProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setProducts([]);
     getSalesItems(orderID);
   }
-
-  // useEffect(() => {
-  //   loadInitialData(filterType);
-  // }, []);
 
   useEffect(() => {
     const table = document.getElementById('table_order');
