@@ -234,6 +234,7 @@ export const AllProductProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const sendDeleteProduct = async (productId: number) => {
     try {
       const response = await AxiosNode.delete(`/deleteProduct/${productId}`);
+      loadInitialData();
       console.log('Response from server: ', response.data);
       toast.success('Produto deletado!')
     } catch (error) {
